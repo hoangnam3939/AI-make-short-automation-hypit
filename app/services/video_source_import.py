@@ -1,20 +1,21 @@
 """Agent phân tích nguồn VIDEO (KH App new AI-make-short-automation.docx,
 Nhánh 1 Bước 2: "người dùng gửi link video lên... TikTok video, youtube
 video... AGENT này cao cấp hơn nữa") — bản "cao cấp hơn" của
-story_import.py (link bài báo) vì video không có sẵn chữ để đọc thẳng,
-phải qua "cái tai" (app/services/video_transcribe.py) tách giọng nói
-thành chữ trước.
+story_import.py (link bài báo).
 
-Sau khi có transcript, module này làm 2 việc KHÁC NHAU, tuỳ mục đích:
-1. extract_text_from_video_url() — trả về transcript thô, để tái dùng
-   NGUYÊN VẸN story_import.apply_import_mode() (follow/shorten/extract/
-   custom) giống hệt luồng link bài báo -> ra câu chuyện cho Ô ý tưởng.
-2. analyze_viral_formula() — KHÁC câu chuyện: "ngửi" ra CÔNG THỨC làm
-   video đó viral (kiểu hook, nhịp dựng, CTA...) để dùng làm mẫu tham
-   khảo khi viết 1 câu chuyện MỚI theo đúng công thức đó (không chép lại
-   nguyên nội dung video gốc — tránh trùng lặp nội dung), hoặc để
-   app/services/content_calendar.py dùng khi "lập thực đơn shu theo 1
-   kênh/video đang viral" (KH App new, Bước 1c nhánh 2 automation)."""
+GHI CHÚ QUAN TRỌNG:
+Agent 1 hiện đã được nâng cấp đa phương tiện (Multimodal) với công cụ
+Watch-cli (MIT License, bản quyền của Son Piaz - xem CREDITS.md).
+Thay vì chỉ nghe âm thanh (qua video_transcribe.py), Agent 1 giờ đây dùng
+watch-cli để tải video, trích xuất hình ảnh (keyframes) và phụ đề, sau đó 
+gửi toàn bộ cho các Multimodal LLM (như Claude 3.5 Sonnet hoặc GPT-4o) 
+để vừa "xem" hình vừa "nghe" tiếng.
+
+Sau khi có context (transcript + keyframes), module này làm 2 việc KHÁC NHAU:
+1. extract_text_from_video_url() — trả về dữ liệu thô để tái dùng.
+2. analyze_viral_formula() — "ngửi" ra CÔNG THỨC làm video viral (kiểu hook
+   bằng hình ảnh, nhịp dựng, CTA...) để dùng làm mẫu tham khảo, hoặc
+   để app/services/content_calendar.py lập thực đơn."""
 from __future__ import annotations
 
 from dataclasses import dataclass, field

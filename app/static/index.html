@@ -325,6 +325,42 @@
     <p class="hint section-hidden" id="auto-pipeline-status"></p>
   </section>
 
+  <section class="card section-hidden" id="automation-calendar-section">
+    <h2 data-i18n="calendar_title">Lập thực đơn tháng (Automation)</h2>
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <div>
+        <label data-i18n="calendar_strategy">Chiến lược:</label>
+        <textarea id="calendar-strategy" placeholder="VD: Làm 90 video ngắn..." style="width: 100%; height: 120px;">Áp dụng công thức Viral (từ Agent 1):
+1. Hook (3s đầu): Mở đầu bằng cảnh giật gân/bất ngờ kèm lời phủ định gây tò mò tột độ.
+2. Body: Chuyển sang một nhân vật chuyên gia/uy tín giải thích vấn đề trông có vẻ nghiêm túc.
+3. Twist: Bẻ lái sang tình huống hài hước, phi lý lố bịch để kích thích bình luận.
+Mục tiêu: Dùng công thức trên để tạo 90 video ngắn.</textarea>
+      </div>
+      <div>
+        <label data-i18n="calendar_platforms">Các nền tảng (cách nhau bởi dấu phẩy):</label>
+        <input type="text" id="calendar-platforms" value="tiktok, facebook, youtube" style="width: 100%;">
+      </div>
+      <div style="display: flex; gap: 12px;">
+        <div>
+          <label data-i18n="calendar_videos_per_day">Số video/ngày:</label>
+          <input type="number" id="calendar-videos-per-day" value="3" style="width: 100%;">
+        </div>
+        <div>
+          <label data-i18n="calendar_days">Số ngày:</label>
+          <input type="number" id="calendar-days" value="30" style="width: 100%;">
+        </div>
+        <div>
+          <label data-i18n="calendar_duration">Thời lượng (giây):</label>
+          <input type="number" id="calendar-duration" value="24" style="width: 100%;">
+        </div>
+      </div>
+      <button class="btn-primary" id="generate-calendar-btn" type="button" data-i18n="calendar_btn">Lập thực đơn</button>
+      <div id="calendar-results" style="margin-top: 16px;"></div>
+    </div>
+  </section>
+
+  
+
   <section class="card">
     <h2 data-i18n="idea_title"></h2>
     <div class="expandable-wrap">
@@ -441,10 +477,12 @@
       <div class="pill" data-duration="30" data-i18n="dur_min_30"></div>
     </div>
     <div id="short-durations" class="pill-row" style="display:none">
-      <div class="pill" data-duration="15" data-i18n="dur_sec_15"></div>
+      <div class="pill" data-duration="8" data-i18n="dur_sec_8"></div>
+      <div class="pill" data-duration="16" data-i18n="dur_sec_16"></div>
       <div class="pill" data-duration="24" data-i18n="dur_sec_24"></div>
-      <div class="pill" data-duration="30" data-i18n="dur_sec_30"></div>
-      <div class="pill" data-duration="60" data-i18n="dur_sec_60"></div>
+      <div class="pill" data-duration="32" data-i18n="dur_sec_32"></div>
+      <div class="pill" data-duration="40" data-i18n="dur_sec_40"></div>
+      <div class="pill" data-duration="48" data-i18n="dur_sec_48"></div>
     </div>
 
     <div id="long-duration-slider" class="range-slider-row in-pill-group" data-min="1" data-max="30">

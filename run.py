@@ -1,4 +1,4 @@
-"""Launcher: chạy server local rồi tự mở trình duyệt — giống cách Google Flow mở.
+﻿"""Launcher: cháº¡y server local rá»“i tá»± má»Ÿ trĂ¬nh duyá»‡t â€” giá»‘ng cĂ¡ch Google Flow má»Ÿ.
 Xem README.md."""
 import threading
 import time
@@ -7,7 +7,7 @@ import webbrowser
 import uvicorn
 
 HOST = "127.0.0.1"
-PORT = 8787
+PORT = 8789
 
 
 def _open_browser():

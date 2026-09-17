@@ -1,0 +1,236 @@
+Tôi cần copy gọn thôi => vì mục đích tôi trong folder mới làm dự án mới từ đó => để làm và đăng video short l
+ê
+n các nền tảng - trước tiên là facebook và tiktok ... sau
+ 
+đó sẽ thêm các nền tảng khác như zalo, youtube, threads, X... ; 
+nói
+ tóm lại => Dự án tôi : App sẽ có các bước : 
+ theo các nhánh thực hiện theo người dùng lựa chọn cho video short
+. 
+Nhánh 2 
+auto
+m
+a
+tion
+ 
+là mặc định nhé 
+A/ NHÁNH 1: BÁM SÁT CẤU TRÚC CỦA APP HIỆN CÓ
+ 
+Bước 1 người dùng chọn thời lượng video – vì short trước tiên qua flow nên sẽ là 8s / 16s / 24s / 32s/ 40s / 48s -> biết số video cần làm để nối lại
+bước
+ 
+2:
+ Ý tưởng người dùng tự viết hay dán lên  
+/ 
+người
+ 
+  dùng gửi link
+ lên - bằng cách dán ví dụ bài đăng Facebook / bài báo / câu chuyện / ... 
+trường hợp gửi link này 
+** TẠI ĐÂY - CÓ 1 agent phân tích nguồn - để cho ra kết quả là câu chuyện
+ 
+/
+ 
+người dùng gửi link video lên:
+ đó có thể là video đang lên xu hướng Viral hottrend hay dạng khác ...  - có thể là tiktok video, youtube video ... hay dạng khác => trường hợp
+ này 
+***
+ 
+TẠI ĐÂY - CÓ 1 agent phân tích nguồn video - AGENT này cao cấp hơn nữa 
+=
+> kết q
+ủa
+ phân tích cho ra -> hiện ra câu chuy
+ệ
+n - tại đây có 3 lựa chọn :
+ 
+đồ
+ng
+ ý:
+ câu chuyện
+ 
+được
+ tạo ra và đẩ
+y 
+đ
+i bước tiếp theo  
+Chỉnh sửa: Người dùng tự 
+tay
+ edit
+Chỉnh sửa
+ do LLM: -> 
+2 lựa
+ chọn:  
+LLM tự động chỉnh 
+sửa ;
+ 
+và LLM chỉnh sửa nhưng theo yêu cầu do người dùng đánh tay vào 
+----->>> sửa xong – trường hợp này LLM cho người dùng xem ->
+ có 2 nút
+ đồng ý thì 
+click vào 
+đẩy tiếp ; không đồng ý thì 
+ghi sửa tiếp-> 2 lựa chọn : chỉ chữ sửa tiếp và click vào ; sửa có yêu cầu của người dùng thì người dùng đánh tay vào yêu cầu
+Cứ như vậy cho đến lúc xong
+ĐÃ CÓ Ý tưởng hiện lên ở Ô ý tưởng
+Bướ
+c 3: Tạo câu chuyện, luôn luôn vậy nhé 
+*** TẠI ĐÂY - CÓ 1 agent phân tích
+ Ý tưởng
+ và tạo ra Câu chuyện
+Chỉnh sửa: Người dùng tự 
+tay
+ edit
+Chỉnh sửa do LLM: -> 
+2 lựa
+ chọn:  
+LLM tự động chỉnh 
+sửa ;
+ 
+và LLM chỉnh sửa nhưng theo yêu cầu do người dùng đánh tay vào ----->>> sửa xong – trường hợp này LLM cho người dùng xem -> có 2 nút đồng ý thì click vào đẩy tiếp ; không đồng ý thì ghi sửa tiếp-> 2 lựa chọn : chỉ chữ sửa tiếp và click vào ; sửa có yêu cầu của người dùng thì người dùng đánh tay vào yêu cầu
+Cứ như vậy cho đến lúc xong
+ĐÃ CÓ CÂU chuyện hiện ra ở Ô câu chuyện
+ 
+Bước 4: Tạo các cảnh & sinh prompt
+: 
+TẠI ĐÂY - CÓ 1 agent phân tích 
+Câu chuyện
+ và tạo ra
+ 
+các cảnh & sinh prompt
+Chỉnh sửa: Người dùng tự 
+tay
+ edit
+Chỉnh sửa do LLM: -> 
+2 lựa
+ chọn:  
+LLM tự động chỉnh 
+sửa ;
+ 
+và LLM chỉnh sửa nhưng theo yêu cầu do người dùng đánh tay vào ----->>> sửa xong – trường hợp này LLM cho người dùng xem -> có 2 nút đồng ý thì click vào đẩy tiếp ; không đồng ý thì ghi sửa tiếp-> 2 lựa chọn : chỉ chữ sửa tiếp và click vào ; sửa có yêu cầu của người dùng thì người dùng đánh tay vào yêu cầu
+Cứ như vậy cho đến lúc xong
+ĐÃ CÓ 
+CÁC CẢNH & 
+prompt
+s
+ trong Ô 
+các cả
+nh & 
+prompt
+Bước 4: 
+Bắt đầu sản xuất 
+video :
+ người dùng click vào và chờ video short full ra
+A/
+ 
+NHÁNH 2
+ 
+AUTOMATION
+: BÁM SÁT CẤU TRÚC CỦA APP HIỆN CÓ
+ 
+Nhưng đi sâu vào tự động hóa và tự động đăng lên các nền tảng: Tiktok, Facebook, 
+Youtube, …
+BƯỚC 1a NGƯỜI DÙNG CHỌN THỜI LƯỢNG VIDEO 
+– 
+vì short trước tiên qua flow nên sẽ là 8s / 16s / 24s / 32s/ 40s / 48s -> biết số video cần làm để nối lại
+BƯỚC 1
+b
+ 
+NGƯỜI DÙNG CHỌN
+ nền tảng đăng: 
+Tiktok, Facebook, 
+Youtube, …
+Và tick vào ô chọn
+BƯỚC 1C NGƯỜI DÙNG NÊU Ý TƯỞNG – đầu bài cho APP đó
++ 
+để
+ tài
+ ý tưởng
+ – chiến lược và tổng số video short sẽ đăng trên mạng xã hội – 
+ví
+ dụ cùng đăng song các mạng lên 
+Tiktok, Facebook, Youtube
+: tổng số
+ là 3 video 24s trên ngày vào giờ vàng tương ứng cho mỗi mạng
+ 
+trong
+ 30 ngày => như vậy tổng là 90 video 24s 
+ý
+ tưởng có thể là shu theo 1 kênh tiktok nổi tiếng đang VIRAL -  hay 1 kênh nào khác
++ Có 1 AGENT riêng cho việc này sẽ
+Phân tích kênh trên => LẬP kế hoạch nôi dung cho 
+90 video 24s
+ shu 
+theo
+ kênh trên
+Xong trình cho NGƯỜI DÙNG; => có các lựa chọn 
+Đồng ý
+Chỉnh sửa: Người dùng tự tay edit
+Chỉnh sửa do
+ Agent: 
+-> 2 lựa chọn:  
+Agent tự động chỉnh sửa ; 
+và LLM chỉnh sửa nhưng theo yêu cầu do người dùng đánh tay vào ----->>> sửa xong – trường hợp này LLM cho người dùng xem -> có 2 nút đồng ý thì click vào đẩy tiếp ; không đồng ý thì ghi sửa tiếp-> 2 lựa chọn : chỉ chữ sửa tiếp và click vào ; sửa có yêu cầu của người dùng thì người dùng đánh tay vào yêu cầu
+Cứ như vậy cho đến lúc xong
+BƯỚC 
+2:
+ 
+Theo Kế hoạch Được người dùng phê duyệt => App 
+tạo ra đến các cảnh & promt => rồi 
+tạo liên tục 
+90 video 24s
+ -> cho thứ tự đăng liên tục 
+3 video 24s trên ngày vào giờ vàng tương ứng cho mỗi mạng
+ 
+Tiktok, Facebook, Youtube
+Quá trình App hoạt động người dùng được phép xem các cảnh App làm trên App ở khung Preview
+Nếu có vấn đề => có nút tạm dừng – 
+pause :
+ để người dùng yêu cầu xóa hay đổi làm lại video nào đó – hay yêu cầu điều anof đó – APP dùng LLM phân tích và trả lời
+BƯỚC 3: 
++ 
+Các video full làm xong (gộp 3 cảnh 8s thành 24s) 
++ Thêm bước
+: 
+APP 
+đặt tên video, 
+SEO, tạo Image Thumbnail cho nền tảng định sẽ đăng: 
+Tiktok, Facebook, Youtube
+…
+theo
+ lựa chọn của người dùng tại 
+BƯỚC 1
+b
+Như vậy có bao nhiêu nền tảng thì sẽ có bấy nhiêu lần SEO – 
+tạo Image
+Có 1 AGENT cho việc
+ 
+đặt tên video, 
+SEO, tạo Image Thumbnail
+ này
+ cho từng Video 24s
+Đây là việc quan trọng cho 
+VIRAL HOTTREND của video – Phải tạo ra AGENT này
++ Thêm bước:
+ 
+cho 90 video => 
+App Đăng trên các nền tảng 
+theo
+ lịch và vào giờ vàng
+Phải tạo ra AGENT 
+cho việc 
+này
+ 
+Trước khi đưa 90 video để đăng 30 ngày theo lịch APP trình 
+user :
+1/ 90 video và kế hoạch đăng 
+theo
+ lịch
+2
+/ Lịch đăng 90 video vào giờ vàng
+Người dùng có 2 lựa 
+chọn :
+ đồng ý
+Hỏi thêm: thì đánh 
+tay
+ – APP dùng LLM phân tích và trả lời người dùng

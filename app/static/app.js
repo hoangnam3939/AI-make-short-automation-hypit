@@ -2615,7 +2615,9 @@ attachSubmitBtn.addEventListener("click", async () => {
         showAttachWarning(i18n.t("attach_no_source_warning"));
         return;
       }
-      res = await fetch("/api/story/import-url", {
+      const isVideo = url.includes("tiktok.com") || url.includes("youtube.com") || url.includes("youtu.be");
+      const endpoint = isVideo ? "/api/story/import-video-url" : "/api/story/import-url";
+      res = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ url, mode, custom_instruction: mode === "custom" ? customInstruction : null }),
@@ -3195,3 +3197,54 @@ function restoreProductionFromUrl() {
 }
 
 restoreProductionFromUrl();
+
+
+document.querySelectorAll('#pipeline-mode-choice input[name="pipeline-mode"]').forEach((radio) => {
+  radio.addEventListener("change", (e) => {
+    const isAuto = e.target.value === "auto";
+    const calSection = document.getElementById("automation-calendar-section");
+    if(calSection) {
+      calSection.classList.toggle("section-hidden", !isAuto);
+    }
+  });
+});
+
+const genCalBtn = document.getElementById("generate-calendar-btn");
+if (genCalBtn) {
+  genCalBtn.addEventListener("click", async () => {
+    const strategy = document.getElementById("calendar-strategy").value.trim();
+    const platforms = document.getElementById("calendar-platforms").value.split(",").map(s => s.trim()).filter(Boolean);
+    const videos_per_day = parseInt(document.getElementById("calendar-videos-per-day").value, 10);
+    const days = parseInt(document.getElementById("calendar-days").value, 10);
+    const duration_seconds = parseInt(document.getElementById("calendar-duration").value, 10);
+
+    if (!strategy || !platforms.length) return alert("Vui lòng nhập chiến lược và nền tảng");
+
+    genCalBtn.disabled = true;
+    genCalBtn.textContent = "Đang lập thực đơn...";
+    
+    try {
+      const res = await fetch("/api/calendar/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ strategy, platforms, videos_per_day, days, duration_seconds })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.detail || "Lỗi API");
+      
+      let html = `<p><strong>Tổng số video:</strong> ` + data.total_videos + `</p>`;
+      html += `<div style="max-height: 400px; overflow-y: auto;"><table style="width:100%; border-collapse: collapse;" border="1">`;
+      html += `<tr><th>Ngày</th><th>Giờ</th><th>Nền tảng</th><th>Chủ đề</th><th>Hook</th></tr>`;
+      data.slots.forEach(s => {
+        html += `<tr><td>`+s.day+`</td><td>`+s.publish_time+`</td><td>`+s.platform+`</td><td>`+s.topic+`</td><td>`+s.hook_idea+`</td></tr>`;
+      });
+      html += `</table></div>`;
+      document.getElementById("calendar-results").innerHTML = html;
+    } catch(err) {
+      alert(err.message);
+    } finally {
+      genCalBtn.disabled = false;
+      genCalBtn.textContent = "Lập thực đơn";
+    }
+  });
+}
