@@ -4,6 +4,7 @@ from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 
 from app.api.ai_tools import router as ai_tools_router
+from app.api.calendar import router as calendar_router
 from app.api.character_bible import router as character_bible_router
 from app.api.error_check import router as error_check_router
 from app.api.production import router as production_router
@@ -30,6 +31,7 @@ app.include_router(error_check_router, prefix="/api")
 app.include_router(production_router, prefix="/api")
 app.include_router(quality_router, prefix="/api")
 app.include_router(publishing_router, prefix="/api")
+app.include_router(calendar_router, prefix="/api")
 
 
 @app.middleware("http")
