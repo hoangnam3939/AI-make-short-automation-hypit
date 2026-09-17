@@ -8,7 +8,7 @@ from __future__ import annotations
 from fastapi import APIRouter, File, Form, HTTPException, UploadFile
 from pydantic import BaseModel, Field
 
-from app.services import script_writer, story_import
+from app.services import script_writer, story_import, video_source_import, video_transcribe
 from app.services.llm import LlmCliError, LlmNotConfiguredError, LlmRefusalError
 
 router = APIRouter()
@@ -159,10 +159,67 @@ class ImportUrlInput(BaseModel):
 @router.post("/story/import-url")
 def import_story_url(payload: ImportUrlInput):
     """Bước 1, đính kèm câu chuyện gốc từ link 1 bài viết trên mạng — xem
-    app/services/story_import.py. (Link tới VIDEO mp4 CHƯA hỗ trợ, xem
-    docstring module.)"""
+    app/services/story_import.py. (Link tới VIDEO: dùng /story/import-video-url
+    bên dưới, vì cần tách giọng nói thành chữ trước.)"""
     if payload.mode not in story_import.IMPORT_MODES:
         raise HTTPException(400, f"mode phải là 1 trong {story_import.IMPORT_MODES}")
     return _import_or_400(
         lambda: story_import.extract_text_from_url(payload.url), payload.mode, payload.custom_instruction
     )
+
+
+def _video_transcript_or_400(url: str) -> str:
+    """Cùng vai trò `_import_or_400` (file/link bài viết) nhưng cho link
+    video — tách riêng vì lỗi thiếu yt-dlp/faster-whisper/ffmpeg
+    (TranscribeNotConfiguredError) là lỗi CẤU HÌNH máy, khác lỗi "video lỗi/
+    không có tiếng" (ValueError) của story_import, nhưng cả 2 đều nên báo
+    400 rõ ràng cho người dùng thay vì lỗi 500 khó hiểu."""
+    try:
+        return video_source_import.extract_text_from_video_url(url)
+    except (ValueError, video_transcribe.TranscribeNotConfiguredError) as e:
+        raise HTTPException(400, str(e))
+
+
+class ImportVideoUrlInput(BaseModel):
+    url: str = Field(..., min_length=1)
+    mode: str = Field(..., description=f"1 trong {story_import.IMPORT_MODES}")
+    custom_instruction: str | None = None
+
+
+@router.post("/story/import-video-url")
+def import_story_video_url(payload: ImportVideoUrlInput):
+    """Bước 1/2 (Nhánh 1), "gửi link video lên" (TikTok/YouTube viral...) —
+    khác link bài báo: phải tách giọng nói thành chữ trước ("cái tai", xem
+    app/services/video_transcribe.py), rồi mới xử lý giống hệt luồng link
+    bài báo (story_import.apply_import_mode) để ra câu chuyện cho Ô ý
+    tưởng."""
+    if payload.mode not in story_import.IMPORT_MODES:
+        raise HTTPException(400, f"mode phải là 1 trong {story_import.IMPORT_MODES}")
+    raw_text = _video_transcript_or_400(payload.url)
+    try:
+        story = _call_llm_or_400(story_import.apply_import_mode, raw_text, payload.mode, payload.custom_instruction)
+    except ValueError as e:
+        raise HTTPException(400, str(e))
+    return {"story": story}
+
+
+class VideoFormulaInput(BaseModel):
+    url: str = Field(..., min_length=1)
+
+
+@router.post("/story/video-formula")
+def analyze_video_formula(payload: VideoFormulaInput):
+    """"Ngửi" ra CÔNG THỨC viral của 1 video (khác câu chuyện, xem
+    app/services/video_source_import.py) — dùng khi người dùng muốn học
+    cấu trúc/kỹ thuật của 1 video hot để áp dụng cho nội dung mới, thay vì
+    kể lại nguyên văn nội dung video gốc."""
+    transcript = _video_transcript_or_400(payload.url)
+    formula = _call_llm_or_400(video_source_import.analyze_viral_formula, transcript)
+    return {
+        "hook_pattern": formula.hook_pattern,
+        "structure_beats": formula.structure_beats,
+        "pacing_style": formula.pacing_style,
+        "cta_type": formula.cta_type,
+        "tone": formula.tone,
+        "why_it_works": formula.why_it_works,
+    }

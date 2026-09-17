@@ -25,3 +25,11 @@ pillow>=10.0
 # Máy chưa cài thì error_checker.check_poster_text() tự trả cảnh báo rõ
 # ràng thay vì lỗi, không chặn các kiểm tra Mục 8 khác.
 pytesseract>=0.3
+# Agent "ngửi" công thức từ video hot (TikTok/YouTube) — tách giọng nói
+# thành chữ TRƯỚC khi giao cho LLM phân tích, xem app/services/
+# video_transcribe.py. yt-dlp: tải audio từ link video công khai (cần
+# ffmpeg đã yêu cầu sẵn ở trên để tách audio). faster-whisper: nhận diện
+# giọng nói -> chữ CHẠY CỤC BỘ (không gửi audio ra ngoài) — lần chạy đầu
+# tự tải model (~150-500MB tuỳ kích cỡ, xem biến môi trường WHISPER_MODEL_SIZE).
+yt-dlp>=2024.8
+faster-whisper>=1.0

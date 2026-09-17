@@ -15,14 +15,11 @@ vào ô Bước 1:
   Gemini, xem app/services/llm.py) sẽ nhận đúng câu lệnh đó làm chỉ dẫn xử
   lý chính.
 
-CHƯA LÀM (ghi rõ để không quên) — xem README, mục "Hoàn toàn chưa làm":
-link internet dẫn tới VIDEO (mp4) có câu chuyện bằng lời nói — cần quyết
-định hạ tầng trích âm thanh->chữ trước khi code (Whisper cục bộ: miễn phí
-nhưng nặng, tải thêm ~1-2GB, chạy chậm trên máy không GPU; hay chỉ hỗ trợ
-YouTube có phụ đề sẵn qua yt-dlp: nhẹ/nhanh nhưng không dùng được với mp4
-host nơi khác hoặc video không phụ đề). Người dùng đã chọn hoãn lại việc
-này, ưu tiên làm xong file + link bài viết trước.
-"""
+Link internet dẫn tới VIDEO (TikTok/YouTube...) có câu chuyện bằng lời
+nói — KHÔNG xử lý ở module này (video không có sẵn chữ để đọc thẳng như
+trang bài viết). Xem app/services/video_source_import.py +
+app/services/video_transcribe.py ("cái tai" tách giọng nói thành chữ
+trước, rồi mới tái dùng apply_import_mode() ở đây)."""
 from __future__ import annotations
 
 import io
