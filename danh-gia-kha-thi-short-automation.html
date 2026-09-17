@@ -497,9 +497,9 @@
     <p class="lede">Đây là những phần bếp KHÔNG CÓ SẴN, phải đóng mới hoàn toàn. Không quá xa lạ (đều nằm trong tầm tay), nhưng đừng tưởng chỉ chỉnh 1 dòng code là xong.</p>
     <div class="inspect-list">
       <div class="inspect-row">
-        <span class="status-dot warn"></span>
-        <div class="body"><strong>"Ngửi" ra công thức từ 1 video hot (TikTok/YouTube viral)</strong><span>Khác việc đọc bài báo — phải nghe được lời nói trong video rồi mới hiểu chuyện gì. Cần thêm 1 "cái tai" mới (tách giọng nói thành chữ) trước khi giao việc này cho bếp.</span></div>
-        <span class="source">module mới</span>
+        <span class="status-dot ok"></span>
+        <div class="body"><strong>"Ngửi" ra công thức từ 1 video hot (TikTok/YouTube viral)</strong><span>Khác việc đọc bài báo — phải nghe được lời nói trong video rồi mới hiểu chuyện gì. ĐÃ CHỐT hạ tầng "cái tai": <strong>yt-dlp</strong> tải audio (dùng chung ffmpeg đã có sẵn) + <strong>faster-whisper</strong> chạy CỤC BỘ tách giọng nói thành chữ — chọn nhánh này vì chạy được với CẢ TikTok lẫn YouTube (khác phương án "chỉ đọc phụ đề có sẵn" — không dùng được với TikTok vì TikTok không có phụ đề công khai qua API). Đánh đổi: lần chạy đầu tự tải model ~150-500MB, chạy CPU chấp nhận được nhưng chậm hơn GPU.</span></div>
+        <span class="source">app/services/video_transcribe.py + video_source_import.py</span>
       </div>
       <div class="inspect-row">
         <span class="status-dot warn"></span>
