@@ -1,0 +1,27 @@
+fastapi>=0.115
+uvicorn[standard]>=0.30
+pydantic>=2.7
+edge-tts>=6.1
+anthropic>=0.40
+python-dotenv>=1.0
+httpx>=0.27
+requests-oauthlib>=2.0
+playwright>=1.45
+python-multipart>=0.0.9
+python-docx>=1.1
+pypdf>=5.0
+beautifulsoup4>=4.12
+matplotlib>=3.9
+# Mục 8 (phát hiện nhân vật đổi hình dạng, character_consistency.py) —
+# dependency NẶNG NHẤT app từng thêm (tải model CLIP ~350MB lần chạy đầu).
+# Cài torch bản CPU riêng TRƯỚC (tránh tải nhầm bản CUDA vài GB không cần
+# thiết): pip install torch --index-url https://download.pytorch.org/whl/cpu
+# rồi mới `pip install -r requirements.txt` như bình thường.
+torch>=2.0
+open-clip-torch>=2.24
+pillow>=10.0
+# Mục 8, phần "chữ trên poster bị lỗi" — cần CÀI THÊM Tesseract-OCR (binary
+# hệ thống, giống ffmpeg, KHÔNG cài qua pip): https://github.com/tesseract-ocr/tesseract
+# Máy chưa cài thì error_checker.check_poster_text() tự trả cảnh báo rõ
+# ràng thay vì lỗi, không chặn các kiểm tra Mục 8 khác.
+pytesseract>=0.3

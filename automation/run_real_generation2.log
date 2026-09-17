@@ -1,0 +1,80 @@
+[run_real_generation] Tổng 37 cảnh, đã xong sẵn 0 cảnh trước đó.
+[scene 1] bắt đầu tạo... (0s-10s)
+[scene 1] XONG sau 86.1s -> E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\automation\downloads\scene_01\Soldiers_celebrating_New_Year's_Eve_20260913063609.mp4
+[scene 2] bắt đầu tạo... (10s-20s)
+[scene 2] XONG sau 103.0s -> E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\automation\downloads\scene_02\Tay_Son_soldiers_marching_mountains_20260913063753.mp4
+[scene 3] bắt đầu tạo... (20s-28s)
+[scene 3] LỖI KHÔNG XÁC ĐỊNH: Locator.click: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("button[aria-label*='ownload' i]").first
+    - locator resolved to <button disabled="true" maticonbutton="" flow-icon-button="" aria-haspopup="menu" aria-expanded="false" aria-label="Download media" _ngcontent-ng-c2714683508="" mat-ripple-loader-centered="" mat-ripple-loader-disabled="" mat-ripple-loader-uninitialized="" mat-ripple-loader-class-name="mat-mdc-button-ripple" class="mdc-icon-button mat-mdc-icon-button mat-mdc-button-base mat-mdc-menu-trigger mat-mdc-tooltip-trigger mat-mdc-button-disabled mat-unthemed flow-icon-button-transparent flow-button-small flow-…>…</button>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is not enabled
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+      - element is not enabled
+    - retrying click action
+      - waiting 100ms
+    59 × waiting for element to be visible, enabled and stable
+       - element is not enabled
+     - retrying click action
+       - waiting 500ms
+
+Traceback (most recent call last):
+  File "E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\automation\run_real_generation.py", line 60, in main
+    path = generate_video_with_retry(
+        scene["prompt"], scene_dir, quality_label="720p",
+        wait_timeout_seconds=240, max_attempts=3,
+    )
+  File "E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\app\services\google_flow_driver.py", line 253, in generate_video_with_retry
+    return generate_video(prompt, output_dir, quality_label, wait_timeout_seconds)
+  File "E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\app\services\google_flow_driver.py", line 223, in generate_video
+    download_btn.click()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\vanho\AppData\Roaming\Python\Python314\site-packages\playwright\sync_api\_generated.py", line 17876, in click
+    self._sync(
+    ~~~~~~~~~~^
+        self._impl_obj.click(
+        ^^^^^^^^^^^^^^^^^^^^^
+    ...<11 lines>...
+        )
+        ^
+    )
+    ^
+  File "C:\Users\vanho\AppData\Roaming\Python\Python314\site-packages\playwright\_impl\_sync_base.py", line 115, in _sync
+    return task.result()
+           ~~~~~~~~~~~^^
+  File "C:\Users\vanho\AppData\Roaming\Python\Python314\site-packages\playwright\_impl\_locator.py", line 165, in click
+    return await self._frame._click(self._selector, strict=True, **params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vanho\AppData\Roaming\Python\Python314\site-packages\playwright\_impl\_frame.py", line 593, in _click
+    await self._channel.send("click", self._timeout, locals_to_params(locals()))
+  File "C:\Users\vanho\AppData\Roaming\Python\Python314\site-packages\playwright\_impl\_connection.py", line 76, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\vanho\AppData\Roaming\Python\Python314\site-packages\playwright\_impl\_connection.py", line 632, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.TimeoutError: Locator.click: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("button[aria-label*='ownload' i]").first
+    - locator resolved to <button disabled="true" maticonbutton="" flow-icon-button="" aria-haspopup="menu" aria-expanded="false" aria-label="Download media" _ngcontent-ng-c2714683508="" mat-ripple-loader-centered="" mat-ripple-loader-disabled="" mat-ripple-loader-uninitialized="" mat-ripple-loader-class-name="mat-mdc-button-ripple" class="mdc-icon-button mat-mdc-icon-button mat-mdc-button-base mat-mdc-menu-trigger mat-mdc-tooltip-trigger mat-mdc-button-disabled mat-unthemed flow-icon-button-transparent flow-button-small flow-�>�</button>
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not enabled
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not enabled
+    - retrying click action
+      - waiting 100ms
+    59 � waiting for element to be visible, enabled and stable
+       - element is not enabled
+     - retrying click action
+       - waiting 500ms
+
+[scene 4] bắt đầu tạo... (28s-35s)

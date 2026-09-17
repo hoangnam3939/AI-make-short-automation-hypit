@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>So sánh 2 nhánh GitHub — Bếp-phụ-Office14.9.26 vs main</title>
+<style>
+  :root{
+    --bg:#F4F5F7; --surface:#FFFFFF; --surface-2:#F0F1F3;
+    --ink:#1C1F24; --ink-soft:#5B6169; --line:#DEE1E4;
+    --red:#C0392B; --red-bg:#FDEDEB;
+    --blue:#1F5FA8; --blue-bg:#EAF1FB;
+    --black:#111417;
+    --accent:#33517D;
+  }
+  *{box-sizing:border-box;}
+  body{
+    background:var(--bg); color:var(--ink);
+    font-family:-apple-system,"Segoe UI",Arial,sans-serif;
+    margin:0; line-height:1.65;
+  }
+  .wrap{max-width:1080px; margin:0 auto; padding:32px 20px 80px;}
+  header{border-bottom:2px solid var(--line); padding-bottom:22px; margin-bottom:28px;}
+  h1{font-size:1.7rem; font-weight:800; margin:0 0 10px;}
+  .sub{color:var(--ink-soft); font-size:.98rem; max-width:78ch;}
+  .branches{display:flex; gap:14px; margin-top:16px; flex-wrap:wrap;}
+  .branch-tag{
+    font-family:ui-monospace,Consolas,monospace; font-size:.82rem;
+    background:var(--surface-2); border:1px solid var(--line); border-radius:8px;
+    padding:6px 12px;
+  }
+
+  .explain{
+    background:var(--blue-bg); border:1px solid #BFD6EF; border-radius:12px;
+    padding:18px 20px; margin-bottom:30px; font-size:.94rem;
+  }
+  .explain b{color:var(--blue);}
+
+  .legend{display:flex; gap:22px; flex-wrap:wrap; margin-bottom:24px; font-size:.86rem;}
+  .legend span{display:inline-flex; align-items:center; gap:7px;}
+  .swatch{width:14px; height:14px; border-radius:4px; display:inline-block;}
+  .swatch.red{background:var(--red);}
+  .swatch.blue{background:var(--blue);}
+  .swatch.black{background:var(--black);}
+
+  .score-row{display:flex; gap:16px; margin-bottom:34px; flex-wrap:wrap;}
+  .score-card{
+    flex:1; min-width:220px; background:var(--surface); border:1px solid var(--line);
+    border-radius:14px; padding:18px 20px;
+  }
+  .score-card .n{font-size:2rem; font-weight:800;}
+  .score-card.a .n{color:var(--red);}
+  .score-card.b .n{color:var(--accent);}
+  .score-card .l{font-size:.82rem; color:var(--ink-soft); margin-top:4px;}
+
+  h2{font-size:1.2rem; font-weight:800; margin:36px 0 6px;}
+  .h2-sub{color:var(--ink-soft); font-size:.88rem; margin:0 0 14px; max-width:80ch;}
+
+  .table-wrap{overflow-x:auto; border:1px solid var(--line); border-radius:14px; background:var(--surface);}
+  table{border-collapse:collapse; width:100%; font-size:.88rem; min-width:760px;}
+  thead th{
+    text-align:left; padding:13px 16px; background:var(--surface-2);
+    border-bottom:1px solid var(--line); font-size:.76rem; text-transform:uppercase;
+    letter-spacing:.04em; color:var(--ink-soft);
+  }
+  thead th.col-a{color:var(--red);}
+  thead th.col-b{color:var(--accent);}
+  tbody td{padding:14px 16px; border-bottom:1px solid var(--line); vertical-align:top;}
+  tbody tr:last-child td{border-bottom:none;}
+  td.crit{font-weight:700; width:230px;}
+  td.crit .note{font-weight:400; color:var(--ink-soft); font-size:.8rem; margin-top:4px; display:block;}
+  td.cell{font-size:.86rem;}
+  .win{color:var(--red); font-weight:700;}
+  .lose{color:var(--black); font-weight:400;}
+  .tie{color:var(--blue); font-weight:700;}
+  .tag{display:inline-block; font-size:.68rem; font-weight:800; letter-spacing:.03em; text-transform:uppercase; padding:2px 8px; border-radius:999px; margin-bottom:6px;}
+  .tag.win{background:var(--red-bg); color:var(--red);}
+  .tag.lose{background:#EFEFEF; color:var(--black);}
+  .tag.tie{background:var(--blue-bg); color:var(--blue);}
+  code{font-family:ui-monospace,Consolas,monospace; font-size:.82em; background:var(--surface-2); padding:1px 5px; border-radius:5px;}
+
+  .kluu{
+    background:var(--surface); border:1px solid var(--line); border-left:4px solid var(--accent);
+    border-radius:12px; padding:16px 20px; margin:16px 0; font-size:.88rem;
+  }
+  .kluu.warn{border-left-color:#B8860B; background:#FBF3E1;}
+
+  footer{margin-top:44px; padding-top:18px; border-top:1px solid var(--line); font-size:.8rem; color:var(--ink-soft);}
+
+  @media (max-width:700px){
+    .score-row{flex-direction:column;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>So sánh 2 nhánh GitHub — dự án tinhhoa-ai-video-studio</h1>
+    <p class="sub">So sánh trực tiếp bằng <code>git diff</code>/<code>git log</code> thật giữa 2 nhánh, tính từ đúng điểm chúng tách ra làm riêng (commit chung gần nhất: <code>2a125cb</code>).</p>
+    <div class="branches">
+      <span class="branch-tag" style="color:var(--red)">🔴 Nhánh A: Bếp-phụ-Office14.9.26</span>
+      <span class="branch-tag" style="color:var(--accent)">🔵 Nhánh B: main</span>
+    </div>
+  </header>
+
+  <div class="explain">
+    <b>Đọc bảng này kiểu dễ hiểu nhất:</b> tưởng tượng 2 nhánh này là 2 bạn học sinh cùng làm chung 1 quyển vở bài tập tới một trang nào đó, rồi mỗi bạn cầm 1 bản đi làm tiếp riêng ở nhà — không ai biết bạn kia đang làm gì. Bảng dưới đây so sánh, ở <b>từng việc cụ thể</b>, bạn nào làm tốt hơn/nhiều hơn. Không có bạn nào "thắng toàn bộ" — mỗi bạn mạnh 1 kiểu khác nhau.
+  </div>
+
+  <div class="legend">
+    <span><i class="swatch red"></i> Chữ <b style="color:var(--red)">đỏ</b> = nhánh đó <b>HƠN</b> ở tiêu chí này</span>
+    <span><i class="swatch black"></i> Chữ đen (thường) = nhánh đó <b>KÉM HƠN</b> ở tiêu chí này</span>
+    <span><i class="swatch blue"></i> Chữ <b style="color:var(--blue)">xanh dương</b> = <b>BẰNG NHAU</b>, không ai hơn</span>
+  </div>
+
+  <div class="score-row">
+    <div class="score-card a">
+      <div class="n">7 / 12</div>
+      <div class="l">Số tiêu chí nhánh <b>Bếp-phụ-Office14.9.26</b> hơn</div>
+    </div>
+    <div class="score-card b">
+      <div class="n">4 / 12</div>
+      <div class="l">Số tiêu chí nhánh <b>main</b> hơn</div>
+    </div>
+    <div class="score-card">
+      <div class="n" style="color:var(--blue)">1 / 12</div>
+      <div class="l">Số tiêu chí bằng nhau (cả 2 cùng chưa làm)</div>
+    </div>
+  </div>
+
+  <h2>Bảng so sánh chi tiết</h2>
+  <p class="h2-sub">12 tiêu chí, xếp theo mức độ quan trọng giảm dần. Mỗi dòng đã được kiểm tra thật trong code (không đoán theo tên commit).</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:230px">Tiêu chí</th>
+          <th class="col-a">Nhánh Bếp-phụ-Office14.9.26</th>
+          <th class="col-b">Nhánh main</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr>
+          <td class="crit">Khối lượng công việc thêm mới<span class="note">số file & số dòng code đổi kể từ lúc tách nhánh</span></td>
+          <td class="cell"><span class="tag win">Hơn</span><br><span class="win">23 commit · 51 file · +3.954/−222 dòng</span></td>
+          <td class="cell"><span class="tag lose">Kém hơn</span><br><span class="lose">1 commit · 8 file · +590/−100 dòng</span></td>
+        </tr>
+
+        <tr>
+          <td class="crit">Giao diện cho Bước 6→10<span class="note">màn hình riêng cho storyboard, âm lượng, poster, xuất đa ngôn ngữ, khung xem trước, cài đặt đăng bài</span></td>
+          <td class="cell"><span class="tag win">Hơn</span><br><span class="win">Có đủ 5 màn hình riêng (<code>step6-section</code>…<code>step10-section</code>)</span></td>
+          <td class="cell"><span class="tag lose">Kém hơn</span><br><span class="lose">Chưa có — Bước 6-10 mới chỉ chạy được qua API, chưa có màn hình</span></td>
+        </tr>
+
+        <tr>
+          <td class="crit">Đính kèm câu chuyện gốc<span class="note">tải file .docx/.pdf hoặc dán link bài viết ở Bước 1</span></td>
+          <td class="cell"><span class="tag win">Hơn</span><br><span class="win">Có — <code>app/services/story_import.py</code> (137 dòng) + 2 file test riêng</span></td>
+          <td class="cell"><span class="tag lose">Kém hơn</span><br><span class="lose">Chưa có tính năng này</span></td>
+        </tr>
+
+        <tr>
+          <td class="crit">Số cách gọi AI viết kịch bản (LLM backend)</td>
+          <td class="cell"><span class="tag win">Hơn</span><br><span class="win">4 cách: API key riêng, Claude Pro/Max CLI, ChatGPT Plus/Pro (Codex CLI), Gemini CLI</span></td>
+          <td class="cell"><span class="tag lose">Kém hơn</span><br><span class="lose">2 cách: API key riêng, Claude Pro/Max CLI</span></td>
+        </tr>
+
+        <tr>
+          <td class="crit">"Duyệt từng cảnh" — đổi chế độ giữa chừng<span class="note">Bước 9, lúc job đang chạy có đổi auto ↔ duyệt được không</span></td>
+          <td class="cell"><span class="tag win">Hơn</span><br><span class="win">Đổi được bất cứ lúc nào, kể cả đang dừng chờ duyệt 1 cảnh</span></td>
+          <td class="cell"><span class="tag lose">Kém hơn</span><br><span class="lose">Cố định lúc bấm "Bắt đầu sản xuất", không đổi giữa chừng được</span></td>
+        </tr>
+
+        <tr>
+          <td class="crit">"Duyệt từng cảnh" — lựa chọn khi dừng ở 1 cảnh</td>
+          <td class="cell"><span class="tag lose">Kém hơn</span><br><span class="lose">Chỉ 1 lựa chọn: "Đồng ý, tạo cảnh tiếp theo"</span></td>
+          <td class="cell"><span class="tag win">Hơn</span><br><span class="win">3 lựa chọn: ✅ Đồng ý / 🔄 Tạo lại cảnh này / ⏭️ Bỏ qua cảnh này</span></td>
+        </tr>
+
+        <tr>
+          <td class="crit">Đa ngôn ngữ giao diện — đã kiểm tra đủ chưa<span class="note">có chữ nào bị quên chưa dịch (vi/en/ru) không</span></td>
+          <td class="cell"><span class="tag lose">Kém hơn</span><br><span class="lose">README của chính nhánh này tự ghi "vẫn CHƯA kiểm tra kỹ mức độ hoàn thiện"</span></td>
+          <td class="cell"><span class="tag win">Hơn</span><br><span class="win">Có script tự viết đối chiếu, xác nhận 0 chữ thiếu bản dịch vi/en/ru</span></td>
+        </tr>
+
+        <tr>
+          <td class="crit">Tài liệu (README) khớp với code thật<span class="note">ở đúng tính năng "Duyệt từng cảnh" Bước 9</span></td>
+          <td class="cell"><span class="tag lose">Kém hơn</span><br><span class="lose">README vẫn ghi "☐ chưa code" — dù code (<code>run_mode</code>, <code>approve_scene</code>) đã làm thật, thấy rõ trong file</span></td>
+          <td class="cell"><span class="tag win">Hơn</span><br><span class="win">README khớp đúng những gì code đã làm</span></td>
+        </tr>
+
+        <tr>
+          <td class="crit">Số hàm kiểm thử tự động (test)<span class="note">chỉ đếm số hàm <code>test_...</code> có trong code — chưa tự chạy để xem tỷ lệ pass thật</span></td>
+          <td class="cell"><span class="tag win">Hơn</span><br><span class="win">139 hàm test</span></td>
+          <td class="cell"><span class="tag lose">Kém hơn</span><br><span class="lose">94 hàm test</span></td>
+        </tr>
+
+        <tr>
+          <td class="crit">Vệ sinh kho mã nguồn<span class="note">có commit nhầm file tài liệu nội bộ (Word) không thuộc code vào git không</span></td>
+          <td class="cell"><span class="tag lose">Kém hơn</span><br><span class="lose">Có commit thêm 21 file .docx tài liệu tham khảo (~0,8 MB) — không nên nằm trong kho code</span></td>
+          <td class="cell"><span class="tag win">Hơn</span><br><span class="win">Không thêm file thừa nào — kho code gọn</span></td>
+        </tr>
+
+        <tr>
+          <td class="crit">Sửa lỗi giao diện tự phát hiện trong ngày<span class="note">cuộn khung xem trước, nút thu gọn, toggle nút "Đăng bài"</span></td>
+          <td class="cell"><span class="tag win">Hơn</span><br><span class="win">4 commit sửa lỗi UX riêng (do chính nhánh này thêm UI mới nên phát sinh, và tự sửa luôn)</span></td>
+          <td class="cell"><span class="tag lose">Kém hơn</span><br><span class="lose">Không có (vì cũng chưa thêm UI mới cho các bước này)</span></td>
+        </tr>
+
+        <tr>
+          <td class="crit">Các phần còn lại của 12 bước gốc<span class="note">Bước 3 (chủ đề & mục tiêu), Bước 4 (hook mở đầu 20 câu), Bước 8 (chọn loại hình cảnh), Mục 8 (phát hiện lỗi hình ảnh/nhân vật/giọng đọc)</span></td>
+          <td class="cell"><span class="tag tie">Bằng nhau</span><br><span class="tie">Chưa động tới dòng code nào</span></td>
+          <td class="cell"><span class="tag tie">Bằng nhau</span><br><span class="tie">Chưa động tới dòng code nào</span></td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Điều quan trọng nhất cần biết</h2>
+  <div class="kluu warn">
+    <b>⚠️ 2 nhánh sẽ xung đột thật nếu gộp lại (merge) ngay bây giờ.</b><br>
+    Cả 2 nhánh cùng sửa 2 file <code>app/services/production_pipeline.py</code> và <code>app/api/production.py</code> — để làm CÙNG một việc ("Duyệt từng cảnh" ở Bước 9) nhưng theo 2 cách khác nhau. Giống như 2 bạn cùng sửa lại 1 trang vở nhưng mỗi bạn viết đè theo ý riêng — khi ghép lại máy tính sẽ không tự biết giữ câu của ai, phải có người quyết định tay.
+  </div>
+  <div class="kluu">
+    <b>💡 Gợi ý hợp nhất tốt nhất (không phải chọn hẳn 1 bên, mà lấy điểm mạnh mỗi bên):</b> giữ cơ chế "đổi chế độ bất cứ lúc nào" của nhánh Bếp-phụ (khung/kiến trúc tốt hơn), rồi ghép thêm 3 lựa chọn Đồng ý/Tạo lại/Bỏ qua của nhánh main vào mỗi lần dừng chờ duyệt (trải nghiệm người dùng tốt hơn). Giống như lấy cái khung xe đạp chắc của xe A, lắp thêm bộ phanh tốt của xe B — không cần đóng nguyên xe mới.
+  </div>
+
+  <footer>
+    Cách làm báo cáo này: <code>git clone</code> về máy, <code>git diff --stat</code> + <code>git show</code> đọc trực tiếp code thật của cả 2 nhánh tính từ điểm tách chung (<code>2a125cb</code>), không suy đoán theo tên commit. Số liệu test (94 vs 139) là đếm số hàm <code>test_...</code> có trong code, chưa tự chạy pytest để xác nhận bao nhiêu cái pass thật.
+  </footer>
+
+</div>
+</body>
+</html>

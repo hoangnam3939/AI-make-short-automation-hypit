@@ -1,0 +1,1729 @@
+/* Hệ thống thiết kế theo phong cách Adobe Express — xem Mục 1, Nhiem_Vu_Goc_App_Video_AI_V3.docx:
+   nút bo tròn dạng viên thuốc, thẻ/card lưới, nền gradient pastel nhẹ, chữ đậm rõ ràng,
+   QUY TẮC BẮT BUỘC: mọi hình chữ nhật luôn bo tròn đủ 4 góc, không góc vuông ở bất kỳ đâu. */
+
+:root {
+  --radius-card: 24px;
+  --radius-pill: 999px;
+  --radius-input: 16px;
+  --ink: #1a1a2e;
+  --ink-soft: #5b5b72;
+  --primary: #6c5ce7;
+  --primary-ink: #ffffff;
+  --surface: #ffffff;
+  --surface-border: #ece9fb;
+  --shadow: 0 8px 24px rgba(108, 92, 231, 0.10);
+  --page-bg-solid: #faf9ff;
+}
+
+/* Nút "Giao diện" > "Dark" (2026-09-17): đổi các biến thiết kế gốc — vì
+   .card/.workspace-preview/input/... đã dùng var(--surface)/var(--ink)/...
+   ở khắp nơi, chỉ cần đổi giá trị biến ở đây là phần lớn giao diện tự đổi
+   theo, không phải sửa từng nơi một. Vài chỗ dùng màu cứng (không qua
+   biến) vẫn cần override riêng bên dưới. */
+html[data-theme="dark"] {
+  --ink: #eaeaf5;
+  --ink-soft: #a7a7c2;
+  --primary: #8b7bf0;
+  --primary-ink: #ffffff;
+  --surface: #23233a;
+  --surface-border: #34344f;
+  --shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  --page-bg-solid: #16162a;
+}
+html[data-theme="dark"] .page {
+  background: radial-gradient(circle at 15% 10%, #2a1f3d 0%, transparent 45%),
+              radial-gradient(circle at 85% 15%, #1f2a3d 0%, transparent 45%),
+              radial-gradient(circle at 50% 90%, #2a2a1f 0%, transparent 50%),
+              var(--page-bg-solid);
+}
+html[data-theme="dark"] .step-circle { background: var(--surface); }
+html[data-theme="dark"] .recent-project-item:hover,
+html[data-theme="dark"] .theme-option:hover { background: #2c2c47; border-color: #3a3a5a; }
+html[data-theme="dark"] .sidebar-recent-panel { box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5); }
+html[data-theme="dark"] input, html[data-theme="dark"] textarea, html[data-theme="dark"] select {
+  background: var(--surface);
+  color: var(--ink);
+  border-color: var(--surface-border);
+}
+/* .format-choice/.llm-cli-dropdown-* (2026-09-17): các thẻ chọn (Dài/Short,
+   CLI/API, Từng bước/Tự động toàn bộ...) dùng màu nền CỨNG (#fbfaff, #fff...)
+   chứ không qua biến --surface, nên KHÔNG tự đổi theo khi bật Dark — chữ
+   (đã sáng theo var(--ink)) hoá ra nằm trên nền vẫn sáng, mờ khó đọc. Ghi đè
+   riêng từng nơi ở đây. */
+html[data-theme="dark"] .format-choice { background: var(--surface); }
+html[data-theme="dark"] .format-choice.selected { background: #2f2a52; }
+html[data-theme="dark"] .flow-login-box { background: var(--surface); }
+html[data-theme="dark"] .llm-cli-dropdown-btn { background: var(--surface); }
+html[data-theme="dark"] .llm-cli-dropdown-btn:hover { background: #2f2a52; }
+html[data-theme="dark"] .llm-cli-dropdown-menu,
+html[data-theme="dark"] .llm-cli-dropdown-item { background: var(--surface); }
+html[data-theme="dark"] .llm-cli-dropdown-item:hover,
+html[data-theme="dark"] .llm-cli-dropdown-item.selected { background: #2f2a52; }
+html[data-theme="dark"] .llm-account-popover,
+html[data-theme="dark"] .llm-account-saved-item { background: var(--surface); }
+
+/* Nút "Giao diện" > 2 lựa chọn "ảnh bên trái" (2026-09-17, sửa lần 3 theo
+   yêu cầu người dùng): ẢNH giờ là 1 CỘT LƯỚI RIÊNG đứng NGANG HÀNG với cột
+   chữ (.workspace-info) — nằm giữa cột chữ và panel làm việc
+   (.workspace-left) — KHÔNG xếp chồng phía trên/dưới chữ nữa (2 lần sửa
+   trước). Ẩn mặc định (display:none loại nó khỏi lưới hoàn toàn, khiến
+   .page-scroll chỉ còn 3 track cho info/left/preview); khi bật theme có
+   ảnh, đổi hẳn grid-template-columns của .page-scroll sang 4 track (thêm
+   1 track riêng cho ảnh) — xem 2 rule "html.has-left-bg-image .page-scroll"
+   bên dưới, PHẢI đồng bộ số cột với số item con thật hiện đang hiển thị. */
+.workspace-info-bg-image { display: none; }
+html.has-left-bg-image .workspace-info-bg-image {
+  display: block;
+  min-width: 0;
+  width: 100%;
+  height: 312px; /* 260px + 20% */
+  position: sticky;
+  top: 0;
+  align-self: start;
+  border-radius: var(--radius-card);
+  background-image: var(--left-bg-image);
+  background-size: cover;
+  background-position: center;
+  box-shadow: var(--shadow);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+  color: var(--ink);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Thanh "app-switcher" phía trên cùng, giống hàng icon Photoshop/Lightroom
+   của Adobe — nhưng app mình chưa có app anh em nào khác nên cố ý để
+   trống, chỉ có nút thu gọn/mở rộng. Bấm nút ⊞ sẽ ẩn thanh này đi (xem
+   toggleTopbar() trong app.js), giữ đúng cơ chế 2 thanh ⇄ 1 thanh của Adobe. */
+.appswitcher-bar {
+  flex: 0 0 auto;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  background: linear-gradient(90deg, #3a0f5c 0%, #2b0a45 55%, #1a1a2e 100%);
+}
+
+/* Thanh dưới, luôn hiện: logo + tên app thật. */
+.topbar {
+  flex: 0 0 auto;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 20px;
+  background: #14141f;
+  position: relative;
+}
+.topbar-toggle {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: #c9c9dd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.topbar-toggle:hover { background: rgba(255,255,255,0.1); color: #fff; }
+
+/* Nhóm icon bên phải thanh dưới, giống hàng tìm kiếm/trial/feedback/help/
+   thông báo/avatar của Adobe. Mỗi nút đều làm được 1 việc thật — không có
+   nút nào bấm vào mà không xảy ra gì. */
+.topbar-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.topbar-search-wrap {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.topbar-search-input {
+  width: 0;
+  opacity: 0;
+  padding: 0;
+  border: none;
+  border-radius: var(--radius-pill);
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  font-size: 0.85rem;
+  transition: width 0.2s ease, opacity 0.2s ease, padding 0.2s ease;
+  margin-right: -34px;
+}
+.topbar-search-input.open {
+  width: 200px;
+  opacity: 1;
+  padding: 7px 14px;
+  margin-right: 8px;
+}
+.topbar-search-input::placeholder { color: #c9c9dd; }
+.topbar-icon-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: #e6e6f0;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.topbar-icon-btn:hover { background: rgba(255,255,255,0.1); }
+.btn-trial {
+  border-radius: var(--radius-pill);
+  border: none;
+  background: linear-gradient(90deg, #d6249f, #6c5ce7);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 9px 18px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.btn-trial:hover { filter: brightness(1.08); }
+.topbar-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background-color: var(--primary);
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+}
+
+.topbar-panel {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 280px;
+  background: #fff;
+  color: var(--ink);
+  border-radius: var(--radius-card);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.25);
+  padding: 18px 20px;
+  z-index: 50;
+}
+.topbar-panel.open { display: block; }
+.topbar-panel h3 { margin: 0 0 10px; font-size: 0.95rem; }
+.topbar-panel ol { margin: 0; padding-left: 20px; font-size: 0.85rem; line-height: 1.6; }
+.topbar-panel p { margin: 0; }
+.topbar-panel {
+  max-height: 70vh;
+  overflow-y: auto;
+}
+.help-flow-title {
+  margin-top: 16px !important;
+  padding-top: 14px;
+  border-top: 1px solid var(--surface-border);
+}
+.help-flow-command {
+  display: block;
+  background: #10101a;
+  color: #d6ffe0;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 0.72rem;
+  font-family: "Consolas", monospace;
+  white-space: pre-wrap;
+  word-break: break-all;
+  margin: 8px 0;
+}
+
+.feedback-contact {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--surface-border);
+}
+.feedback-contact-label {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.feedback-option-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.feedback-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1.5px solid var(--surface-border);
+  text-decoration: none;
+  color: var(--ink);
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.feedback-option:hover { background: #f1edff; border-color: var(--primary); }
+.feedback-option-icon { font-size: 1.3rem; line-height: 1.3; flex: none; }
+.feedback-option-text { display: flex; flex-direction: column; gap: 2px; }
+.feedback-option-title { font-weight: 700; font-size: 0.88rem; }
+.feedback-option-desc { font-size: 0.78rem; color: var(--ink-soft); }
+
+#help-panel {
+  position: fixed;
+  top: 96px;
+  right: 20px;
+  bottom: 12px;
+  width: 560px;
+  max-width: 90vw;
+  height: auto;
+  max-height: none;
+  overflow-y: auto;
+}
+#help-panel h3 { font-size: 1.425rem; }
+#help-panel ol, #help-panel p { font-size: 1.275rem; }
+#help-panel .help-flow-command { font-size: 1.08rem; }
+
+.lang-option-list {
+  max-height: 320px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0 -8px;
+}
+.lang-option {
+  padding: 9px 10px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+.lang-option:hover { background: #f1edff; }
+.lang-option.current { color: var(--primary); font-weight: 700; background: #f1edff; }
+.lang-option.disabled {
+  color: var(--ink-soft);
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.lang-option.disabled:hover { background: none; }
+
+.profile-avatar-big {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: none;
+  background: var(--primary);
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+  font-size: 1.8rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+.profile-change-hint {
+  text-align: center;
+  color: var(--ink-soft);
+  font-size: 0.78rem;
+  margin: 6px 0 16px;
+}
+.profile-field {
+  width: 100%;
+  border-radius: var(--radius-input);
+  border: 1.5px solid var(--surface-border);
+  padding: 10px 14px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  outline: none;
+  margin-bottom: 10px;
+}
+.profile-field:focus { border-color: var(--primary); }
+.profile-fanpage-link {
+  display: block;
+  text-align: center;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(90deg, #1877f2, #6c5ce7);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 10px 16px;
+  text-decoration: none;
+  margin-top: 6px;
+}
+.profile-fanpage-link:hover { filter: brightness(1.08); }
+.topbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.topbar-logo {
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  background: linear-gradient(135deg, #ff0000 0%, #ff8000 16.6%, #ffe600 33.3%, #22c55e 50%, #0066ff 66.6%, #4b0082 83.3%, #a600ff 100%);
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.35);
+}
+.topbar-name {
+  color: #fff;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.shell {
+  flex: 1 1 auto;
+  display: flex;
+  min-height: 0;
+  background: #14141f;
+}
+
+/* Sidebar tối bên trái, chỉ 3 nút thật (Dự án mới / Trang chủ / Cài đặt) —
+   không thêm mục nào chưa có tính năng thật đứng sau, tránh bấm vào chỗ chết. */
+.sidebar {
+  flex: 0 0 84px;
+  background: #14141f;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 8px;
+  gap: 18px;
+}
+.sidebar-new {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background: var(--primary);
+  color: #fff;
+  font-size: 1.4rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 6px;
+}
+.sidebar-new:hover { filter: brightness(1.1); }
+.sidebar-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-decoration: none;
+  color: #9a9ab5;
+  font-size: 0.72rem;
+  font-weight: 600;
+  font-family: inherit;
+  padding: 6px 4px;
+  border-radius: 12px;
+  width: 100%;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+.sidebar-item .sidebar-icon { font-size: 1.25rem; }
+.sidebar-item:hover, .sidebar-item.active { color: #fff; background: rgba(255,255,255,0.08); }
+
+.sidebar-item-wrap { position: relative; width: 100%; }
+.sidebar-item-wrap > .sidebar-item { width: 100%; }
+.sidebar-recent-panel {
+  display: none;
+  position: absolute;
+  left: 100%;
+  top: 0;
+  margin-left: 10px;
+  width: 300px;
+  max-height: 70vh;
+  overflow-y: auto;
+  background: #fff;
+  color: var(--ink);
+  border: 2px solid var(--primary);
+  border-radius: var(--radius-card);
+  box-shadow: 0 12px 28px rgba(30, 20, 60, 0.18);
+  padding: 16px 18px;
+  z-index: 60;
+  text-align: left;
+}
+.sidebar-recent-panel[hidden] { display: none; }
+.sidebar-recent-panel.open { display: block; }
+.sidebar-recent-panel h3 { margin: 0 0 6px; font-size: 0.95rem; }
+.sidebar-recent-panel .hint { margin: 0 0 10px; font-size: 0.8rem; }
+.recent-project-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+.recent-project-item:hover { background: #f4f4fb; border-color: #e4e4f4; }
+.recent-project-item .recent-project-title { font-weight: 700; font-size: 0.88rem; }
+.recent-project-item .recent-project-meta { font-size: 0.75rem; color: #6b6b85; }
+.recent-project-item + .recent-project-item { margin-top: 6px; }
+
+/* Nút "Giao diện" (2026-09-17): dùng lại đúng khung popover .sidebar-recent-panel
+   cho nhất quán, chỉ đổi nội dung bên trong thành 4 lựa chọn theme. */
+.theme-option-list { display: flex; flex-direction: column; gap: 4px; }
+.theme-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+.theme-option:hover { background: #f4f4fb; border-color: #e4e4f4; }
+.theme-option input { margin: 0; accent-color: var(--primary); }
+.theme-change-image-btn { margin-top: 10px; width: 100%; }
+
+/* .page = khung ngoài, chỉ lo bo góc + cắt hình (overflow: hidden), không tự
+   cuộn — thanh cuộn thật của trình duyệt không bao giờ tự bo tròn theo góc
+   phần tử (giới hạn của trình duyệt), nên phải để việc CUỘN cho lớp con
+   .page-scroll bên trong, còn khung ngoài chỉ đứng yên giữ hình bo tròn. */
+.page {
+  flex: 1 1 auto;
+  overflow: hidden;
+  min-width: 0;
+  border-top-left-radius: 22px;
+  border-top-right-radius: 22px;
+  background: radial-gradient(circle at 15% 10%, #ffe3f1 0%, transparent 45%),
+              radial-gradient(circle at 85% 15%, #e0f0ff 0%, transparent 45%),
+              radial-gradient(circle at 50% 90%, #fff6d9 0%, transparent 50%),
+              #faf9ff;
+}
+/* Chia đôi khung sáng (2026-09-14): trái = toàn bộ luồng làm việc (cuộn
+   được, như trước), phải = khung xem trước VIDEO, đứng yên (position:
+   sticky trong chính .page-scroll — nó là chỗ CUỘN THẬT duy nhất) để luôn
+   thấy được khi cuộn cột trái dài. 2 cột bằng nhau (flex: 1 1 50% mỗi bên). */
+.page-scroll {
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
+  padding: 48px 24px 96px;
+  display: grid;
+  grid-template-columns: 250px 1fr 1fr;
+  align-items: start;
+  gap: 32px;
+}
+/* Bật ảnh nền theo Theme (xem .workspace-info-bg-image phía trên): thêm hẳn
+   1 track 200px cho cột ảnh (đứng thứ 2, giữa cột chữ và .workspace-left)
+   — PHẢI dùng "html.has-left-bg-image" (selector cụ thể hơn .page-scroll
+   thường) để tự động thắng, không cần lo thứ tự khai báo trong file. */
+html.has-left-bg-image .page-scroll { grid-template-columns: 250px 240px 1fr 1fr; }
+html.has-left-bg-image .page-scroll.preview-collapsed { grid-template-columns: 250px 240px 1fr 490px; }
+.workspace-left {
+  min-width: 0;
+}
+.workspace-left > * {
+  max-width: 880px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Cột thông tin bên trái NGOÀI CÙNG (2026-09-17, yêu cầu người dùng): câu mô
+   tả ngắn + thanh "Bước x/10" trước đây nằm trên cùng header.hero, cuộn mất
+   theo cột giữa — giờ tách riêng thành 1 cột đứng yên bên trái NHẤT của
+   toàn bộ giao diện làm việc (position: sticky, cùng cơ chế với
+   .workspace-preview bên phải — .page-scroll là chỗ cuộn thật duy nhất),
+   luôn thấy được dù cột giữa (.workspace-left) cuộn dài tới đâu. */
+.workspace-info {
+  min-width: 0;
+  width: 100%;
+  position: sticky;
+  top: 0; /* xem giải thích ở .workspace-preview — top:48px sẽ lệch xuống 48px thừa */
+  align-self: start;
+}
+.workspace-info-desc {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  line-height: 1.5;
+  margin: 0 0 24px;
+}
+.workspace-info .step-progress {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-bottom: 0;
+  padding: 0;
+}
+.workspace-info .step-node {
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  flex: 0 0 auto;
+  gap: 10px;
+  padding: 4px 0 20px;
+}
+.workspace-info .step-node:not(:last-child)::after {
+  top: 32px;
+  left: 15px;
+  width: 3px;
+  height: calc(100% - 20px);
+}
+.workspace-info .step-label { text-align: left; }
+
+/* header.hero (2026-09-17): giờ là 1 banner riêng, nằm NGOÀI 3 cột
+   (.workspace-info / .workspace-left / .workspace-preview) thay vì nằm
+   trong .workspace-left như trước — "grid-column: 1 / -1" cho nó chiếm
+   trọn 1 hàng riêng phía trên, để hàng KẾ TIẾP (3 cột) bắt đầu cùng 1 mốc
+   ngang bằng nhau (align-items:start của .page-scroll lo phần còn lại).
+   Không làm vậy thì hero nằm trong .workspace-left sẽ đẩy RIÊNG cột đó
+   xuống thấp hơn 2 cột kia — đúng lỗi thật đã gặp trước khi sửa. */
+header.hero {
+  grid-column: 1 / -1;
+  max-width: 1160px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  margin-bottom: 0;
+}
+
+header.hero .hero-greeting {
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  margin: 0 0 6px;
+}
+
+header.hero h1 {
+  display: inline-block;
+  font-size: 2.1rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  margin: 0 0 8px;
+  background: linear-gradient(135deg, #ff0000 0%, #ff8000 16.6%, #ffe600 33.3%, #22c55e 50%, #0066ff 66.6%, #4b0082 83.3%, #a600ff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+header.hero p {
+  color: var(--ink-soft);
+  font-size: 1.05rem;
+  margin: 0;
+}
+
+header.hero .hero-tagline {
+  color: var(--primary);
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  margin: 0 0 10px;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow);
+  padding: 28px;
+  margin-bottom: 24px;
+}
+
+.card h2 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin: 0 0 16px;
+}
+
+textarea {
+  width: 100%;
+  min-height: 120px;
+  border-radius: var(--radius-input);
+  border: 1.5px solid var(--surface-border);
+  padding: 16px;
+  font-size: 1rem;
+  font-family: inherit;
+  resize: vertical;
+  outline: none;
+}
+textarea:focus { border-color: var(--primary); }
+
+.format-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.format-choice {
+  border: 2px solid var(--surface-border);
+  border-radius: var(--radius-card);
+  padding: 20px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.15s ease;
+  background: #fbfaff;
+}
+.format-choice.selected {
+  border-color: var(--primary);
+  background: #f1edff;
+}
+.format-choice .ratio-badge {
+  display: inline-block;
+  border-radius: var(--radius-pill);
+  background: var(--primary);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  margin-bottom: 8px;
+}
+.format-choice strong { display: block; font-size: 1rem; margin-bottom: 4px; }
+.format-choice span.desc { color: var(--ink-soft); font-size: 0.85rem; }
+
+/* Bước 9: hộp mở Chrome đăng nhập Google Flow — đứng riêng trước khối chọn
+   chế độ chạy, vì phải đăng nhập xong TRƯỚC khi bắt đầu sản xuất. */
+.flow-login-box {
+  background: #f7f5fb;
+  border-radius: var(--radius-lg, 16px);
+  padding: 14px 18px;
+  margin: 10px 0 20px;
+}
+.flow-login-box .hint { margin: 0 0 10px; }
+
+.llm-backend-choice {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.llm-backend-choice .format-choice { display: block; }
+.llm-backend-choice input[type="radio"] { margin-bottom: 8px; }
+
+.llm-cli-card { position: relative; text-align: left; padding: 16px 20px; }
+.llm-cli-card-header { display: flex; align-items: center; gap: 10px; }
+.llm-cli-card-text { flex: 1; min-width: 0; }
+.llm-cli-card-text strong { display: block; font-size: 1rem; margin-bottom: 4px; }
+.llm-cli-card-text span.desc { color: var(--ink-soft); font-size: 0.85rem; }
+.llm-cli-dropdown-btn {
+  flex-shrink: 0;
+  border: 1px solid var(--surface-border);
+  background: #fff;
+  border-radius: var(--radius-pill);
+  width: 30px;
+  height: 30px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  color: var(--ink-soft);
+  transition: transform 0.15s ease;
+}
+.llm-cli-dropdown-btn:hover { background: #f1edff; color: var(--primary); }
+.llm-cli-card.dropdown-open .llm-cli-dropdown-btn { transform: rotate(180deg); }
+.llm-cli-dropdown-menu {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% + 6px);
+  background: #fff;
+  border: 2px solid var(--primary);
+  border-radius: var(--radius-card);
+  box-shadow: 0 12px 28px rgba(30, 20, 60, 0.18);
+  z-index: 20;
+  overflow: hidden;
+}
+.llm-cli-dropdown-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 12px 16px;
+  border: none;
+  border-bottom: 1px solid var(--surface-border);
+  background: #fff;
+  cursor: pointer;
+  transition: background 0.1s ease;
+}
+.llm-cli-dropdown-item:last-child { border-bottom: none; }
+.llm-cli-dropdown-item:hover { background: #f1edff; }
+.llm-cli-dropdown-item.selected { background: #f1edff; }
+.llm-cli-dropdown-item strong { display: block; font-size: 0.95rem; margin-bottom: 2px; }
+.llm-cli-dropdown-item span.desc { color: var(--ink-soft); font-size: 0.82rem; }
+
+.llm-account-link {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--primary);
+  text-decoration: underline;
+}
+.llm-account-link:hover { opacity: 0.8; }
+
+/* Widget "Mở tài khoản" — thay cho 1 link tĩnh cũ: popover liệt kê các
+   nhãn tài khoản người dùng TỰ lưu (VD nhiều gmail Claude Pro khác nhau đã
+   từng dùng), + ô thêm nhãn mới, + 1 link chung mở claude.ai để đăng nhập
+   tài khoản khác qua Google/Apple/email. Xem app.js — app KHÔNG thể tự
+   phát hiện tài khoản thật đã đăng nhập trên claude.ai (khác domain, trình
+   duyệt chặn đọc cookie/phiên chéo domain), nên đây là nhãn ghi nhớ do
+   người dùng tự đặt, mọi nhãn đều mở CÙNG 1 địa chỉ claude.ai. */
+.llm-account-widget { position: relative; margin-top: 6px; }
+.llm-account-trigger {
+  border: none;
+  background: none;
+  padding: 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--primary);
+  text-decoration: underline;
+  cursor: pointer;
+}
+.llm-account-trigger:hover { opacity: 0.8; }
+.llm-account-popover {
+  position: absolute;
+  left: 0;
+  top: calc(100% + 8px);
+  width: 260px;
+  background: #fff;
+  border: 2px solid var(--primary);
+  border-radius: var(--radius-card);
+  box-shadow: 0 12px 28px rgba(30, 20, 60, 0.18);
+  padding: 14px;
+  z-index: 30;
+}
+.llm-account-popover-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin: 0 0 8px;
+}
+.llm-account-saved-list { display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
+.llm-account-saved-list .hint { margin: 0; font-size: 0.8rem; }
+.llm-account-saved-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  background: #f7f5fb;
+}
+.llm-account-saved-item a {
+  color: var(--ink);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.llm-account-saved-item a:hover { color: var(--primary); }
+.llm-account-remove-btn {
+  flex-shrink: 0;
+  border: none;
+  background: none;
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+  cursor: pointer;
+  line-height: 1;
+}
+.llm-account-remove-btn:hover { color: #c0392b; }
+.llm-account-add-row { display: flex; gap: 6px; margin-bottom: 10px; }
+.llm-account-add-input {
+  flex: 1;
+  min-width: 0;
+  border-radius: var(--radius-input);
+  border: 1.5px solid var(--surface-border);
+  padding: 6px 10px;
+  font-size: 0.82rem;
+  font-family: inherit;
+  outline: none;
+}
+.llm-account-add-input:focus { border-color: var(--primary); }
+.llm-account-add-row .btn-secondary { padding: 6px 12px; font-size: 0.8rem; }
+.llm-account-generic-link {
+  display: block;
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--primary);
+  text-decoration: underline;
+  padding-top: 8px;
+  border-top: 1px solid var(--surface-border);
+}
+.llm-account-generic-link:hover { opacity: 0.8; }
+
+.field-label {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+  font-weight: 600;
+  margin: 14px 0 6px;
+}
+.field-label:first-child { margin-top: 0; }
+
+.hook-pick-list { display: flex; flex-direction: column; gap: 8px; }
+.hook-pick {
+  border: 1.5px solid var(--surface-border);
+  border-radius: var(--radius-input);
+  padding: 10px 14px;
+  cursor: pointer;
+  background: #fbfaff;
+  transition: all 0.15s ease;
+}
+.hook-pick:hover { border-color: var(--primary); }
+.hook-pick.selected { border-color: var(--primary); background: #f1edff; font-weight: 600; }
+
+.hook-group { margin-top: 8px; border: 1px solid var(--surface-border); border-radius: var(--radius-input); padding: 8px 14px; }
+.hook-group summary { cursor: pointer; font-weight: 600; padding: 6px 0; }
+.hook-group .hook-pick { margin: 6px 0; }
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 15, 35, 0.55);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  z-index: 100;
+  padding: 0 20px 20px;
+}
+.modal-box {
+  /* Cạnh trên ngang bằng mép dưới thanh menu đen (96px = 40px thanh tím +
+     56px thanh đen) — cùng cách neo với #help-panel, để mọi panel/hộp
+     thoại trong app đứng cùng 1 hàng thống nhất. */
+  margin-top: 96px;
+  background: #fff;
+  border-radius: var(--radius-card);
+  padding: 24px 26px;
+  width: 100%;
+  max-width: 520px;
+  max-height: calc(100vh - 96px - 20px);
+  overflow-y: auto;
+}
+.modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+.modal-head h3 { margin: 0; font-size: 1.15rem; }
+.modal-close {
+  border: none;
+  background: var(--surface-2, #f5f4fb);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 0.95rem;
+  color: var(--ink-soft, #6b6a7a);
+}
+.modal-close:hover { background: #ece9fb; }
+
+.attach-source-tabs { display: flex; gap: 8px; margin-bottom: 14px; }
+.attach-tab {
+  flex: 1;
+  border: 1.5px solid var(--surface-border);
+  background: #fff;
+  border-radius: var(--radius-pill);
+  padding: 9px 14px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  color: var(--ink);
+}
+.attach-tab.selected { border-color: var(--primary); background: #f1edff; color: var(--primary); }
+
+#attach-url-input {
+  width: 100%;
+  border-radius: var(--radius-input);
+  border: 1.5px solid var(--surface-border);
+  padding: 10px 14px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+#attach-url-input:focus { outline: none; border-color: var(--primary); }
+#attach-file-chosen-name { margin-left: 10px; font-weight: 600; }
+#attach-mode-choice { margin-top: 10px; }
+
+.scene-review-banner {
+  border: 2px solid var(--primary);
+  background: #f1edff;
+  border-radius: var(--radius-card);
+  padding: 16px 18px;
+  margin: 16px 0;
+}
+.scene-review-banner #scene-review-text,
+.scene-review-banner #scene-restore-text,
+.scene-review-banner #scene-failed-text { color: var(--ink); font-weight: 700; margin: 0 0 10px; }
+.scene-review-banner--failed { border-color: #d64545; background: #fdeceb; }
+.scene-review-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.scene-review-banner video {
+  width: 100%;
+  max-width: 420px;
+  border-radius: var(--radius-card);
+  display: block;
+  margin: 0 0 14px;
+  background: #000;
+}
+@media (max-width: 480px) {
+  .llm-backend-choice { grid-template-columns: 1fr; }
+}
+
+.pill-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.pill {
+  border-radius: var(--radius-pill);
+  border: 1.5px solid var(--surface-border);
+  background: #fbfaff;
+  padding: 10px 20px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.15s ease;
+}
+.pill:hover { border-color: var(--primary); }
+.pill.selected {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--primary-ink);
+}
+
+/* Thanh trượt NGANG dùng chung cho mọi lựa chọn "kéo chọn số trong 1
+   khoảng" — thời lượng video (bên dưới các nút có sẵn 5/7/10... phút hay
+   15/24/30/60 giây) VÀ số nhân vật tối đa (2 thanh 1-10 / 11-20). Kéo giữ
+   chuột để chọn BẤT KỲ số nào trong khoảng, không chỉ các mốc cố định. */
+.range-slider-row {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.range-slider-row.in-pill-group {
+  margin-top: 22px;
+  padding-top: 20px;
+  border-top: 1px dashed var(--surface-border);
+}
+.range-slider-label { color: var(--ink-soft); font-size: 0.85rem; margin: 0; }
+.range-slider-body { display: flex; flex-direction: column; gap: 6px; }
+.range-slider-track {
+  position: relative;
+  width: 100%;
+  height: 20px;
+  border-radius: var(--radius-pill);
+  background: #f1edff;
+  border: 1.5px solid var(--surface-border);
+  cursor: pointer;
+  touch-action: none;
+  user-select: none;
+}
+.range-slider-track:hover { border-color: var(--primary); }
+.range-slider-fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  border-radius: var(--radius-pill);
+  background: var(--primary);
+  pointer-events: none;
+}
+.range-slider-handle {
+  position: absolute;
+  top: 50%;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 3px solid var(--primary);
+  box-shadow: var(--shadow);
+  transform: translate(-50%, -50%);
+  cursor: grab;
+}
+.range-slider-handle:active { cursor: grabbing; }
+.range-slider-scale {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  padding: 0 2px;
+}
+.range-slider-value {
+  font-size: 0.95rem;
+  color: var(--ink);
+  text-align: center;
+}
+.range-slider-value strong { color: var(--primary); font-size: 1.3rem; }
+
+/* Thanh KHÔNG đang giữ giá trị hiện tại (VD đang chọn 7 nhân vật thì thanh
+   11-20 mờ đi) — vẫn kéo được bình thường, chỉ mờ đi cho biết đây không
+   phải khoảng đang áp dụng. */
+.range-slider-row.inactive { opacity: 0.45; }
+
+.character-max-sliders {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 16px;
+}
+@media (max-width: 560px) {
+  .character-max-sliders { grid-template-columns: 1fr; }
+}
+
+.lang-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 10px;
+}
+
+.btn-primary {
+  display: block;
+  width: 100%;
+  border-radius: var(--radius-pill);
+  border: none;
+  background: var(--primary);
+  color: #fff;
+  font-size: 1.05rem;
+  font-weight: 700;
+  padding: 16px;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  transition: transform 0.1s ease;
+}
+.btn-primary:hover { transform: translateY(-1px); }
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+.result {
+  border-radius: var(--radius-card);
+  background: #10101a;
+  color: #d6ffe0;
+  padding: 20px;
+  font-family: "Consolas", monospace;
+  font-size: 0.85rem;
+  white-space: pre-wrap;
+  overflow-x: auto;
+  display: none;
+}
+.result.visible { display: block; }
+
+.hint {
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+  margin-top: 8px;
+}
+
+.section-hidden { display: none; }
+
+.step-progress {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 4px;
+  margin-bottom: 32px;
+  padding: 0 8px;
+}
+.step-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  position: relative;
+}
+.step-node:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  width: 100%;
+  height: 3px;
+  background: var(--surface-border);
+  z-index: 0;
+}
+.step-node.done:not(:last-child)::after { background: var(--primary); }
+.step-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface);
+  border: 2.5px solid var(--surface-border);
+  color: var(--ink-soft);
+  font-weight: 700;
+  font-size: 0.95rem;
+  z-index: 1;
+}
+.step-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+  text-align: center;
+}
+.step-node.current .step-circle {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: #fff;
+}
+.step-node.current .step-label { color: var(--ink); }
+.step-node.done .step-circle {
+  border-color: var(--primary);
+  background: #fff;
+  color: var(--primary);
+}
+.step-node.done .step-circle::before { content: "✓"; }
+
+.field-warning {
+  display: none;
+  color: #b34700;
+  background: #fff0e0;
+  border-radius: var(--radius-pill);
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-top: 10px;
+}
+.field-warning.visible {
+  display: inline-block;
+  animation: shake 0.35s ease;
+}
+
+/* Mục 8: khung cảnh báo chất lượng (nhân vật đổi hình dạng, giọng đọc lệch
+   thời gian, chữ poster lỗi) — CHỈ cảnh báo, không có nút "sửa tự động". */
+.quality-warnings-banner {
+  margin-top: 16px;
+  padding: 14px 18px;
+  background: #fff0e0;
+  border: 1.5px solid #f0b878;
+  border-radius: var(--radius-card);
+}
+.quality-warnings-title { color: #b34700; font-weight: 700; margin: 0 0 8px; }
+.quality-warnings-banner ul { margin: 0; padding-left: 20px; }
+.quality-warnings-banner li { color: #7a4a1a; font-size: 0.9rem; margin-bottom: 6px; }
+/* Nút phóng to/thu nhỏ textarea (Ý tưởng / Câu chuyện / Kịch bản) — kiểu
+   nút maximize cửa sổ Windows. Khi phóng to: to bằng ĐÚNG 1/2 chiều ngang
+   và TOÀN BỘ chiều cao của ".page" (khoảng diện tích màu sáng của app,
+   đã trừ sidebar 84px bên trái + 2 thanh menu 96px phía trên) — tính bằng
+   CSS calc() thuần, không cần JS đo lại kích thước, luôn đúng khi resize
+   cửa sổ trình duyệt. */
+.expandable-wrap { position: relative; }
+.expand-toggle-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 2;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  border: 1px solid var(--surface-border);
+  background: rgba(255,255,255,0.9);
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.expand-toggle-btn:hover { background: #f1edff; color: var(--primary); }
+/* Khi textarea đang phóng to, nút bị "bỏ lại" ở vị trí cũ trong luồng
+   trang (backdrop z-index cao hơn sẽ đè lên) — cho nút cũng "bay" theo
+   sang position:fixed, đứng đúng góc trên-phải của khung textarea đã
+   phóng to (cùng công thức calc() để luôn khớp, không lệch khi resize). */
+.expand-toggle-btn.floating {
+  position: fixed;
+  top: calc(96px + 8px);
+  right: calc((100vw - 84px) / 4 + 8px);
+  z-index: 202;
+}
+.expandable-wrap textarea.maximized {
+  position: fixed;
+  top: 96px;
+  left: calc(84px + (100vw - 84px) / 4);
+  width: calc((100vw - 84px) / 2);
+  height: calc(100vh - 96px - 24px);
+  z-index: 201;
+  margin: 0;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.35);
+  resize: none;
+}
+.textarea-maximize-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 15, 35, 0.45);
+  z-index: 200;
+}
+.textarea-maximize-backdrop.open { display: block; }
+
+.help-warning-note {
+  color: #b34700;
+  background: #fff0e0;
+  border-radius: var(--radius-card);
+  padding: 10px 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin: 8px 0 0;
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+/* "⚡ Tự động toàn bộ": tiêu đề mục đang được pipeline xử lý mờ nhấp nháy
+   nhẹ để người dùng biết NGAY đang chạy tới đâu, không cần đọc dòng trạng
+   thái nhỏ phía trên (dễ bị cuộn khuất). */
+@keyframes pipelineHeadingPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+.pipeline-heading-active {
+  animation: pipelineHeadingPulse 1.4s ease-in-out infinite;
+}
+
+.notice {
+  display: none;
+  border-radius: var(--radius-card);
+  background: #fff0e0;
+  border: 1.5px solid #ffd9ad;
+  padding: 20px 24px;
+  margin-bottom: 24px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.notice.visible { display: flex; }
+.notice p {
+  margin: 0;
+  font-weight: 600;
+  color: #7a3d00;
+  flex: 1;
+  min-width: 200px;
+}
+
+.input-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+.input-row input {
+  flex: 1;
+  border-radius: var(--radius-input);
+  border: 1.5px solid var(--surface-border);
+  padding: 12px 16px;
+  font-size: 0.95rem;
+  outline: none;
+}
+.input-row input:focus { border-color: var(--primary); }
+
+.btn-secondary {
+  border-radius: var(--radius-pill);
+  border: 1.5px solid var(--primary);
+  background: #fff;
+  color: var(--primary);
+  font-weight: 700;
+  padding: 12px 20px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.btn-secondary:hover { background: #f1edff; }
+.btn-secondary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.status-badge {
+  display: inline-block;
+  margin-top: 12px;
+  border-radius: var(--radius-pill);
+  padding: 6px 14px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  background: #f1f0f5;
+  color: var(--ink-soft);
+}
+.status-badge.ok { background: #dff7e6; color: #1b8a4a; }
+.status-badge.missing { background: #fff0e0; color: #b96a1a; }
+
+.production-scene-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 8px;
+  margin-top: 16px;
+  max-height: 320px;
+  overflow-y: auto;
+}
+.production-scene-item {
+  background: #f7f5fb;
+  border-radius: 12px;
+  padding: 8px 12px;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+/* Bước 1 (Mục 3, V3): Sổ Tay Nhân Vật — danh sách thẻ nhân vật, mỗi thẻ có
+   tên + mô tả cố định + nút xoá riêng (xem renderCharacterList trong app.js). */
+.character-bible-item {
+  background: #f7f5fb;
+  border-radius: var(--radius-lg, 16px);
+  padding: 16px 20px;
+  margin-bottom: 12px;
+  position: relative;
+}
+.character-bible-item .profile-field { margin-bottom: 10px; }
+.character-bible-item textarea { min-height: 80px; }
+.character-remove-btn {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  border: none;
+  background: none;
+  color: var(--ink-soft);
+  font-size: 1rem;
+  cursor: pointer;
+  line-height: 1;
+}
+.character-remove-btn:hover { color: #c0392b; }
+
+/* Nhiệm vụ 2 (2026-09-15): bản tổng liệt kê toàn bộ cảnh + prompt AI, hiện
+   TRƯỚC khi bắt đầu sản xuất qua Google Flow — giống file "Kịch bản N cảnh"
+   người dùng từng tự soạn tay cho phim Quang Trung 37 cảnh. */
+.storyboard-scene-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 460px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+.storyboard-scene-item {
+  background: #f7f5fb;
+  border-radius: 12px;
+  padding: 12px 16px;
+}
+.storyboard-scene-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+.storyboard-scene-head strong { font-size: 0.95rem; }
+.storyboard-scene-prompt {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--ink);
+  white-space: pre-wrap;
+}
+.storyboard-scene-prompt-vi {
+  margin: 6px 0 0;
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  font-style: italic;
+  white-space: pre-wrap;
+}
+
+.production-language-card {
+  background: #f7f5fb;
+  border-radius: var(--radius-lg, 16px);
+  padding: 16px 20px;
+  margin-top: 16px;
+}
+.production-language-card h4 { margin: 0 0 8px; }
+
+/* Bước 6 (2026-09-14): sơ đồ 2 hàng ngang song song — hàng trên là các ô
+   cảnh (Cảnh 1..N, N tuỳ kịch bản), hàng dưới là hiện trạng THẲNG HÀNG
+   ngay dưới đúng cảnh của nó (2 hàng dùng chung 1 số cột qua grid-template-
+   columns đặt bằng JS — xem renderProductionScenes trong app.js). Cả khối
+   cuộn ngang chung 1 thanh cuộn khi có nhiều cảnh (37, 50...). */
+.scene-diagram {
+  margin-top: 16px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+.scene-diagram-row {
+  display: grid;
+  gap: 8px;
+}
+.scene-diagram-row + .scene-diagram-row { margin-top: 8px; }
+.scene-type-icon { font-size: 0.85em; }
+.scene-box {
+  background: #f1edff;
+  border: 1px solid var(--surface-border);
+  border-radius: 12px;
+  padding: 10px 6px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.8rem;
+  color: var(--ink);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.scene-type-badge {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+.scene-box:not(:disabled) { cursor: pointer; }
+.scene-box[aria-pressed="true"] { border-color: var(--primary); }
+.scene-box:disabled { cursor: default; }
+/* Bước 8 (Mục 3, V3): chú giải 5 loại hình cảnh App tự quyết định — hiện
+   LUÔN 1 lần phía trên sơ đồ cảnh, để người dùng biết icon nào nghĩa là gì
+   trước khi nhìn vào từng ô cảnh riêng lẻ. */
+.scene-type-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  margin: 10px 0 4px;
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+}
+.scene-status {
+  border-radius: 12px;
+  padding: 8px 6px;
+  text-align: center;
+  font-size: 0.78rem;
+  font-weight: 600;
+  white-space: nowrap;
+  background: #f7f5fb;
+  color: var(--ink-soft);
+}
+.scene-status--queued { background: #f7f5fb; color: var(--ink-soft); }
+.scene-status--generating { background: #fff4d6; color: #a5730c; }
+.scene-status--done { background: #dff7e6; color: #1b8a4a; }
+.scene-status--failed { background: #fde5e5; color: #c0392b; cursor: help; }
+.scene-status--skipped { background: #ececec; color: #6b6b6b; }
+
+/* Bước 7/8: nút chỉnh âm lượng dạng slider (mới trong app, xem index.html). */
+.volume-control {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+  font-weight: 600;
+}
+.volume-control input[type="range"] {
+  flex: 1;
+  max-width: 320px;
+  accent-color: var(--primary);
+}
+.volume-control span:last-child {
+  min-width: 64px;
+  text-align: right;
+  color: var(--primary);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Bước 7: chip hiển thị các ngôn ngữ lời dẫn đã chọn ở Bước 3. */
+.lang-chip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0;
+}
+.lang-chip {
+  background: #f1edff;
+  color: var(--primary);
+  border-radius: var(--radius-pill);
+  padding: 6px 14px;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+/* Bước 10: dropdown chọn 1 ngôn ngữ để xuất riêng (chỉ hiện khi chọn "Chỉ xuất 1 ngôn ngữ trước"). */
+#export-single-lang-select {
+  margin-top: 10px;
+  width: 100%;
+  max-width: 320px;
+  border-radius: var(--radius-input);
+  border: 1.5px solid var(--surface-border);
+  padding: 10px 14px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  color: var(--ink);
+  background: var(--surface);
+}
+#export-single-lang-select:focus { outline: none; border-color: var(--primary); }
+
+/* Khung xem trước VIDEO bên phải (2026-09-14) — đứng yên khi cuộn cột trái
+   (position: sticky, nhờ .page-scroll ở trên là chỗ cuộn thật). 4 tab ứng
+   với 4 trạng thái người dùng yêu cầu: đang duyệt từng cảnh / chưa có lời
+   dẫn / có lời dẫn / có lời dẫn + SFX nền (gọi là "hoàn chỉnh"). */
+.workspace-preview {
+  min-width: 0;
+  width: 100%;
+  position: sticky;
+  /* top:0, KHÔNG PHẢI 48px (lỗi thật đã gặp 2026-09-17): với sticky nằm
+     trong 1 grid item, mốc "top" tính từ mép TRONG (content-box, đã trừ
+     .page-scroll { padding: 48px ... }) của .page-scroll — cộng thêm
+     48px ở đây khiến khung này lệch XUỐNG DƯỚI thêm 48px nữa so với cột
+     .workspace-left (không sticky, không bị cộng dồn), làm 2 cạnh trên
+     lệch nhau rõ rệt dù nhìn tưởng phải ngang hàng. */
+  top: 0;
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow);
+  padding: 24px;
+  /* CHỈ min-height, KHÔNG max-height/overflow-y:auto: nội dung khung này
+     (vài nút tab + video) THẤP hơn cột trái rất nhiều — ép cao tối thiểu
+     để không lộ nền trống phía dưới khi cuộn cột trái (lỗi thật người
+     dùng báo 2026-09-14, xem git log). Từng thử thêm max-height +
+     overflow-y:auto để khung này tự cuộn riêng khi nội dung dài hơn
+     viewport, nhưng "sticky" + 1 vùng overflow:auto gần kín cả chiều cao
+     màn hình có nguy cơ NUỐT sự kiện cuộn chuột thật của người dùng khi
+     trỏ chuột đứng trên nó (rồi không "chain" cuộn tiếp xuống .page-scroll
+     ở ngoài — trình duyệt/touchpad khác nhau xử lý khác nhau, không tự
+     tin test lại được 100%) — bỏ hẳn overflow riêng ở đây, để cuộn NGOÀI
+     (.page-scroll) lo hết, an toàn hơn nhiều. Trường hợp hiếm nội dung dài
+     hơn viewport thì khung này chỉ đơn giản kéo dài ra, không tự cuộn. */
+  min-height: calc(100vh - 96px - 96px);
+}
+.workspace-preview-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.workspace-preview-head h3 { margin: 0; }
+.preview-collapse-btn {
+  border: none;
+  background: #f5f4fb;
+  color: var(--ink-soft);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  flex: 0 0 auto;
+}
+.preview-collapse-btn:hover { background: #ece9fb; }
+
+/* Thu gọn/mở khung xem trước (2026-09-14): thu gọn -> cột giữa (làm việc)
+   về lại full-width NHƯ TRƯỚC KIA (trước khi có cột preview), mở lại -> hiện
+   panel bên phải chiếm 1/2 như hiện tại. Nút mở lại là 1 "tab" nhỏ dán
+   cạnh phải màn hình, giống cơ chế thu/mở thanh appswitcher-bar đã có.
+   LỖI THẬT đã gặp (2026-09-17): trước khi có .workspace-info (cột trái
+   NGOÀI CÙNG, luôn hiện, xem phía trên), rút gọn còn "1fr" là ĐÚNG vì lúc
+   đó chỉ còn 1 cột hiển thị (.workspace-left). Từ khi thêm .workspace-info,
+   "1fr" biến .page-scroll thành lưới 1 CỘT DUY NHẤT — khiến
+   .workspace-info và .workspace-left xếp CHỒNG LÊN NHAU theo chiều dọc
+   (info ở trên, workspace-left bị đẩy xuống hàng dưới) thay vì đứng cạnh
+   nhau, làm cả "Chào buổi sáng" lẫn form nhập liệu bị đẩy xuống rất thấp.
+   Giữ đúng 2 cột (220px cho .workspace-info + phần còn lại cho
+   .workspace-left) dù đang thu gọn preview hay không. */
+/* Thêm 1 cột "250px" GIẢ (rỗng, không có item nào) bên phải để cân đối với
+   cột trái .workspace-info (250px) — nếu không, khi thu gọn preview, cột
+   giữa (.workspace-left) chiếm hết phần còn lại lệch hẳn về bên phải màn
+   hình (do bị đẩy bởi cột trái 250px mà không có gì cân lại bên phải),
+   khiến card bên trong tuy CÓ margin:auto nhưng vẫn trông lệch khỏi tâm
+   MÀN HÌNH thật (chỉ đúng tâm của riêng cột giữa). Cột rỗng bên phải làm
+   cột giữa đối xứng qua tâm màn hình, margin:auto lúc này mới thật sự
+   canh giữa màn hình. */
+.page-scroll.preview-collapsed { grid-template-columns: 250px 1fr 250px; }
+.page-scroll.preview-collapsed .workspace-preview { display: none; }
+.preview-expand-btn {
+  position: fixed;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  z-index: 50;
+  border: none;
+  background: var(--primary);
+  color: #fff;
+  width: 26px;
+  height: 68px;
+  border-radius: var(--radius-input) 0 0 var(--radius-input);
+  box-shadow: var(--shadow);
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+.preview-expand-btn:hover { filter: brightness(1.08); }
+
+#preview-lang-wrap { margin-bottom: 12px; }
+#preview-lang-select {
+  width: 100%;
+  border-radius: var(--radius-input);
+  border: 1.5px solid var(--surface-border);
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  color: var(--ink);
+  background: var(--surface);
+}
+
+.preview-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.preview-tab {
+  border: 1.5px solid var(--surface-border);
+  background: #f7f5fb;
+  color: var(--ink-soft);
+  border-radius: var(--radius-pill);
+  padding: 7px 14px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.preview-tab.active { border-color: var(--primary); background: #f1edff; color: var(--primary); }
+.preview-tab:disabled { opacity: 0.45; cursor: not-allowed; }
+
+#preview-video {
+  width: 100%;
+  border-radius: var(--radius-card);
+  background: #000;
+}
+#preview-empty-hint { margin: 0; }
+
+/* Màn hẹp: 2 cột 50/50 sẽ quá chật (card thiết kế cho 880px) — xếp dọc lại,
+   cột trái lên trước, khung preview xuống dưới KHÔNG còn đứng yên nữa
+   (đứng yên chỉ hợp lý khi 2 cột đứng cạnh nhau). */
+@media (max-width: 1080px) {
+  .page-scroll { display: block; }
+  .workspace-left { max-width: 880px; width: 100%; margin: 0 auto; }
+  .workspace-preview { position: static; width: 100%; max-width: 880px; margin: 32px auto 0; max-height: none; }
+  /* Cột trái đứng yên (.workspace-info) cũng không còn hợp lý khi mọi thứ
+     xếp dọc lại — trả về đúng dáng ngang ban đầu của thanh "Bước x/10". */
+  .workspace-info { position: static; width: 100%; max-width: 880px; margin: 0 auto 32px; }
+  .workspace-info .step-progress { flex-direction: row; justify-content: space-between; }
+  .workspace-info .step-node { flex-direction: column; flex: 1; padding: 0; gap: 6px; }
+  .workspace-info .step-node:not(:last-child)::after { top: 16px; left: 50%; width: 100%; height: 3px; }
+  .workspace-info .step-label { text-align: center; }
+  .workspace-info-bg-image { position: static; width: 100%; max-width: 880px; height: 220px; margin: 0 auto 32px; }
+}

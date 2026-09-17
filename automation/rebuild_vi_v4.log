@@ -1,0 +1,19 @@
+[v4] Dựng lại cả 8 đoạn bằng build_scene() đã sửa (khong con cat mat canh)...
+    [01] HOOK: giọng đọc 16.58s, video gốc 20.04s -> đoạn dựng 20.04s
+    [02] VẤN ĐỀ: giọng đọc 35.83s, video gốc 40.04s -> đoạn dựng 40.04s
+    [03] BỐI CẢNH: giọng đọc 20.45s, video gốc 50.05s -> đoạn dựng 50.05s
+    [04] GIẢI PHÁP: giọng đọc 7.87s, video gốc 30.04s -> đoạn dựng 30.04s
+    [05] HƯỚNG DẪN: giọng đọc 18.72s, video gốc 50.05s -> đoạn dựng 50.05s
+    [06] VÍ DỤ: giọng đọc 47.76s, video gốc 30.04s -> đoạn dựng 48.01s
+    [07] KẾT QUẢ: giọng đọc 25.25s, video gốc 40.04s -> đoạn dựng 40.04s
+    [08] CTA: giọng đọc 27.41s, video gốc 20.04s -> đoạn dựng 27.66s
+[v4] Ghép lại 8 đoạn thành final_v4.mp4...
+[v4] -> E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\automation\export\vi-VN\final_v4.mp4
+[v4] Tính lại cảnh thực sự hiển thị (giờ phải đủ 34/34 hoặc gần đủ)...
+[v4] 32/34 cảnh hiển thị. Độ dài từng đoạn: [20.04, 40.04, 50.05, 30.04, 50.05, 48.01, 40.04, 27.66]
+[v4] CẢNH VẪN CHƯA HIỆN (không có Flow clip riêng / lỗi khác, không phải do cắt): [27, 28]
+[v4] Tải danh sách hiệu ứng âm thanh...
+[v4] Đang hoà 107 lớp âm thanh...
+[v4] -> E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\automation\export\vi-VN\final_with_sfx_v4.mp4
+[v4] XONG -> E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\automation\export\vi-VN\final_with_title_v4.mp4
+EXIT CODE: 0

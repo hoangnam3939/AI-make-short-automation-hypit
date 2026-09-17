@@ -1,0 +1,607 @@
+<title>AI Video Studio — Đánh giá tiến độ (FINAL, đối chiếu 2 nhánh)</title>
+<style>
+  :root{
+    --bg:#EEF0F1; --surface:#FFFFFF; --surface-2:#F5F6F8;
+    --ink:#1C1F24; --ink-soft:#5B6169; --line:#D8DCE0;
+    --accent:#33517D; --accent-soft:#E4E9F1;
+    --ok:#1E7A54; --ok-bg:#E4F3EC;
+    --warn:#9C6B12; --warn-bg:#FAF0DC;
+    --bad:#A73E33; --bad-bg:#FBEAE7;
+    --bonus:#2C7C8C; --bonus-bg:#E3F1F3;
+    --changed:#C81E3A; --changed-bg:#FDEAEE; --changed-border:#F3B4C1;
+    --mono: ui-monospace, "Cascadia Code", Consolas, "SFMono-Regular", monospace;
+    --sans: -apple-system, "Segoe UI", ui-sans-serif, "Helvetica Neue", Arial, sans-serif;
+    --radius: 14px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#14171B; --surface:#1B1F25; --surface-2:#20252C;
+      --ink:#E7E9EC; --ink-soft:#9AA2AC; --line:#2B3138;
+      --accent:#8AA3CE; --accent-soft:#28334A;
+      --ok:#5CC49A; --ok-bg:#173226;
+      --warn:#E3B65B; --warn-bg:#3A2E14;
+      --bad:#E58A7E; --bad-bg:#3A2119;
+      --bonus:#6FC2D2; --bonus-bg:#14313A;
+      --changed:#F0788D; --changed-bg:#3A1720; --changed-border:#6B2A38;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#14171B; --surface:#1B1F25; --surface-2:#20252C;
+    --ink:#E7E9EC; --ink-soft:#9AA2AC; --line:#2B3138;
+    --accent:#8AA3CE; --accent-soft:#28334A;
+    --ok:#5CC49A; --ok-bg:#173226;
+    --warn:#E3B65B; --warn-bg:#3A2E14;
+    --bad:#E58A7E; --bad-bg:#3A2119;
+    --bonus:#6FC2D2; --bonus-bg:#14313A;
+    --changed:#F0788D; --changed-bg:#3A1720; --changed-border:#6B2A38;
+  }
+  :root[data-theme="light"]{
+    --bg:#EEF0F1; --surface:#FFFFFF; --surface-2:#F5F6F8;
+    --ink:#1C1F24; --ink-soft:#5B6169; --line:#D8DCE0;
+    --accent:#33517D; --accent-soft:#E4E9F1;
+    --ok:#1E7A54; --ok-bg:#E4F3EC;
+    --warn:#9C6B12; --warn-bg:#FAF0DC;
+    --bad:#A73E33; --bad-bg:#FBEAE7;
+    --bonus:#2C7C8C; --bonus-bg:#E3F1F3;
+    --changed:#C81E3A; --changed-bg:#FDEAEE; --changed-border:#F3B4C1;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    background:var(--bg); color:var(--ink); font-family:var(--sans);
+    margin:0; line-height:1.6; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{display:flex; max-width:1180px; margin:0 auto; gap:40px; align-items:flex-start;}
+  nav.toc{
+    position:sticky; top:24px; width:210px; flex:none; padding:32px 0 32px 24px;
+    font-size:0.82rem;
+  }
+  nav.toc .toc-eyebrow{
+    text-transform:uppercase; letter-spacing:.08em; color:var(--ink-soft);
+    font-size:.72rem; font-weight:700; margin-bottom:10px;
+  }
+  nav.toc a{
+    display:block; color:var(--ink-soft); text-decoration:none; padding:5px 0;
+    border-left:2px solid transparent; padding-left:10px; margin-left:-11px;
+  }
+  nav.toc a:hover{color:var(--ink); border-left-color:var(--line);}
+  nav.toc a.new-link{color:var(--changed); font-weight:700;}
+  main{flex:1; min-width:0; padding:32px 24px 80px 0;}
+
+  header.hero{padding:12px 0 28px; border-bottom:1px solid var(--line); margin-bottom:32px;}
+  .eyebrow{
+    text-transform:uppercase; letter-spacing:.09em; font-size:.74rem; font-weight:700;
+    color:var(--accent); margin-bottom:10px;
+  }
+  h1{font-size:2rem; font-weight:800; margin:0 0 10px; letter-spacing:-0.01em; text-wrap:balance;}
+  .hero-sub{color:var(--ink-soft); font-size:1.02rem; max-width:64ch; margin:0 0 14px;}
+  .hero-meta{display:flex; gap:18px; flex-wrap:wrap; font-size:.82rem; color:var(--ink-soft);}
+  .hero-meta b{color:var(--ink);}
+
+  h2{font-size:1.28rem; font-weight:800; margin:0 0 6px; letter-spacing:-0.01em; scroll-margin-top:20px;}
+  h2 .h2-num{color:var(--accent); font-variant-numeric:tabular-nums; margin-right:8px;}
+  .section-sub{color:var(--ink-soft); font-size:.92rem; margin:0 0 18px; max-width:70ch;}
+  section{margin-bottom:48px;}
+
+  .callout{
+    background:var(--surface); border:1px solid var(--line); border-left:4px solid var(--accent);
+    border-radius:var(--radius); padding:18px 20px; margin-bottom:14px;
+  }
+  .callout.red{border-left-color:var(--changed); background:var(--changed-bg);}
+  .callout h3{margin:0 0 6px; font-size:.98rem; font-weight:800;}
+  .callout.red h3{color:var(--changed);}
+  .callout p{margin:0; font-size:.9rem; color:var(--ink-soft);}
+  .callout p + p{margin-top:8px;}
+  .callout code{font-family:var(--mono); background:var(--surface-2); padding:1px 6px; border-radius:5px; font-size:.85em;}
+
+  .stat-row{display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin:20px 0 22px;}
+  .stat-tile{
+    background:var(--surface); border:1px solid var(--line); border-radius:var(--radius);
+    padding:16px 18px; position:relative;
+  }
+  .stat-tile .n{font-size:1.9rem; font-weight:800; font-variant-numeric:tabular-nums; line-height:1;}
+  .stat-tile .l{font-size:.78rem; color:var(--ink-soft); margin-top:6px;}
+  .stat-tile.ok .n{color:var(--ok);}
+  .stat-tile.warn .n{color:var(--warn);}
+  .stat-tile.bad .n{color:var(--bad);}
+  .stat-tile.bonus .n{color:var(--bonus);}
+  .stat-tile.changed{border-color:var(--changed-border); background:var(--changed-bg);}
+  .stat-tile.changed .n{color:var(--changed);}
+  .was-badge{position:absolute; top:10px; right:12px; font-size:.66rem; color:var(--ink-soft); text-decoration:line-through;}
+
+  .bar{display:flex; height:30px; border-radius:8px; overflow:hidden; border:1px solid var(--line); margin-bottom:8px;}
+  .bar span{display:flex; align-items:center; justify-content:center; font-size:.74rem; font-weight:700; color:#fff;}
+  .bar .seg-ok{background:var(--ok);}
+  .bar .seg-warn{background:var(--warn);}
+  .bar .seg-bad{background:var(--bad);}
+  .bar-caption{font-size:.78rem; color:var(--ink-soft); margin-bottom:26px;}
+  .legend{display:flex; gap:16px; font-size:.78rem; color:var(--ink-soft); flex-wrap:wrap;}
+  .legend span{display:inline-flex; align-items:center; gap:6px;}
+  .dot{width:9px; height:9px; border-radius:50%; display:inline-block;}
+  .dot.ok{background:var(--ok);} .dot.warn{background:var(--warn);} .dot.bad{background:var(--bad);} .dot.bonus{background:var(--bonus);} .dot.changed{background:var(--changed);}
+
+  .chip{
+    display:inline-flex; align-items:center; gap:5px; font-size:.72rem; font-weight:700;
+    padding:3px 10px; border-radius:999px; white-space:nowrap;
+  }
+  .chip.ok{color:var(--ok); background:var(--ok-bg);}
+  .chip.warn{color:var(--warn); background:var(--warn-bg);}
+  .chip.bad{color:var(--bad); background:var(--bad-bg);}
+  .chip.bonus{color:var(--bonus); background:var(--bonus-bg);}
+  .chip.new{color:var(--changed); background:var(--changed-bg); border:1px solid var(--changed-border);}
+
+  .table-wrap{overflow-x:auto; border:1px solid var(--line); border-radius:var(--radius); background:var(--surface);}
+  table{border-collapse:collapse; width:100%; font-size:.86rem; min-width:760px;}
+  thead th{
+    text-align:left; font-size:.72rem; text-transform:uppercase; letter-spacing:.05em;
+    color:var(--ink-soft); padding:12px 16px; border-bottom:1px solid var(--line);
+    background:var(--surface-2); position:sticky; top:0;
+  }
+  tbody td{padding:13px 16px; border-bottom:1px solid var(--line); vertical-align:top;}
+  tbody tr:last-child td{border-bottom:none;}
+  tbody tr.changed-row{background:var(--changed-bg);}
+  td.num{font-variant-numeric:tabular-nums; color:var(--ink-soft); width:28px;}
+  td.name{font-weight:700; min-width:200px;}
+  td.file code{font-family:var(--mono); font-size:.78rem; color:var(--accent); background:var(--accent-soft); padding:2px 6px; border-radius:5px; display:inline-block; margin:1px 0;}
+  td.note{color:var(--ink-soft); max-width:340px;}
+  .red-text, .changed-text{color:var(--changed); font-weight:700;}
+  s.was{color:var(--ink-soft); font-weight:400;}
+
+  .card-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  .card{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:18px 20px;}
+  .card.changed{border-color:var(--changed-border); background:var(--changed-bg);}
+  .card h3{margin:0 0 8px; font-size:.94rem; font-weight:800; display:flex; align-items:center; gap:8px;}
+  .card.changed h3{color:var(--changed);}
+  .card p{margin:0; font-size:.86rem; color:var(--ink-soft);}
+  .card code{font-family:var(--mono); font-size:.78rem; color:var(--accent);}
+
+  .fix-list{display:flex; flex-direction:column; gap:10px;}
+  .fix-item{
+    display:flex; gap:14px; background:var(--surface); border:1px solid var(--line);
+    border-radius:var(--radius); padding:14px 18px; align-items:flex-start;
+  }
+  .fix-item.done{border-left:4px solid var(--ok);}
+  .fix-item.changed{border-left:4px solid var(--changed); background:var(--changed-bg);}
+  .fix-badge{
+    flex:none; width:26px; height:26px; border-radius:50%; display:flex; align-items:center;
+    justify-content:center; font-size:.72rem; font-weight:800; color:#fff; background:var(--ink-soft);
+    margin-top:1px;
+  }
+  .fix-item.done .fix-badge{background:var(--ok);}
+  .fix-item.changed .fix-badge{background:var(--changed);}
+  .fix-body b{font-size:.9rem;}
+  .fix-item.changed .fix-body b{color:var(--changed);}
+  .fix-body p{margin:4px 0 0; font-size:.84rem; color:var(--ink-soft);}
+
+  .roadmap{display:flex; flex-direction:column; gap:22px;}
+  .prio{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); overflow:hidden;}
+  .prio-head{
+    display:flex; align-items:center; gap:12px; padding:14px 20px; border-bottom:1px solid var(--line);
+    background:var(--surface-2);
+  }
+  .prio-tag{
+    font-size:.68rem; font-weight:800; letter-spacing:.05em; text-transform:uppercase;
+    padding:4px 10px; border-radius:6px; color:#fff; flex:none;
+  }
+  .prio-head h3{margin:0; font-size:1rem; font-weight:800;}
+  .prio-head .prio-why{margin-left:auto; font-size:.78rem; color:var(--ink-soft); text-align:right;}
+  .prio-body{padding:6px 20px 4px;}
+  .prio-item{display:flex; gap:12px; padding:13px 0; border-bottom:1px solid var(--line);}
+  .prio-item:last-child{border-bottom:none;}
+  .prio-item.resolved{opacity:.6;}
+  .prio-item .pnum{flex:none; width:22px; color:var(--ink-soft); font-variant-numeric:tabular-nums; font-weight:700; font-size:.82rem; padding-top:1px;}
+  .prio-item b{font-size:.9rem;}
+  .prio-item p{margin:4px 0 0; font-size:.84rem; color:var(--ink-soft);}
+
+  .vs-wrap{overflow-x:auto; border:1px solid var(--changed-border); border-radius:var(--radius); background:var(--surface);}
+  table.vs{border-collapse:collapse; width:100%; font-size:.86rem; min-width:640px;}
+  table.vs thead th{text-align:left; font-size:.74rem; text-transform:uppercase; letter-spacing:.04em; color:#fff; padding:12px 16px; background:var(--changed);}
+  table.vs thead th:first-child{background:var(--ink-soft);}
+  table.vs tbody td{padding:12px 16px; border-bottom:1px solid var(--line); font-size:.85rem;}
+  table.vs tbody tr:last-child td{border-bottom:none;}
+  table.vs td.crit{font-weight:700; color:var(--ink-soft); width:180px;}
+
+  footer{border-top:1px solid var(--line); padding-top:20px; font-size:.78rem; color:var(--ink-soft);}
+  footer ul{padding-left:18px; margin:8px 0 0;}
+
+  @media (max-width: 900px){
+    .wrap{flex-direction:column;}
+    nav.toc{position:static; width:auto; padding:20px 24px 0;}
+    main{padding:8px 24px 60px;}
+    .stat-row{grid-template-columns:repeat(2,1fr);}
+    .card-grid{grid-template-columns:1fr;}
+  }
+</style>
+
+<div class="wrap">
+  <nav class="toc">
+    <div class="toc-eyebrow">Mục lục</div>
+    <a href="#tim-lai">Phát hiện đầu tiên</a>
+    <a href="#cap-nhat-final" class="new-link">🔴 Cập nhật FINAL</a>
+    <a href="#hai-nhanh" class="new-link">🔴 So sánh 2 nhánh</a>
+    <a href="#tong-quan">Tổng quan tiến độ</a>
+    <a href="#12-buoc">12 bước gốc — chi tiết</a>
+    <a href="#muc-8">Mục 8 — tính năng độc quyền</a>
+    <a href="#vuot-spec">Làm vượt đặc tả</a>
+    <a href="#da-sua">Đã sửa trong ngày</a>
+    <a href="#rui-ro">Rủi ro cần biết</a>
+    <a href="#de-xuat">Đề xuất làm tiếp</a>
+  </nav>
+
+  <main>
+    <header class="hero">
+      <div class="eyebrow">Đánh giá dự án · AI Video Studio · Bản FINAL</div>
+      <h1>12 bước gốc đã đi tới đâu — đối chiếu cả 2 nhánh</h1>
+      <p class="hero-sub">Bản gốc viết sáng 14/9 dựa trên nhánh <code style="font-family:var(--mono)">Bếp-phụ-Office14.9.26</code>. Bản FINAL này đối chiếu thêm với commit mới nhất từ <b>máy ở nhà</b> trên nhánh <code style="font-family:var(--mono)">main</code> (12:56, 14/9). Mọi chỗ <span class="red-text">tô đỏ</span> là nội dung mới thêm/thay đổi so với bản gốc buổi sáng.</p>
+      <div class="hero-meta">
+        <span><b>Bản gốc</b> sáng 14/9, nhánh Bếp-phụ</span>
+        <span><b>Cập nhật FINAL</b> chiều 14/9, đối chiếu thêm nhánh main</span>
+        <span><b>Nguồn đối chiếu</b> V3.docx + code thật cả 2 nhánh + <code style="font-family:var(--mono)">git log</code>/<code style="font-family:var(--mono)">git diff</code> thật</span>
+      </div>
+    </header>
+
+    <section id="tim-lai">
+      <h2>Phát hiện đầu tiên: bạn nhớ "13 bước" là có lý do</h2>
+      <div class="callout">
+        <h3>Tài liệu gốc không hề mất — và ghi rõ 12 bước, không phải 13</h3>
+        <p>File <code>Nhiem_Vu_Goc_App_Video_AI_V3.docx</code> vẫn nằm nguyên trong thư mục cha <code>TINHHOA FACEBOOK/</code> — README ghi nhầm là "không còn tìm thấy trên máy". Đã copy 1 bản vào thẳng thư mục dự án.</p>
+        <p><b>Mục 3</b> của tài liệu gốc ghi rõ: "Quy trình xử lý trong app (<b>12 bước</b>)". Điều bạn nhớ là "13" khớp với thực tế nếu tính thêm <b>Mục 8</b> — "Tính năng kiểm tra lỗi" — tính năng ĐỘC QUYỀN của app. 12 + 1 = 13.</p>
+      </div>
+    </section>
+
+    <section id="cap-nhat-final">
+      <h2 style="color:var(--changed)"><span class="h2-num" style="color:var(--changed)">★</span>🔴 Cập nhật FINAL — đối chiếu với commit mới từ máy ở nhà</h2>
+      <p class="section-sub">Sau khi báo cáo gốc được viết sáng nay, <b>cả 2 nơi cùng làm thêm việc — trên 2 nhánh git khác nhau, CHƯA gộp lại</b>.</p>
+      <div class="callout red">
+        <h3>🖥️ Nhánh <code>Bếp-phụ-Office14.9.26</code> (máy này, cả buổi 14/9)</h3>
+        <p>Làm xong 4 việc P0 (sửa Bước 12 đúng bản gốc), rồi thêm 3 nhiệm vụ song song: (1) chế độ chạy Bước 9 "auto/review" đổi được <b>bất cứ lúc nào</b> kể cả đang dừng chờ duyệt, (2) đính kèm câu chuyện gốc từ file/link/tự nhập yêu cầu, (3) thêm backend ChatGPT/Gemini. <b>5 commit, 162/162 test pass.</b></p>
+      </div>
+      <div class="callout red">
+        <h3>🏠 Nhánh <code>main</code> (máy ở nhà, commit lúc 12:56 hôm nay)</h3>
+        <p>Độc lập thêm <b>cũng đúng tính năng "duyệt từng cảnh" cho Bước 9</b> — nhưng thiết kế khác hẳn (xem bảng so sánh ngay dưới) — và hoàn thiện audit đa ngôn ngữ giao diện (xác nhận 0 chữ thiếu bản dịch vi/en/ru bằng script tự viết). <b>1 commit (<code>a894d94</code>), 94 test (89 pass / 5 fail — chưa sửa 5 lỗi fixture cũ).</b></p>
+      </div>
+      <div class="callout" style="border-left-color:var(--warn); background:var(--warn-bg)">
+        <h3 style="color:var(--warn)">⚠️ Quan trọng nhất: 2 nhánh sửa TRÙNG cùng 2 file cho CÙNG 1 mục tiêu</h3>
+        <p><code>app/services/production_pipeline.py</code> và <code>app/api/production.py</code> bị SỬA Ở CẢ 2 NHÁNH theo 2 cách khác nhau để làm cùng 1 việc (Bước 9 duyệt từng cảnh). Khi merge 2 nhánh này lại, Git <b>sẽ báo xung đột thật</b> ở đúng 2 file đó — cần người quyết định giữ thiết kế nào (hoặc hợp nhất tay lấy điểm mạnh của cả 2), không thể merge tự động. Xem bảng so sánh chi tiết ở mục kế tiếp.</p>
+      </div>
+    </section>
+
+    <section id="hai-nhanh">
+      <h2 style="color:var(--changed)"><span class="h2-num" style="color:var(--changed)">★</span>🔴 So sánh 2 cách làm "Duyệt từng cảnh" (Bước 9)</h2>
+      <p class="section-sub">Cả 2 đều đạt đúng yêu cầu cốt lõi (dừng sau mỗi cảnh, không chặn server, có xem trước) nhưng khác nhau ở 3 điểm quan trọng.</p>
+      <div class="vs-wrap">
+        <table class="vs">
+          <thead><tr><th>Tiêu chí</th><th>Nhánh Bếp-phụ (máy này)</th><th>Nhánh main (máy ở nhà)</th></tr></thead>
+          <tbody>
+            <tr><td class="crit">Đổi chế độ giữa chừng</td><td>✅ Có — đổi auto↔review <b>bất cứ lúc nào</b> kể cả đang dừng chờ duyệt 1 cảnh, không cần khởi động lại job (đúng yêu cầu gốc bạn đưa ra)</td><td>❌ Không — <code>review_mode: bool</code> cố định lúc bấm "Bắt đầu sản xuất", không đổi được giữa chừng</td></tr>
+            <tr><td class="crit">Quyết định mỗi cảnh</td><td>1 lựa chọn — "Duyệt, tạo cảnh tiếp theo"</td><td>✅ 3 lựa chọn — Đồng ý / 🔄 Tạo lại cảnh này (gọi lại Flow) / ⏭️ Bỏ qua cảnh này</td></tr>
+            <tr><td class="crit">Vị trí UI</td><td>2 thẻ dạng card (giống Adobe Express) ở Bước 5, trước nút "Bắt đầu sản xuất"</td><td>2 radio đơn giản, cùng vị trí (Bước 5, trước nút bắt đầu) — độc lập chọn giống hệt vị trí</td></tr>
+            <tr><td class="crit">API endpoint</td><td><code>POST .../mode</code>, <code>POST .../scenes/{n}/approve</code></td><td><code>POST .../scenes/{n}/decision</code> (approve/retry/skip)</td></tr>
+            <tr><td class="crit">Test suite</td><td>162/162 pass (đã sửa 5 lỗi fixture cũ)</td><td>89/94 pass (5 lỗi fixture cũ CHƯA sửa)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="section-sub" style="margin-top:14px">💡 <b>Đề xuất hợp nhất</b>: nhánh main có UX tốt hơn ở từng cảnh (3 lựa chọn thay vì 1 — "Tạo lại"/"Bỏ qua" rất hữu ích khi 1 cảnh ra lỗi hình). Nhánh Bếp-phụ có kiến trúc linh hoạt hơn ở tầm job (đổi chế độ bất cứ lúc nào). Hợp nhất tốt nhất = giữ cơ chế <code>run_mode</code> đổi-được-giữa-chừng của Bếp-phụ, ghép thêm 3 lựa chọn approve/retry/skip của main vào MỖI lần dừng chờ duyệt.</p>
+    </section>
+
+    <section id="tong-quan">
+      <h2><span class="h2-num">01</span>Tổng quan tiến độ 12 bước gốc</h2>
+      <p class="section-sub">Cập nhật theo trạng thái nhánh Bếp-phụ (đã merge P0 vào code thật). Số liệu <span class="red-text">tô đỏ</span> là đã đổi so với báo cáo gốc sáng nay.</p>
+
+      <div class="stat-row">
+        <div class="stat-tile changed"><span class="was-badge">trước: 7/12</span><div class="n">8 / 12</div><div class="l">Bước gốc đã xong đúng tinh thần</div></div>
+        <div class="stat-tile changed"><span class="was-badge">trước: 2/12</span><div class="n">1 / 12</div><div class="l">Đã làm nhưng thiếu/lệch so với gốc</div></div>
+        <div class="stat-tile bad"><div class="n">3 / 12</div><div class="l">Chưa động tới (không đổi)</div></div>
+        <div class="stat-tile bonus"><div class="n">2 / 6</div><div class="l">Mục 8 (độc quyền) đã xong (không đổi)</div></div>
+      </div>
+
+      <div class="bar">
+        <span class="seg-ok" style="width:66.7%">8 xong</span>
+        <span class="seg-warn" style="width:8.3%">1 lệch</span>
+        <span class="seg-bad" style="width:25%">3 chưa làm</span>
+      </div>
+      <div class="bar-caption">Tỷ lệ theo đúng 12 bước Mục 3, tài liệu V3 — cập nhật sau khi Bước 12 được sửa đúng bản gốc (mục 02).</div>
+
+      <div class="legend">
+        <span><i class="dot ok"></i>Xong, đúng tinh thần bản gốc</span>
+        <span><i class="dot warn"></i>Đã code nhưng thiếu phần hoặc lệch số liệu/tiêu chí</span>
+        <span><i class="dot bad"></i>Chưa có dòng code nào</span>
+        <span><i class="dot bonus"></i>Làm thêm, ngoài yêu cầu gốc</span>
+        <span><i class="dot changed"></i>Thay đổi so với báo cáo sáng nay</span>
+      </div>
+    </section>
+
+    <section id="12-buoc">
+      <h2><span class="h2-num">02</span>12 bước gốc (Mục 3, V3) — chi tiết từng bước</h2>
+      <p class="section-sub">Chỉ dòng <b>Bước 12</b> thay đổi so với báo cáo gốc (đã sửa trong P0) — các dòng khác giữ nguyên, chưa nhánh nào động tới.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>#</th><th>Bước (nguyên văn V3)</th><th>File thật</th><th>Trạng thái</th><th>Ghi chú</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="num">1</td>
+              <td class="name">Sổ Tay Nhân Vật (Character Bible)</td>
+              <td class="file"><code>services/character_bible.py</code><code>api/character_bible.py</code></td>
+              <td><span class="chip ok">Xong</span></td>
+              <td class="note">10→20 nhân vật, <code>inject_character_descriptions()</code> chèn nguyên văn vào mọi prompt cảnh.</td>
+            </tr>
+            <tr>
+              <td class="num">2</td>
+              <td class="name">Viết lại câu chuyện đầy đủ</td>
+              <td class="file"><code>services/script_writer.py</code></td>
+              <td><span class="chip ok">Xong</span></td>
+              <td class="note">Gọi LLM biến ý tưởng/câu chuyện gốc thành câu chuyện có đầu có cuối.</td>
+            </tr>
+            <tr>
+              <td class="num">3</td>
+              <td class="name">Xác định chủ đề &amp; mục tiêu (đối tượng xem, vấn đề họ quan tâm, thông điệp chính, góc triển khai)</td>
+              <td class="file"><code>— không có file —</code></td>
+              <td><span class="chip bad">Chưa làm</span></td>
+              <td class="note">Không đổi so với sáng nay — chưa nhánh nào động tới bước này.</td>
+            </tr>
+            <tr>
+              <td class="num">4</td>
+              <td class="name">Tạo hook mở đầu — 20 câu chia 5 nhóm, chọn 3 câu mạnh nhất</td>
+              <td class="file"><code>— không có file —</code></td>
+              <td><span class="chip bad">Chưa làm</span></td>
+              <td class="note">Không đổi so với sáng nay.</td>
+            </tr>
+            <tr>
+              <td class="num">5</td>
+              <td class="name">Viết kịch bản theo định dạng &amp; thời lượng (8 phần dài / 3 phần Short)</td>
+              <td class="file"><code>services/script_writer.py</code></td>
+              <td><span class="chip ok">Xong</span></td>
+              <td class="note">Đúng cấu trúc Hook→Vấn đề→Bối cảnh→Giải pháp→Hướng dẫn→Ví dụ→Kết quả→CTA (dài) / Hook→Nội dung chính→CTA (Short).</td>
+            </tr>
+            <tr>
+              <td class="num">6</td>
+              <td class="name">Chia kịch bản thành từng cảnh (storyboard, ~8s/cảnh)</td>
+              <td class="file"><code>services/storyboard.py</code></td>
+              <td><span class="chip ok">Xong</span></td>
+              <td class="note"><code>build_scene_windows()</code> đúng công thức ~8 giây/cảnh.</td>
+            </tr>
+            <tr>
+              <td class="num">7</td>
+              <td class="name">Viết prompt AI cho từng cảnh (luôn chèn lại mô tả nhân vật)</td>
+              <td class="file"><code>services/storyboard.py</code></td>
+              <td><span class="chip ok">Xong</span></td>
+              <td class="note">Nối trực tiếp với Bước 1 qua <code>inject_character_descriptions()</code>.</td>
+            </tr>
+            <tr>
+              <td class="num">8</td>
+              <td class="name">Quyết định loại hình từng cảnh (video AI / ảnh tĩnh / b-roll / text động / biểu đồ)</td>
+              <td class="file"><code>— không có file —</code></td>
+              <td><span class="chip bad">Chưa làm</span></td>
+              <td class="note">Không đổi so với sáng nay — vẫn coi MỌI cảnh là video AI.</td>
+            </tr>
+            <tr>
+              <td class="num">9</td>
+              <td class="name">Đưa link cho người dùng tự tạo video qua Flow/AI khác</td>
+              <td class="file"><code>services/ai_tools.py</code><code>services/google_flow_driver.py</code></td>
+              <td><span class="chip ok">Xong <span class="chip bonus" style="margin-left:4px">+ vượt spec</span></span></td>
+              <td class="note">App tự lái Google Flow qua Playwright. <span class="red-text">Mới thêm hôm nay (2 nhánh song song): chế độ "duyệt từng cảnh" — xem mục "So sánh 2 nhánh" phía trên, chưa merge.</span></td>
+            </tr>
+            <tr>
+              <td class="num">10</td>
+              <td class="name">Ghép video trọn gói theo từng ngôn ngữ (cảnh AI tạo 1 lần, dùng chung)</td>
+              <td class="file"><code>services/video_builder.py</code></td>
+              <td><span class="chip ok">Xong</span></td>
+              <td class="note"><code>generate_video_with_retry</code> chỉ gọi đúng 1 lần/cảnh dù xuất bao nhiêu ngôn ngữ.</td>
+            </tr>
+            <tr>
+              <td class="num">11</td>
+              <td class="name">Tự động hoá edit: cắt đoạn thừa, chỉnh nhịp, b-roll, zoom, text động, phụ đề, SFX, nhạc nền, chuyển cảnh</td>
+              <td class="file"><code>services/sfx_sourcing.py</code></td>
+              <td><span class="chip warn">Một phần</span></td>
+              <td class="note">Không đổi — vẫn chỉ 2/9 hạng mục (SFX + phụ đề).</td>
+            </tr>
+            <tr class="changed-row">
+              <td class="num">12</td>
+              <td class="name">Kiểm tra &amp; tối ưu trước xuất bản: chấm 8 tiêu chí, tạo 10 tiêu đề, 5 thumbnail, 3 mô tả, 5 CTA để CHỌN</td>
+              <td class="file"><code>services/quality_review.py</code></td>
+              <td><span class="chip ok">Xong</span> <span class="chip new">🔴 Đã sửa</span></td>
+              <td class="note"><s class="was">Trước: 8 tiêu chí tự đoán sai, chỉ sinh 1 phương án mỗi loại.</s> <span class="red-text">Nay: đúng 8 tiêu chí bản gốc (Hook/Nội dung/Storytelling/Retention/Nhịp dựng/Hình ảnh/Âm thanh/CTA) + sinh đủ 10 tiêu đề/5 thumbnail/3 mô tả/5 CTA để chọn, đúng yêu cầu V3.</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="muc-8">
+      <h2><span class="h2-num">03</span>Mục 8 — tính năng kiểm tra lỗi ("ĐỘC QUYỀN", chưa ai làm)</h2>
+      <p class="section-sub">Không đổi so với báo cáo sáng nay — chưa nhánh nào động tới Mục 8.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>#</th><th>Loại lỗi cần phát hiện</th><th>File thật</th><th>Trạng thái</th></tr></thead>
+          <tbody>
+            <tr><td class="num">1</td><td class="name">Nhân vật đổi hình dáng giữa các cảnh <span class="chip bad" style="margin-left:6px">Tính năng cốt lõi định vị sản phẩm</span></td><td class="file"><code>— không có file —</code></td><td><span class="chip bad">Chưa làm</span></td></tr>
+            <tr><td class="num">2</td><td class="name">Chữ trên màn hình bị lỗi</td><td class="file"><code>— không có file —</code></td><td><span class="chip bad">Chưa làm</span></td></tr>
+            <tr><td class="num">3</td><td class="name">Tiếng nói không khớp hình</td><td class="file"><code>— không có file —</code></td><td><span class="chip bad">Chưa làm</span></td></tr>
+            <tr><td class="num">4</td><td class="name">Bối cảnh không hợp lý</td><td class="file"><code>— không có file —</code></td><td><span class="chip bad">Chưa làm</span></td></tr>
+            <tr><td class="num">5</td><td class="name">Hình ảnh đứng yên/khung đen quá lâu</td><td class="file"><code>services/error_checker.py</code></td><td><span class="chip ok">Xong</span></td></tr>
+            <tr><td class="num">6</td><td class="name">AI từ chối làm cảnh (chặn nội dung)</td><td class="file"><code>google_flow_driver.py</code></td><td><span class="chip ok">Xong <span class="chip bonus" style="margin-left:4px">+ vượt spec</span></span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="vuot-spec">
+      <h2><span class="h2-num">04</span>Đã làm nhiều hơn cả bản gốc yêu cầu</h2>
+      <p class="section-sub">4 mục đầu giữ nguyên từ sáng nay. <span class="red-text">4 mục cuối tô đỏ là mới thêm hôm nay</span> — 3 từ nhánh Bếp-phụ, 1 từ nhánh main.</p>
+      <div class="card-grid">
+        <div class="card">
+          <h3><span class="chip bonus">Bonus</span> Tự động hoá Flow bằng "cánh tay robot"</h3>
+          <p>App tự lái Google Flow qua Playwright — gõ prompt, bấm duyệt chi phí, tải video. <code>google_flow_driver.py</code></p>
+        </div>
+        <div class="card">
+          <h3><span class="chip bonus">Bonus</span> SEO riêng cho 6 nền tảng</h3>
+          <p>Sinh tiêu đề/caption/hashtag đúng đặc thù YouTube, TikTok, Facebook/Instagram, Threads, Twitter/X, Zalo.</p>
+        </div>
+        <div class="card">
+          <h3><span class="chip bonus">Bonus</span> Tự đăng bài lên 7 nền tảng</h3>
+          <p>Khung code đầy đủ. <b style="color:var(--bad)">Chưa test với tài khoản thật</b> — xem mục Rủi ro.</p>
+        </div>
+        <div class="card">
+          <h3><span class="chip bonus">Bonus</span> 8 skill viết kịch bản chuyên sâu</h3>
+          <p>Tra cứu lịch sử, nhịp chiến trận, biểu cảm nhân vật, chính sách Veo3, an toàn SFX.</p>
+        </div>
+        <div class="card changed">
+          <h3><span class="chip new">🔴 Mới</span> Bước 9 — 2 chế độ chạy (2 thiết kế song song)</h3>
+          <p>Auto/Duyệt từng cảnh — xem so sánh chi tiết ở mục "So sánh 2 nhánh" phía trên. Cả main lẫn Bếp-phụ đều làm, khác thiết kế, chưa merge.</p>
+        </div>
+        <div class="card changed">
+          <h3><span class="chip new">🔴 Mới</span> Đính kèm câu chuyện gốc (file/link/tự nhập)</h3>
+          <p>Bước 1: tải file .docx/.pdf/văn bản thuần hoặc dán link bài viết, xử lý qua 1 trong 4 chế độ (follow/shorten/extract/tự nhập yêu cầu). <i>Chỉ có ở nhánh Bếp-phụ.</i> <code>services/story_import.py</code></p>
+        </div>
+        <div class="card changed">
+          <h3><span class="chip new">🔴 Mới</span> Thêm backend ChatGPT &amp; Gemini</h3>
+          <p>Ngoài API key riêng + Claude Pro/Max, giờ có thêm "Dùng tài khoản ChatGPT Plus/Pro" (Codex CLI) và "Dùng tài khoản Gemini" (Gemini CLI). <i>Chỉ có ở nhánh Bếp-phụ.</i> <code>services/llm.py</code></p>
+        </div>
+        <div class="card changed">
+          <h3><span class="chip new">🔴 Mới</span> Đa ngôn ngữ giao diện — audit hoàn thiện 0 chữ thiếu</h3>
+          <p>Script tự viết đối chiếu từng <code>data-i18n</code> trong <code>index.html</code> với <code>TRANSLATIONS</code> — xác nhận vi/en/ru không còn chữ nào thiếu bản dịch. <i>Chỉ có ở nhánh main.</i></p>
+        </div>
+      </div>
+    </section>
+
+    <section id="da-sua">
+      <h2><span class="h2-num">05</span>Đã sửa/thêm trong cả ngày 14/9 (tổng hợp 2 nhánh)</h2>
+      <div class="fix-list">
+        <div class="fix-item done">
+          <div class="fix-badge">✓</div>
+          <div class="fix-body"><b>App chạy được thật</b><p>Thiếu <code>playwright</code> trong <code>requirements.txt</code> — đã cài + xác nhận app chạy tại <code>127.0.0.1:8787</code>.</p></div>
+        </div>
+        <div class="fix-item done">
+          <div class="fix-badge">✓</div>
+          <div class="fix-body"><b>Khôi phục file đặc tả gốc V3</b><p>Copy <code>Nhiem_Vu_Goc_App_Video_AI_V3.docx</code> vào thẳng thư mục dự án.</p></div>
+        </div>
+        <div class="fix-item done">
+          <div class="fix-badge">✓</div>
+          <div class="fix-body"><b>Bước 12 sửa đúng bản gốc</b><p>8 tiêu chí đúng + sinh đủ 10/5/3/5 phương án (xem mục 02).</p></div>
+        </div>
+        <div class="fix-item changed">
+          <div class="fix-badge">✓</div>
+          <div class="fix-body"><b>🔴 Bước 9 — 2 chế độ chạy (song song, 2 thiết kế)</b><p>Bếp-phụ: đổi được bất cứ lúc nào. Main: 3 lựa chọn approve/retry/skip mỗi cảnh. Chưa merge.</p></div>
+        </div>
+        <div class="fix-item changed">
+          <div class="fix-badge">✓</div>
+          <div class="fix-body"><b>🔴 Đính kèm câu chuyện gốc</b><p>File/link/tự nhập yêu cầu — chỉ nhánh Bếp-phụ. Link video (mp4) hoãn lại.</p></div>
+        </div>
+        <div class="fix-item changed">
+          <div class="fix-badge">✓</div>
+          <div class="fix-body"><b>🔴 Thêm 2 backend LLM (ChatGPT, Gemini)</b><p>4 lựa chọn cách gọi LLM — chỉ nhánh Bếp-phụ.</p></div>
+        </div>
+        <div class="fix-item changed">
+          <div class="fix-badge">✓</div>
+          <div class="fix-body"><b>🔴 Đa ngôn ngữ giao diện hoàn thiện 0 chữ thiếu</b><p>Audit đối chiếu tự động, xác nhận vi/en/ru đầy đủ — chỉ nhánh main.</p></div>
+        </div>
+        <div class="fix-item changed">
+          <div class="fix-badge">✓</div>
+          <div class="fix-body"><b>🔴 5 lỗi test fixture cũ</b><p>Nhánh Bếp-phụ: đã sửa dứt điểm (162/162 pass). Nhánh main: <b>vẫn còn tồn đọng</b> (89/94 pass, README ghi rõ "5 lỗi cũ đã biết").</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="rui-ro">
+      <h2><span class="h2-num">06</span>Rủi ro &amp; điều cần biết ngay</h2>
+      <div class="card-grid">
+        <div class="card changed">
+          <h3 style="color:var(--changed)">🔴 Mới: 2 nhánh chưa merge, sẽ xung đột thật</h3>
+          <p><code>production_pipeline.py</code> + <code>api/production.py</code> bị sửa ở cả 2 nhánh cho cùng mục tiêu — merge sẽ báo conflict, cần người quyết định hợp nhất tay. Xem mục "So sánh 2 nhánh" để có sẵn phương án đề xuất.</p>
+        </div>
+        <div class="card changed">
+          <h3 style="color:var(--changed)">🔴 Mới: nhánh main vẫn còn 5 lỗi test tồn đọng</h3>
+          <p>README trên main tự ghi nhận "5 lỗi cũ đã biết không liên quan việc hôm nay" — đúng là lỗi fixture giống nhánh Bếp-phụ từng có, nhưng main CHƯA sửa. Khi merge nên áp fixture đã sửa từ Bếp-phụ.</p>
+        </div>
+        <div class="card">
+          <h3 style="color:var(--bad)">⚠ Đăng bài 7 nền tảng: chưa thử tài khoản thật</h3>
+          <p>Code đúng theo tài liệu API chính thức nhưng CHƯA có API key/token thật để test.</p>
+        </div>
+        <div class="card">
+          <h3 style="color:var(--warn)">⚠ Chưa live-test với API key riêng (backend <code>api</code>)</h3>
+          <p>Mới xác nhận thật với <code>claude_cli</code>. Backend API key riêng mới chỉ unit test giả lập.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="de-xuat">
+      <h2><span class="h2-num">07</span>Đề xuất làm tiếp — theo thứ tự ưu tiên</h2>
+      <p class="section-sub">P0 gốc đã xong hết (đánh dấu mờ đi bên dưới). <span class="red-text">Thêm P0.5 mới</span> — việc khẩn cấp nhất bây giờ là hợp nhất 2 nhánh trước khi làm gì thêm, tránh phân kỳ sâu hơn.</p>
+
+      <div class="roadmap">
+        <div class="prio">
+          <div class="prio-head">
+            <span class="prio-tag" style="background:var(--changed)">🔴 P0.5 — MỚI, khẩn cấp nhất</span>
+            <h3>Hợp nhất 2 nhánh trước khi làm thêm bất cứ gì</h3>
+            <span class="prio-why">Càng để lâu càng phân kỳ sâu, khó merge hơn</span>
+          </div>
+          <div class="prio-body">
+            <div class="prio-item"><span class="pnum">1</span><div><b>Quyết định giữ thiết kế nào cho Bước 9 duyệt từng cảnh</b><p>Đề xuất: hợp nhất — giữ cơ chế đổi-chế-độ-bất-cứ-lúc-nào của Bếp-phụ, ghép 3 lựa chọn approve/retry/skip của main.</p></div></div>
+            <div class="prio-item"><span class="pnum">2</span><div><b>Áp fixture test đã sửa (Bếp-phụ) vào main</b><p>Để main cũng đạt 100% pass thay vì 89/94.</p></div></div>
+            <div class="prio-item"><span class="pnum">3</span><div><b>Merge phần không xung đột trước</b><p>Đính kèm câu chuyện, ChatGPT/Gemini backend (Bếp-phụ), đa ngôn ngữ audit (main) — không đụng chung file, merge an toàn ngay.</p></div></div>
+          </div>
+        </div>
+
+        <div class="prio">
+          <div class="prio-head">
+            <span class="prio-tag" style="background:var(--ink-soft)">P0 — Đã xong (giữ lại để đối chiếu)</span>
+            <h3>4 việc rẻ, nhanh — hoàn tất sáng nay</h3>
+            <span class="prio-why">Không cần làm lại</span>
+          </div>
+          <div class="prio-body">
+            <div class="prio-item resolved"><span class="pnum">✓</span><div><b>Thêm <code>playwright</code> vào requirements.txt</b><p>Xong.</p></div></div>
+            <div class="prio-item resolved"><span class="pnum">✓</span><div><b>Commit các thay đổi</b><p>Xong — 5 commit trên Bếp-phụ, đã push.</p></div></div>
+            <div class="prio-item resolved"><span class="pnum">✓</span><div><b>Sửa lại đúng 8 tiêu chí chấm điểm</b><p>Xong.</p></div></div>
+            <div class="prio-item resolved"><span class="pnum">✓</span><div><b>Sinh đủ 10/5/3/5 phương án Bước 12</b><p>Xong.</p></div></div>
+          </div>
+        </div>
+
+        <div class="prio">
+          <div class="prio-head">
+            <span class="prio-tag" style="background:var(--warn)">P1 — Lấp lỗ hổng 12 bước gốc</span>
+            <h3>3 bước chưa có dòng code nào — không đổi từ sáng nay</h3>
+            <span class="prio-why">Mỗi bước ~1 buổi tới vài buổi</span>
+          </div>
+          <div class="prio-body">
+            <div class="prio-item"><span class="pnum">1</span><div><b>Bước 3 — Xác định chủ đề &amp; mục tiêu</b><p>Thêm 1 lệnh gọi LLM riêng, xuất ra đối tượng xem/thông điệp/góc triển khai.</p></div></div>
+            <div class="prio-item"><span class="pnum">2</span><div><b>Bước 4 — Tạo hook mở đầu (20 câu / 5 nhóm / chọn 3)</b><p>Chưa làm ở cả 2 nhánh.</p></div></div>
+            <div class="prio-item"><span class="pnum">3</span><div><b>Bước 8 — Quyết định loại hình từng cảnh</b><p>video AI/ảnh tĩnh/b-roll/text động/biểu đồ — chưa làm ở cả 2 nhánh.</p></div></div>
+            <div class="prio-item"><span class="pnum">4</span><div><b>Bước 11 — Phần edit còn thiếu</b><p>Nhạc nền, zoom, text động, gợi ý TIMESTAMP→CẦN SỬA — chưa làm ở cả 2 nhánh.</p></div></div>
+          </div>
+        </div>
+
+        <div class="prio">
+          <div class="prio-head">
+            <span class="prio-tag" style="background:var(--accent)">P2 — Tính năng độc quyền (Mục 8)</span>
+            <h3>Khó nhất, nhưng là lợi thế cạnh tranh thật duy nhất</h3>
+            <span class="prio-why">Chưa nhánh nào động tới</span>
+          </div>
+          <div class="prio-body">
+            <div class="prio-item"><span class="pnum">1</span><div><b>Phát hiện nhân vật đổi hình dạng giữa các cảnh</b><p>Gợi ý PRD: so ảnh Sổ Tay Nhân Vật với khung hình từng cảnh (StoryDiffusion/InstantID).</p></div></div>
+            <div class="prio-item"><span class="pnum">2</span><div><b>Phát hiện giọng đọc lệch hình</b><p>Dùng <code>ffsubsync</code> như PRD gợi ý.</p></div></div>
+          </div>
+        </div>
+
+        <div class="prio">
+          <div class="prio-head">
+            <span class="prio-tag" style="background:var(--bonus)">P3 — Trước khi tin dùng phần "Bonus"</span>
+            <h3>Xác thực các phần đã code nhưng chưa thử tài khoản thật</h3>
+            <span class="prio-why">Cần tài khoản thật từng nền tảng/CLI</span>
+          </div>
+          <div class="prio-body">
+            <div class="prio-item"><span class="pnum">1</span><div><b>Test đăng bài thật với 1 video nhỏ</b><p>7 nền tảng, bắt đầu từ nơi ít rào cản nhất.</p></div></div>
+            <div class="prio-item"><span class="pnum">2</span><div><b>Live-test đầu-cuối với API key riêng, Codex CLI, Gemini CLI</b><p><span class="red-text">Mới thêm 2 CLI (ChatGPT/Gemini) hôm nay — cú pháp theo tài liệu tại thời điểm viết, chưa test thật với CLI đã cài, chỉ mock trong unit test.</span></p></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <b>Cách đánh giá FINAL này được thực hiện:</b> <code>git fetch origin</code> lấy commit mới nhất từ máy ở nhà (<code>main</code>, hash <code>a894d94</code>), <code>git show --stat</code> + <code>git diff</code> đọc trực tiếp từng file thay đổi (không suy đoán từ commit message), đối chiếu với code thật nhánh <code>Bếp-phụ-Office14.9.26</code> (đã push, hash <code>3ba09de</code>) và báo cáo gốc sáng nay. Mọi nội dung <span class="red-text">tô đỏ</span> trong file này là khác biệt thật giữa bản gốc và bản FINAL — không phải suy đoán.
+    </footer>
+  </main>
+</div>

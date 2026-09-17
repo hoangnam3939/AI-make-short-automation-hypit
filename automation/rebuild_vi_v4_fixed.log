@@ -1,0 +1,44 @@
+[fix] Đoạn 'HOOK': 2 cảnh -> [1, 2]
+[fix] Đoạn 'VẤN ĐỀ': 4 cảnh -> [3, 4, 5, 6]
+[fix] Đoạn 'BỐI CẢNH': 5 cảnh -> [7, 8, 9, 10, 11]
+[fix] Đoạn 'GIẢI PHÁP': 3 cảnh -> [12, 13, 14]
+[fix] Đoạn 'HƯỚNG DẪN': 5 cảnh -> [15, 16, 17, 18, 19]
+[fix] Đoạn 'VÍ DỤ': 9 cảnh -> [20, 21, 22, 23, 24, 25, 26, 27, 28]
+[fix] Đoạn 'KẾT QUẢ': 4 cảnh -> [29, 30, 31, 32]
+[fix] Đoạn 'CTA': 2 cảnh -> [33, 34]
+
+[fix] Đo độ dài THẬT từng clip gốc (không dùng số liệu kế hoạch)...
+
+[fix] Dựng lại đúng đủ beat_clips (fix lỗi thiếu cảnh 'VÍ DỤ')...
+    HOOK: 2 cảnh, dự kiến 20.01s, thực tế 20.04s
+    VẤN ĐỀ: 4 cảnh, dự kiến 40.02s, thực tế 40.04s
+    BỐI CẢNH: 5 cảnh, dự kiến 50.03s, thực tế 50.05s
+    GIẢI PHÁP: 3 cảnh, dự kiến 30.02s, thực tế 30.04s
+    HƯỚNG DẪN: 5 cảnh, dự kiến 50.03s, thực tế 50.05s
+    VÍ DỤ: 9 cảnh, dự kiến 90.05s, thực tế 90.07s
+    KẾT QUẢ: 4 cảnh, dự kiến 40.02s, thực tế 40.04s
+    CTA: 2 cảnh, dự kiến 20.01s, thực tế 20.04s
+
+[fix] Dựng lại cả 8 đoạn (video đầy đủ, giọng đọc không làm mất cảnh)...
+    [01] HOOK: -> 20.04s
+    [02] VẤN ĐỀ: -> 40.04s
+    [03] BỐI CẢNH: -> 50.05s
+    [04] GIẢI PHÁP: -> 30.04s
+    [05] HƯỚNG DẪN: -> 50.05s
+    [06] VÍ DỤ: -> 90.07s
+    [07] KẾT QUẢ: -> 40.04s
+    [08] CTA: -> 27.66s
+
+[fix] Ghép lại 8 đoạn...
+[fix] -> E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\automation\export\vi-VN\final_v4_fixed.mp4
+
+[fix] Tính lại cảnh thực sự hiển thị (dùng độ dài THẬT từng clip)...
+[fix] 34/34 cảnh hiển thị. Độ dài từng đoạn: [20.04, 40.04, 50.05, 30.04, 50.05, 90.07, 40.04, 27.66]
+[fix] TẤT CẢ 34/34 CẢNH ĐÃ HIỂN THỊ ĐỦ.
+
+[fix] Tải danh sách hiệu ứng âm thanh...
+[fix] Đang hoà 111 lớp âm thanh...
+[fix] -> E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\automation\export\vi-VN\final_with_sfx_v4.mp4
+
+[fix] XONG -> E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\automation\export\vi-VN\final_with_title_v4.mp4
+EXIT CODE: 0

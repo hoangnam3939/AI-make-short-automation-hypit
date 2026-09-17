@@ -1,0 +1,784 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>AI Video Studio</title>
+<link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+<div class="appswitcher-bar" id="appswitcher-bar">
+  <button class="topbar-toggle" id="toggle-expanded-btn" data-i18n-title="toggle_collapse">
+    <svg viewBox="0 0 16 16" width="16" height="16"><circle cx="2" cy="2" r="1.4" fill="currentColor"/><circle cx="8" cy="2" r="1.4" fill="currentColor"/><circle cx="14" cy="2" r="1.4" fill="currentColor"/><circle cx="2" cy="8" r="1.4" fill="currentColor"/><circle cx="8" cy="8" r="1.4" fill="currentColor"/><circle cx="14" cy="8" r="1.4" fill="currentColor"/><circle cx="2" cy="14" r="1.4" fill="currentColor"/><circle cx="8" cy="14" r="1.4" fill="currentColor"/><circle cx="14" cy="14" r="1.4" fill="currentColor"/></svg>
+  </button>
+  <!-- Chỗ dành sẵn cho sau này, khi có thêm app/công cụ khác đứng cạnh AI Video Studio — cố ý để trống, chưa bịa nút nào chưa có thật. -->
+</div>
+
+<header class="topbar">
+  <button class="topbar-toggle" id="toggle-collapsed-btn" data-i18n-title="toggle_expand" style="display:none">
+    <svg viewBox="0 0 16 16" width="16" height="16"><circle cx="2" cy="2" r="1.4" fill="currentColor"/><circle cx="8" cy="2" r="1.4" fill="currentColor"/><circle cx="14" cy="2" r="1.4" fill="currentColor"/><circle cx="2" cy="8" r="1.4" fill="currentColor"/><circle cx="8" cy="8" r="1.4" fill="currentColor"/><circle cx="14" cy="8" r="1.4" fill="currentColor"/><circle cx="2" cy="14" r="1.4" fill="currentColor"/><circle cx="8" cy="14" r="1.4" fill="currentColor"/><circle cx="14" cy="14" r="1.4" fill="currentColor"/></svg>
+  </button>
+  <div class="topbar-brand">
+    <span class="topbar-logo">AI</span>
+    <span class="topbar-name">AI Video Studio</span>
+  </div>
+
+  <div class="topbar-actions">
+    <div class="topbar-search-wrap">
+      <button class="topbar-icon-btn" id="search-btn" data-i18n-title="search_title">🔍</button>
+      <input type="text" class="topbar-search-input" id="search-input" data-i18n-placeholder="search_placeholder" />
+    </div>
+    <button class="btn-trial" id="trial-btn" data-i18n-title="trial_title"><span data-i18n="trial_btn"></span></button>
+    <button class="topbar-icon-btn" id="lang-switch-btn" data-i18n-title="lang_switch_title">🌐</button>
+    <button class="topbar-icon-btn" id="feedback-btn" data-i18n-title="feedback_title">🧪</button>
+    <button class="topbar-icon-btn" id="help-btn" data-i18n-title="help_title">❓</button>
+    <button class="topbar-icon-btn" id="notif-btn" data-i18n-title="notif_title">🔔</button>
+    <button class="topbar-avatar" id="avatar-btn" data-i18n-title="profile_title">👤</button>
+    <input type="file" id="avatar-file-input" accept="image/*" style="display:none" />
+  </div>
+
+  <div class="topbar-panel" id="help-panel">
+    <h3 data-i18n="help_panel_title"></h3>
+    <ol>
+      <li data-i18n="help_step_1"></li>
+      <li data-i18n="help_step_2"></li>
+      <li data-i18n="help_step_3"></li>
+      <li data-i18n="help_step_4"></li>
+      <li data-i18n="help_step_5"></li>
+    </ol>
+    <h3 class="help-flow-title" data-i18n="help_flow_title"></h3>
+    <ol>
+      <li data-i18n="help_flow_step_1"></li>
+      <li data-i18n="help_flow_step_2"></li>
+    </ol>
+    <code class="help-flow-command">"C:\Program Files\Google\Chrome\Application\chrome.exe" --remote-debugging-port=9222 --user-data-dir="%LOCALAPPDATA%\AIVideoStudio\FlowProfile"</code>
+    <ol start="3">
+      <li data-i18n="help_flow_step_3"></li>
+      <li data-i18n="help_flow_step_4"></li>
+    </ol>
+    <p class="hint" data-i18n="help_flow_note"></p>
+    <p class="help-warning-note" data-i18n="help_flow_profile_warning"></p>
+    <h3 class="help-flow-title" data-i18n="help_skills_title"></h3>
+    <p data-i18n="help_skills_intro"></p>
+    <ol>
+      <li data-i18n="help_skills_item_1"></li>
+      <li data-i18n="help_skills_item_2"></li>
+      <li data-i18n="help_skills_item_3"></li>
+      <li data-i18n="help_skills_item_4"></li>
+      <li data-i18n="help_skills_item_5"></li>
+      <li data-i18n="help_skills_item_6"></li>
+      <li data-i18n="help_skills_item_7"></li>
+      <li data-i18n="help_skills_item_8"></li>
+      <li data-i18n="help_skills_item_9"></li>
+      <li data-i18n="help_skills_item_10"></li>
+      <li data-i18n="help_skills_item_11"></li>
+    </ol>
+
+    <h3 class="help-flow-title" data-i18n="help_autofix_title"></h3>
+    <p data-i18n="help_autofix_p1"></p>
+    <p data-i18n="help_autofix_p2"></p>
+    <p class="hint" data-i18n="help_autofix_note"></p>
+  </div>
+  <div class="topbar-panel" id="feedback-panel">
+    <h3 data-i18n="feedback_panel_title"></h3>
+    <div class="feedback-option-list">
+      <a class="feedback-option" href="https://github.com/hoangnam3939/tinhhoa-ai-video-studio/issues/new?labels=bug" target="_blank" rel="noopener">
+        <span class="feedback-option-icon">🐛</span>
+        <span class="feedback-option-text">
+          <span class="feedback-option-title" data-i18n="feedback_option_bug_title"></span>
+          <span class="feedback-option-desc" data-i18n="feedback_option_bug_desc"></span>
+        </span>
+      </a>
+      <a class="feedback-option" href="https://github.com/hoangnam3939/tinhhoa-ai-video-studio/issues/new?labels=enhancement" target="_blank" rel="noopener">
+        <span class="feedback-option-icon">💡</span>
+        <span class="feedback-option-text">
+          <span class="feedback-option-title" data-i18n="feedback_option_idea_title"></span>
+          <span class="feedback-option-desc" data-i18n="feedback_option_idea_desc"></span>
+        </span>
+      </a>
+      <a class="feedback-option" href="https://github.com/hoangnam3939/tinhhoa-ai-video-studio/issues" target="_blank" rel="noopener">
+        <span class="feedback-option-icon">💬</span>
+        <span class="feedback-option-text">
+          <span class="feedback-option-title" data-i18n="feedback_option_other_title"></span>
+          <span class="feedback-option-desc" data-i18n="feedback_option_other_desc"></span>
+        </span>
+      </a>
+    </div>
+    <div class="feedback-contact">
+      <label class="feedback-contact-label" for="feedback-email-input" data-i18n="feedback_email_label"></label>
+      <input type="email" class="profile-field" id="feedback-email-input" data-i18n-placeholder="profile_email_placeholder" />
+      <a class="profile-fanpage-link" id="feedback-fanpage-link" href="https://www.facebook.com/tamsauthich?locale=vi_VN" target="_blank" rel="noopener" data-i18n="profile_follow_fanpage"></a>
+    </div>
+  </div>
+  <div class="topbar-panel" id="notif-panel">
+    <h3 data-i18n="notif_panel_title"></h3>
+    <p class="hint" data-i18n="notif_panel_empty"></p>
+  </div>
+  <div class="topbar-panel" id="lang-panel">
+    <h3 data-i18n="lang_panel_title"></h3>
+    <div class="lang-option-list" id="lang-option-list"></div>
+  </div>
+  <div class="topbar-panel" id="profile-panel">
+    <h3 data-i18n="profile_title"></h3>
+    <button class="profile-avatar-big" id="profile-avatar-btn" data-i18n-title="profile_change_photo">👤</button>
+    <p class="profile-change-hint" data-i18n="profile_change_photo"></p>
+    <input type="text" class="profile-field" id="profile-name-input" data-i18n-placeholder="profile_name_placeholder" />
+    <input type="email" class="profile-field" id="profile-email-input" data-i18n-placeholder="profile_email_placeholder" />
+    <a class="profile-fanpage-link" id="profile-fanpage-link" href="https://www.facebook.com/tamsauthich?locale=vi_VN" target="_blank" rel="noopener" data-i18n="profile_follow_fanpage"></a>
+  </div>
+</header>
+
+<div class="shell">
+  <nav class="sidebar">
+    <button class="sidebar-new" id="sidebar-new-btn" data-i18n-title="sidebar_new">+</button>
+    <a class="sidebar-item active" href="#top" id="sidebar-home-btn">
+      <span class="sidebar-icon">🏠</span>
+      <span class="sidebar-label" data-i18n="sidebar_home"></span>
+    </a>
+    <a class="sidebar-item" href="#api-key-section" id="sidebar-settings-btn">
+      <span class="sidebar-icon">⚙️</span>
+      <span class="sidebar-label" data-i18n="sidebar_settings"></span>
+    </a>
+    <div class="sidebar-item-wrap" id="sidebar-theme-wrap">
+      <button class="sidebar-item" id="sidebar-theme-btn" type="button" aria-haspopup="true" aria-expanded="false">
+        <span class="sidebar-icon">🎨</span>
+        <span class="sidebar-label" data-i18n="sidebar_theme"></span>
+      </button>
+      <div class="sidebar-recent-panel" id="sidebar-theme-panel" hidden>
+        <h3 data-i18n="theme_panel_title"></h3>
+        <div class="theme-option-list">
+          <label class="theme-option" data-theme-option="default">
+            <input type="radio" name="ui-theme" value="default" checked />
+            <span data-i18n="theme_option_default"></span>
+          </label>
+          <label class="theme-option" data-theme-option="dark">
+            <input type="radio" name="ui-theme" value="dark" />
+            <span data-i18n="theme_option_dark"></span>
+          </label>
+          <label class="theme-option" data-theme-option="sample_bg">
+            <input type="radio" name="ui-theme" value="sample_bg" />
+            <span data-i18n="theme_option_sample_bg"></span>
+          </label>
+          <label class="theme-option" data-theme-option="custom_bg">
+            <input type="radio" name="ui-theme" value="custom_bg" />
+            <span data-i18n="theme_option_custom_bg"></span>
+          </label>
+          <label class="theme-option" data-theme-option="dark_sample_bg">
+            <input type="radio" name="ui-theme" value="dark_sample_bg" />
+            <span data-i18n="theme_option_dark_sample_bg"></span>
+          </label>
+          <label class="theme-option" data-theme-option="dark_custom_bg">
+            <input type="radio" name="ui-theme" value="dark_custom_bg" />
+            <span data-i18n="theme_option_dark_custom_bg"></span>
+          </label>
+        </div>
+        <button type="button" class="btn-secondary theme-change-image-btn section-hidden" id="theme-change-image-btn" data-i18n="theme_change_image_btn"></button>
+        <input type="file" id="theme-custom-bg-input" accept="image/*" hidden />
+      </div>
+    </div>
+    <div class="sidebar-item-wrap" id="sidebar-recent-wrap">
+      <button class="sidebar-item" id="sidebar-recent-btn" type="button" aria-haspopup="true" aria-expanded="false">
+        <span class="sidebar-icon">🗂️</span>
+        <span class="sidebar-label" data-i18n="sidebar_recent_projects"></span>
+      </button>
+      <div class="sidebar-recent-panel" id="sidebar-recent-panel" hidden>
+        <h3 data-i18n="recent_projects_panel_title"></h3>
+        <p class="hint" data-i18n="recent_projects_panel_hint"></p>
+        <div id="recent-projects-list"></div>
+        <p class="hint section-hidden" id="recent-projects-empty-hint" data-i18n="recent_projects_empty_hint"></p>
+      </div>
+    </div>
+    <button class="sidebar-item" id="sidebar-publishing-btn" type="button">
+      <span class="sidebar-icon">📤</span>
+      <span class="sidebar-label" data-i18n="sidebar_publishing"></span>
+    </button>
+  </nav>
+
+  <main class="page" id="top">
+  <div class="page-scroll">
+  <header class="hero">
+    <p class="hero-greeting" id="hero-greeting"></p>
+    <h1>AI Video Studio</h1>
+    <p class="hero-tagline" data-i18n="hero_tagline"></p>
+  </header>
+  <aside class="workspace-info" id="workspace-info">
+    <div class="workspace-info-text">
+      <p class="workspace-info-desc" data-i18n="hero_desc"></p>
+      <div class="step-progress" id="step-progress">
+        <div class="step-node" data-step="1"><span class="step-circle">1</span><span class="step-label" data-i18n="step_1"></span></div>
+        <div class="step-node" data-step="2"><span class="step-circle">2</span><span class="step-label" data-i18n="step_2"></span></div>
+        <div class="step-node" data-step="3"><span class="step-circle">3</span><span class="step-label" data-i18n="step_3"></span></div>
+        <div class="step-node" data-step="4"><span class="step-circle">4</span><span class="step-label" data-i18n="step_4"></span></div>
+        <div class="step-node" data-step="5"><span class="step-circle">5</span><span class="step-label" data-i18n="step_5"></span></div>
+        <div class="step-node" data-step="6"><span class="step-circle">6</span><span class="step-label" data-i18n="step_6"></span></div>
+        <div class="step-node" data-step="7"><span class="step-circle">7</span><span class="step-label" data-i18n="step_7"></span></div>
+        <div class="step-node" data-step="8"><span class="step-circle">8</span><span class="step-label" data-i18n="step_8"></span></div>
+        <div class="step-node" data-step="9"><span class="step-circle">9</span><span class="step-label" data-i18n="step_9"></span></div>
+        <div class="step-node" data-step="10"><span class="step-circle">10</span><span class="step-label" data-i18n="step_10"></span></div>
+      </div>
+    </div>
+  </aside>
+  <aside class="workspace-info-bg-image" id="workspace-info-bg-image"></aside>
+  <div class="workspace-left">
+  <div class="notice" id="notice">
+    <p id="notice-text"></p>
+    <button class="btn-secondary" id="notice-retry-btn" data-i18n="retry_btn"></button>
+  </div>
+
+  <section class="card" id="api-key-section">
+    <h2 data-i18n="apikey_title"></h2>
+    <p class="hint" data-i18n="apikey_hint"></p>
+
+    <div class="llm-backend-choice" id="llm-backend-choice">
+      <div class="format-choice llm-cli-card" id="llm-cli-card" data-backend-group="cli" role="radio" tabindex="0" aria-checked="false">
+        <div class="llm-cli-card-header">
+          <div class="llm-cli-card-text">
+            <strong id="llm-cli-current-title"></strong>
+            <span class="desc" id="llm-cli-current-desc"></span>
+            <div class="llm-account-widget" id="llm-account-widget">
+              <button type="button" class="llm-account-trigger" id="llm-account-trigger" aria-haspopup="true" aria-expanded="false" data-i18n="llm_account_trigger_label"></button>
+              <div class="llm-account-popover" id="llm-account-popover" hidden>
+                <p class="llm-account-popover-label" data-i18n="llm_account_saved_label"></p>
+                <div class="llm-account-saved-list" id="llm-account-saved-list"></div>
+                <div class="llm-account-add-row">
+                  <input type="text" class="llm-account-add-input" id="llm-account-add-input" data-i18n-placeholder="llm_account_add_placeholder" />
+                  <button type="button" class="btn-secondary" id="llm-account-add-save-btn" data-i18n="llm_account_add_save_btn"></button>
+                </div>
+                <a class="llm-account-generic-link" id="llm-account-generic-link" href="#" target="_blank" rel="noopener noreferrer" data-i18n="llm_account_generic_link"></a>
+              </div>
+            </div>
+          </div>
+          <button type="button" class="llm-cli-dropdown-btn" id="llm-cli-dropdown-btn" aria-haspopup="listbox" aria-expanded="false" data-i18n-aria-label="llm_backend_cli_dropdown_label">▾</button>
+        </div>
+        <div class="llm-cli-dropdown-menu" id="llm-cli-dropdown-menu" role="listbox" hidden>
+          <div class="llm-cli-dropdown-item" data-backend="claude_cli" role="option" tabindex="0">
+            <strong data-i18n="llm_backend_cli_title"></strong>
+            <span class="desc" data-i18n="llm_backend_cli_desc"></span>
+            <a class="llm-account-link" href="https://claude.ai" target="_blank" rel="noopener noreferrer" data-i18n="llm_open_account_link"></a>
+          </div>
+          <div class="llm-cli-dropdown-item" data-backend="codex_cli" role="option" tabindex="0">
+            <strong data-i18n="llm_backend_codex_title"></strong>
+            <span class="desc" data-i18n="llm_backend_codex_desc"></span>
+            <a class="llm-account-link" href="https://chatgpt.com" target="_blank" rel="noopener noreferrer" data-i18n="llm_open_account_link"></a>
+          </div>
+          <div class="llm-cli-dropdown-item" data-backend="gemini_cli" role="option" tabindex="0">
+            <strong data-i18n="llm_backend_gemini_title"></strong>
+            <span class="desc" data-i18n="llm_backend_gemini_desc"></span>
+            <a class="llm-account-link" href="https://gemini.google.com" target="_blank" rel="noopener noreferrer" data-i18n="llm_open_account_link"></a>
+          </div>
+        </div>
+      </div>
+      <div class="format-choice llm-cli-card" id="llm-api-card" data-backend-group="api" role="radio" tabindex="0" aria-checked="false">
+        <div class="llm-cli-card-header">
+          <div class="llm-cli-card-text">
+            <strong id="llm-api-current-title"></strong>
+            <span class="desc" id="llm-api-current-desc"></span>
+            <a class="llm-account-link" id="llm-api-current-link" href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener noreferrer" data-i18n="llm_open_apikey_link"></a>
+          </div>
+          <button type="button" class="llm-cli-dropdown-btn" id="llm-api-dropdown-btn" aria-haspopup="listbox" aria-expanded="false" data-i18n-aria-label="llm_backend_api_dropdown_label">▾</button>
+        </div>
+        <div class="llm-cli-dropdown-menu" id="llm-api-dropdown-menu" role="listbox" hidden>
+          <div class="llm-cli-dropdown-item" data-backend="api" role="option" tabindex="0">
+            <strong data-i18n="llm_backend_api_anthropic_title"></strong>
+            <span class="desc" data-i18n="llm_backend_api_anthropic_desc"></span>
+            <a class="llm-account-link" href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener noreferrer" data-i18n="llm_open_apikey_link"></a>
+          </div>
+          <div class="llm-cli-dropdown-item" data-backend="openai_api" role="option" tabindex="0">
+            <strong data-i18n="llm_backend_api_openai_title"></strong>
+            <span class="desc" data-i18n="llm_backend_api_openai_desc"></span>
+            <a class="llm-account-link" href="https://platform.openai.com/api-keys" target="_blank" rel="noopener noreferrer" data-i18n="llm_open_apikey_link"></a>
+          </div>
+          <div class="llm-cli-dropdown-item" data-backend="gemini_api" role="option" tabindex="0">
+            <strong data-i18n="llm_backend_api_gemini_title"></strong>
+            <span class="desc" data-i18n="llm_backend_api_gemini_desc"></span>
+            <a class="llm-account-link" href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer" data-i18n="llm_open_apikey_link"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="field-warning" id="claude-cli-warning" data-i18n="llm_backend_cli_not_found" hidden></p>
+    <p class="field-warning" id="codex-cli-warning" data-i18n="llm_backend_codex_not_found" hidden></p>
+    <p class="field-warning" id="gemini-cli-warning" data-i18n="llm_backend_gemini_not_found" hidden></p>
+
+    <div class="input-row" id="api-key-input-row">
+      <input type="password" id="api-key-input" placeholder="sk-ant-..." />
+      <button class="btn-secondary" id="save-key-btn" data-i18n="apikey_save_btn"></button>
+    </div>
+    <span class="status-badge" id="key-status" data-i18n="apikey_checking"></span>
+  </section>
+
+  <section class="card" id="pipeline-mode-section">
+    <h2 data-i18n="pipeline_mode_title"></h2>
+    <p class="hint" data-i18n="pipeline_mode_hint"></p>
+    <div class="llm-backend-choice" id="pipeline-mode-choice">
+      <label class="format-choice selected" data-mode="manual">
+        <input type="radio" name="pipeline-mode" value="manual" checked />
+        <strong data-i18n="pipeline_mode_manual_title"></strong>
+        <span class="desc" data-i18n="pipeline_mode_manual_desc"></span>
+      </label>
+      <label class="format-choice" data-mode="auto">
+        <input type="radio" name="pipeline-mode" value="auto" />
+        <strong data-i18n="pipeline_mode_auto_title"></strong>
+        <span class="desc" data-i18n="pipeline_mode_auto_desc"></span>
+      </label>
+    </div>
+    <p class="hint section-hidden" id="auto-pipeline-status"></p>
+  </section>
+
+  <section class="card">
+    <h2 data-i18n="idea_title"></h2>
+    <div class="expandable-wrap">
+      <button class="expand-toggle-btn" type="button" data-target="idea" data-i18n-title="expand_btn_title">⛶</button>
+      <textarea id="idea" data-i18n-placeholder="idea_placeholder"></textarea>
+    </div>
+    <p class="field-warning" id="idea-warning" data-i18n="idea_warning"></p>
+    <button class="btn-secondary" id="attach-btn" type="button" style="margin-top:12px">📎 <span data-i18n="attach_btn"></span></button>
+  </section>
+
+  <div class="modal-overlay section-hidden" id="attach-modal">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3 data-i18n="attach_modal_title"></h3>
+        <button class="modal-close" id="attach-modal-close" type="button" aria-label="Đóng">✕</button>
+      </div>
+
+      <div class="attach-source-tabs">
+        <button class="attach-tab selected" id="attach-tab-file" type="button" data-source="file" data-i18n="attach_tab_file"></button>
+        <button class="attach-tab" id="attach-tab-url" type="button" data-source="url" data-i18n="attach_tab_url"></button>
+      </div>
+
+      <div id="attach-source-file">
+        <input type="file" id="attach-file-input" accept=".docx,.pdf,.txt,.md" style="display:none" />
+        <button class="btn-secondary" id="attach-file-choose-btn" type="button" data-i18n="attach_choose_file_btn"></button>
+        <span id="attach-file-chosen-name" class="hint"></span>
+        <p class="hint" data-i18n="attach_file_hint"></p>
+      </div>
+      <div id="attach-source-url" class="section-hidden">
+        <input type="url" id="attach-url-input" data-i18n-placeholder="attach_url_placeholder" />
+        <p class="hint" data-i18n="attach_url_hint"></p>
+      </div>
+
+      <h4 style="margin-top:18px" data-i18n="attach_mode_title"></h4>
+      <div class="llm-backend-choice" id="attach-mode-choice">
+        <label class="format-choice selected" data-mode="follow">
+          <input type="radio" name="attach-mode" value="follow" checked />
+          <strong data-i18n="attach_mode_follow_title"></strong>
+          <span class="desc" data-i18n="attach_mode_follow_desc"></span>
+        </label>
+        <label class="format-choice" data-mode="shorten">
+          <input type="radio" name="attach-mode" value="shorten" />
+          <strong data-i18n="attach_mode_shorten_title"></strong>
+          <span class="desc" data-i18n="attach_mode_shorten_desc"></span>
+        </label>
+        <label class="format-choice" data-mode="extract">
+          <input type="radio" name="attach-mode" value="extract" />
+          <strong data-i18n="attach_mode_extract_title"></strong>
+          <span class="desc" data-i18n="attach_mode_extract_desc"></span>
+        </label>
+        <label class="format-choice" data-mode="custom">
+          <input type="radio" name="attach-mode" value="custom" />
+          <strong data-i18n="attach_mode_custom_title"></strong>
+          <span class="desc" data-i18n="attach_mode_custom_desc"></span>
+        </label>
+      </div>
+
+      <div id="attach-custom-instruction-wrap" class="section-hidden">
+        <textarea id="attach-custom-instruction" data-i18n-placeholder="attach_custom_instruction_placeholder" style="min-height:90px"></textarea>
+      </div>
+
+      <p class="field-warning section-hidden" id="attach-warning"></p>
+      <button class="btn-primary" id="attach-submit-btn" type="button" style="margin-top:16px;width:100%" data-i18n="attach_submit_btn"></button>
+    </div>
+  </div>
+
+  <div class="modal-overlay section-hidden" id="publishing-modal">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3 data-i18n="publishing_settings_title"></h3>
+        <button class="modal-close" id="publishing-modal-close" type="button" aria-label="Đóng">✕</button>
+      </div>
+      <p class="hint" data-i18n="publishing_settings_hint"></p>
+
+      <div class="llm-backend-choice" id="publish-mode-choice">
+        <label class="format-choice selected" data-mode="auto">
+          <input type="radio" name="publish-mode" value="auto" checked />
+          <strong data-i18n="publish_mode_auto_title"></strong>
+          <span class="desc" data-i18n="publish_mode_auto_desc"></span>
+        </label>
+        <label class="format-choice" data-mode="manual">
+          <input type="radio" name="publish-mode" value="manual" />
+          <strong data-i18n="publish_mode_manual_title"></strong>
+          <span class="desc" data-i18n="publish_mode_manual_desc"></span>
+        </label>
+      </div>
+
+      <div id="publishing-settings-list"></div>
+    </div>
+  </div>
+
+  <section class="card" id="format-section">
+    <h2 data-i18n="format_title"></h2>
+    <div class="format-grid">
+      <div class="format-choice selected" data-format="long">
+        <span class="ratio-badge">16:9</span>
+        <strong data-i18n="format_long"></strong>
+        <span class="desc" data-i18n="format_long_desc"></span>
+      </div>
+      <div class="format-choice" data-format="short">
+        <span class="ratio-badge">9:16</span>
+        <strong data-i18n="format_short"></strong>
+        <span class="desc" data-i18n="format_short_desc"></span>
+      </div>
+    </div>
+
+    <div id="long-durations" class="pill-row">
+      <div class="pill selected" data-duration="5" data-i18n="dur_min_5"></div>
+      <div class="pill" data-duration="7" data-i18n="dur_min_7"></div>
+      <div class="pill" data-duration="10" data-i18n="dur_min_10"></div>
+      <div class="pill" data-duration="15" data-i18n="dur_min_15"></div>
+      <div class="pill" data-duration="20" data-i18n="dur_min_20"></div>
+      <div class="pill" data-duration="25" data-i18n="dur_min_25"></div>
+      <div class="pill" data-duration="30" data-i18n="dur_min_30"></div>
+    </div>
+    <div id="short-durations" class="pill-row" style="display:none">
+      <div class="pill" data-duration="15" data-i18n="dur_sec_15"></div>
+      <div class="pill" data-duration="24" data-i18n="dur_sec_24"></div>
+      <div class="pill" data-duration="30" data-i18n="dur_sec_30"></div>
+      <div class="pill" data-duration="60" data-i18n="dur_sec_60"></div>
+    </div>
+
+    <div id="long-duration-slider" class="range-slider-row in-pill-group" data-min="1" data-max="30">
+      <p class="range-slider-label" data-i18n="duration_slider_label"></p>
+      <div class="range-slider-body">
+        <div class="range-slider-track" role="slider" tabindex="0" aria-valuemin="1" aria-valuemax="30" aria-valuenow="5">
+          <div class="range-slider-fill"></div>
+          <div class="range-slider-handle"></div>
+        </div>
+        <div class="range-slider-scale"><span>1</span><span>30</span></div>
+      </div>
+      <div class="range-slider-value"><strong>5</strong> <span data-i18n="duration_slider_unit_minute"></span></div>
+    </div>
+    <div id="short-duration-slider" class="range-slider-row in-pill-group" data-min="1" data-max="60" style="display:none">
+      <p class="range-slider-label" data-i18n="duration_slider_label"></p>
+      <div class="range-slider-body">
+        <div class="range-slider-track" role="slider" tabindex="0" aria-valuemin="1" aria-valuemax="60" aria-valuenow="15">
+          <div class="range-slider-fill"></div>
+          <div class="range-slider-handle"></div>
+        </div>
+        <div class="range-slider-scale"><span>1</span><span>60</span></div>
+      </div>
+      <div class="range-slider-value"><strong>15</strong> <span data-i18n="duration_slider_unit_second"></span></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2 data-i18n="lang_title"></h2>
+    <div id="lang-grid" class="lang-grid"></div>
+    <p class="hint" data-i18n="lang_hint"></p>
+    <p class="field-warning" id="lang-warning" data-i18n="lang_warning"></p>
+  </section>
+
+  <button class="btn-primary" id="submit-btn" data-i18n="submit_btn"></button>
+
+  <section class="card" id="character-bible-section">
+    <h2 data-i18n="character_bible_title"></h2>
+    <p class="hint" data-i18n="character_bible_hint"></p>
+
+    <div class="character-max-sliders" id="character-max-choice">
+      <div id="character-max-slider-low" class="range-slider-row" data-min="1" data-max="10">
+        <p class="range-slider-label" data-i18n="character_max_slider_low_label"></p>
+        <div class="range-slider-body">
+          <div class="range-slider-track" role="slider" tabindex="0" aria-valuemin="1" aria-valuemax="10" aria-valuenow="10">
+            <div class="range-slider-fill"></div>
+            <div class="range-slider-handle"></div>
+          </div>
+          <div class="range-slider-scale"><span>1</span><span>10</span></div>
+        </div>
+        <div class="range-slider-value"><strong>10</strong> <span data-i18n="character_max_unit"></span></div>
+      </div>
+      <div id="character-max-slider-high" class="range-slider-row inactive" data-min="11" data-max="20">
+        <p class="range-slider-label" data-i18n="character_max_slider_high_label"></p>
+        <div class="range-slider-body">
+          <div class="range-slider-track" role="slider" tabindex="0" aria-valuemin="11" aria-valuemax="20" aria-valuenow="11">
+            <div class="range-slider-fill"></div>
+            <div class="range-slider-handle"></div>
+          </div>
+          <div class="range-slider-scale"><span>11</span><span>20</span></div>
+        </div>
+        <div class="range-slider-value"><strong>11</strong> <span data-i18n="character_max_unit"></span></div>
+      </div>
+    </div>
+    <p class="field-warning" id="character-max-warning" data-i18n="character_max_warning"></p>
+
+    <div id="character-list"></div>
+    <p class="hint" id="character-empty-hint" data-i18n="character_empty_hint"></p>
+
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:16px">
+      <button class="btn-secondary" id="add-character-btn" type="button" data-i18n="add_character_btn"></button>
+      <button class="btn-secondary" id="suggest-characters-btn" type="button" data-i18n="suggest_characters_btn"></button>
+      <button class="btn-secondary" id="validate-characters-btn" type="button" data-i18n="validate_characters_btn"></button>
+    </div>
+    <p class="field-warning" id="character-limit-warning" data-i18n="character_limit_warning"></p>
+    <span class="status-badge section-hidden" id="character-validate-status"></span>
+  </section>
+
+  <section class="card" id="story-section">
+    <h2 data-i18n="story_title"></h2>
+    <p class="hint" data-i18n="story_hint"></p>
+    <div class="expandable-wrap">
+      <button class="expand-toggle-btn" type="button" data-target="story-text" data-i18n-title="expand_btn_title">⛶</button>
+      <textarea id="story-text"></textarea>
+    </div>
+    <button class="btn-primary" id="write-script-btn" style="margin-top:16px" data-i18n="write_script_btn"></button>
+  </section>
+
+  <section class="card" id="theme-section">
+    <h2 data-i18n="theme_title"></h2>
+    <p class="hint" data-i18n="theme_hint"></p>
+    <button class="btn-secondary" id="determine-theme-btn" data-i18n="determine_theme_btn"></button>
+    <div id="theme-result" class="section-hidden" style="margin-top:16px">
+      <label class="field-label" for="theme-audience" data-i18n="theme_audience_label"></label>
+      <textarea id="theme-audience" style="min-height:60px"></textarea>
+      <label class="field-label" for="theme-pain-point" data-i18n="theme_pain_point_label"></label>
+      <textarea id="theme-pain-point" style="min-height:60px"></textarea>
+      <label class="field-label" for="theme-core-message" data-i18n="theme_core_message_label"></label>
+      <textarea id="theme-core-message" style="min-height:60px"></textarea>
+      <label class="field-label" for="theme-best-angle" data-i18n="theme_best_angle_label"></label>
+      <textarea id="theme-best-angle" style="min-height:60px"></textarea>
+    </div>
+  </section>
+
+  <section class="card" id="hooks-section">
+    <h2 data-i18n="hooks_title"></h2>
+    <p class="hint" data-i18n="hooks_hint"></p>
+    <button class="btn-secondary" id="generate-hooks-btn" data-i18n="generate_hooks_btn"></button>
+    <div id="hooks-result" class="section-hidden" style="margin-top:16px">
+      <p class="field-label" data-i18n="hooks_top3_label"></p>
+      <div id="hooks-top3-list" class="hook-pick-list"></div>
+      <div id="hooks-all-groups" style="margin-top:16px"></div>
+      <label class="field-label" for="chosen-hook-text" style="margin-top:16px" data-i18n="hooks_chosen_label"></label>
+      <textarea id="chosen-hook-text" style="min-height:60px"></textarea>
+    </div>
+  </section>
+
+  <section class="card" id="script-section">
+    <h2 data-i18n="script_title"></h2>
+    <div class="expandable-wrap">
+      <button class="expand-toggle-btn" type="button" data-target="script-text" data-i18n-title="expand_btn_title">⛶</button>
+      <textarea id="script-text" style="min-height:280px"></textarea>
+    </div>
+    <p class="hint" id="narration-length-info"></p>
+    <p class="field-warning" id="narration-length-warning" data-i18n="notice_narration_over_budget"></p>
+
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:16px">
+      <button class="btn-secondary" id="score-script-btn" data-i18n="score_script_btn"></button>
+    </div>
+    <div id="score-result" class="section-hidden" style="margin-top:16px">
+      <p class="hint" id="score-summary"></p>
+      <div id="score-criteria-list" class="production-scene-list"></div>
+    </div>
+
+    <h3 id="seo-section-heading" style="margin-top:28px">Đăng bài chuẩn SEO theo từng nền tảng</h3>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px">
+      <button class="btn-secondary seo-btn" data-platform="youtube">SEO cho YouTube</button>
+      <button class="btn-secondary seo-btn" data-platform="tiktok">SEO cho TikTok</button>
+      <button class="btn-secondary seo-btn" data-platform="facebook_instagram">SEO cho Facebook &amp; Instagram</button>
+      <button class="btn-secondary seo-btn" data-platform="threads">SEO cho Threads</button>
+      <button class="btn-secondary seo-btn" data-platform="twitter_x">SEO cho Twitter/X</button>
+      <button class="btn-secondary seo-btn" data-platform="zalo">SEO cho Zalo</button>
+    </div>
+    <div id="seo-results"></div>
+  </section>
+
+  <section class="card" id="storyboard-list-section">
+    <h2 data-i18n="storyboard_list_title"></h2>
+    <p class="hint" data-i18n="storyboard_list_hint"></p>
+    <button class="btn-primary" id="generate-storyboard-btn" type="button" data-i18n="generate_storyboard_btn"></button>
+
+    <div id="storyboard-list-wrap" class="section-hidden" style="margin-top:16px">
+      <p class="field-label" id="storyboard-scene-count-label"></p>
+      <div id="storyboard-scene-list" class="storyboard-scene-list"></div>
+    </div>
+  </section>
+
+  <section class="card" id="step6-section">
+    <h2 data-i18n="step6_title"></h2>
+
+    <h3 style="margin-top:4px" data-i18n="run_mode_section_title"></h3>
+
+    <div class="flow-login-box">
+      <p class="hint" data-i18n="open_flow_browser_hint"></p>
+      <button class="btn-secondary" id="open-flow-browser-btn" type="button" data-i18n="open_flow_browser_btn"></button>
+      <p class="field-warning" id="flow-browser-warning"></p>
+    </div>
+
+    <div class="llm-backend-choice" id="run-mode-choice">
+      <label class="format-choice selected" data-mode="auto">
+        <input type="radio" name="run-mode" value="auto" checked />
+        <strong data-i18n="run_mode_auto_title"></strong>
+        <span class="desc" data-i18n="run_mode_auto_desc"></span>
+      </label>
+      <label class="format-choice" data-mode="review">
+        <input type="radio" name="run-mode" value="review" />
+        <strong data-i18n="run_mode_review_title"></strong>
+        <span class="desc" data-i18n="run_mode_review_desc"></span>
+      </label>
+    </div>
+    <p class="hint" data-i18n="run_mode_switch_hint"></p>
+
+    <div id="scene-review-banner" class="scene-review-banner section-hidden">
+      <p class="hint" id="scene-review-text"></p>
+      <p class="hint" data-i18n="scene_review_see_preview_hint"></p>
+      <div class="scene-review-actions">
+        <button class="btn-primary" id="approve-scene-btn" data-i18n="approve_scene_btn"></button>
+        <button class="btn-secondary" id="retry-scene-btn" data-i18n="retry_scene_btn"></button>
+        <button class="btn-secondary" id="skip-scene-btn" data-i18n="skip_scene_btn"></button>
+      </div>
+    </div>
+
+    <p class="hint" id="production-stage-text" data-i18n="production_not_started"></p>
+
+    <h3 style="margin-top:20px" data-i18n="scene_type_legend_title"></h3>
+    <p class="hint" data-i18n="scene_type_legend_hint"></p>
+    <div class="scene-type-legend">
+      <span>🎬 Video AI</span>
+      <span>🖼️ Ảnh tĩnh</span>
+      <span>🌄 B-roll</span>
+      <span>🔤 Chữ động</span>
+      <span>📊 Biểu đồ</span>
+    </div>
+
+    <div class="scene-diagram" id="scene-diagram">
+      <div class="scene-diagram-row" id="scene-row-boxes"></div>
+      <div class="scene-diagram-row" id="scene-row-status"></div>
+    </div>
+
+    <div id="scene-restore-banner" class="scene-review-banner section-hidden">
+      <p class="hint" id="scene-restore-text"></p>
+      <div class="scene-review-actions">
+        <button class="btn-secondary" id="restore-view-scene-btn" data-i18n="restore_view_scene_btn"></button>
+        <button class="btn-primary" id="restore-scene-btn" data-i18n="restore_scene_btn"></button>
+        <button class="btn-secondary" id="restore-close-btn" data-i18n="restore_close_btn"></button>
+      </div>
+    </div>
+
+    <div id="scene-failed-banner" class="scene-review-banner scene-review-banner--failed section-hidden">
+      <p class="hint" id="scene-failed-text"></p>
+      <div class="scene-review-actions">
+        <button class="btn-primary" id="failed-retry-btn" data-i18n="failed_retry_btn"></button>
+        <button class="btn-secondary" id="failed-skip-btn" data-i18n="failed_skip_btn"></button>
+        <button class="btn-secondary" id="failed-delete-btn" data-i18n="failed_delete_btn"></button>
+        <button class="btn-secondary" id="failed-close-btn" data-i18n="restore_close_btn"></button>
+      </div>
+    </div>
+
+    <div id="quality-warnings-banner" class="quality-warnings-banner section-hidden">
+      <p class="quality-warnings-title" data-i18n="quality_warnings_title"></p>
+      <ul id="quality-warnings-list"></ul>
+    </div>
+  </section>
+
+  <section class="card" id="step7-section">
+    <h2 data-i18n="step7_title"></h2>
+    <p class="hint" data-i18n="step7_hint"></p>
+    <div id="narration-lang-chips" class="lang-chip-list"></div>
+    <label class="volume-control">
+      <span data-i18n="narration_volume_label"></span>
+      <input type="range" id="narration-volume-slider" min="0.5" max="3" step="0.1" value="1.8" />
+      <span id="narration-volume-value">1.8×</span>
+    </label>
+  </section>
+
+  <section class="card" id="step8-section">
+    <h2 data-i18n="step8_title"></h2>
+    <p class="hint" data-i18n="step8_hint"></p>
+    <label class="volume-control">
+      <span data-i18n="sfx_volume_label"></span>
+      <input type="range" id="sfx-volume-slider" min="-6" max="18" step="0.5" value="6.02" />
+      <span id="sfx-volume-value">+6.0 dB</span>
+    </label>
+  </section>
+
+  <section class="card" id="step9-section">
+    <h2 data-i18n="step9_title"></h2>
+    <div class="llm-backend-choice" id="poster-choice">
+      <label class="format-choice selected" data-poster="yes">
+        <input type="radio" name="poster-choice" value="yes" checked />
+        <strong data-i18n="poster_yes_title"></strong>
+        <span class="desc" data-i18n="poster_yes_desc"></span>
+      </label>
+      <label class="format-choice" data-poster="no">
+        <input type="radio" name="poster-choice" value="no" />
+        <strong data-i18n="poster_no_title"></strong>
+        <span class="desc" data-i18n="poster_no_desc"></span>
+      </label>
+    </div>
+  </section>
+
+  <section class="card" id="step10-section">
+    <h2 data-i18n="step10_title"></h2>
+    <div class="llm-backend-choice" id="export-mode-choice">
+      <label class="format-choice selected" data-export="all">
+        <input type="radio" name="export-mode" value="all" checked />
+        <strong data-i18n="export_all_title"></strong>
+        <span class="desc" data-i18n="export_all_desc"></span>
+      </label>
+      <label class="format-choice" data-export="single">
+        <input type="radio" name="export-mode" value="single" />
+        <strong data-i18n="export_single_title"></strong>
+        <span class="desc" data-i18n="export_single_desc"></span>
+      </label>
+    </div>
+    <select id="export-single-lang-select" class="section-hidden"></select>
+
+    <div class="llm-backend-choice" id="download-mode-choice" style="margin-top:16px">
+      <label class="format-choice selected" data-download="auto">
+        <input type="radio" name="download-mode" value="auto" checked />
+        <strong data-i18n="download_mode_auto_title"></strong>
+        <span class="desc" data-i18n="download_mode_auto_desc"></span>
+      </label>
+      <label class="format-choice" data-download="manual">
+        <input type="radio" name="download-mode" value="manual" />
+        <strong data-i18n="download_mode_manual_title"></strong>
+        <span class="desc" data-i18n="download_mode_manual_desc"></span>
+      </label>
+    </div>
+
+    <button class="btn-primary" id="start-production-btn" style="margin-top:16px" data-i18n="start_production_btn"></button>
+    <div id="production-languages" style="margin-top:16px"></div>
+  </section>
+
+  </div>
+
+  <aside class="workspace-preview" id="workspace-preview">
+    <div class="workspace-preview-head">
+      <h3 data-i18n="preview_title"></h3>
+      <button class="preview-collapse-btn" id="preview-collapse-btn" type="button" data-i18n-title="preview_collapse_title">›</button>
+    </div>
+
+    <div id="preview-lang-wrap" class="section-hidden">
+      <select id="preview-lang-select"></select>
+    </div>
+
+    <div class="preview-tabs" id="preview-tabs">
+      <button class="preview-tab" id="preview-tab-scene" data-stage="scene" disabled data-i18n="preview_tab_scene"></button>
+      <button class="preview-tab" id="preview-tab-raw" data-stage="raw" disabled data-i18n="preview_tab_raw"></button>
+      <button class="preview-tab" id="preview-tab-narration" data-stage="narration" disabled data-i18n="preview_tab_narration"></button>
+      <button class="preview-tab" id="preview-tab-sfx" data-stage="sfx" disabled data-i18n="preview_tab_sfx"></button>
+    </div>
+
+    <video id="preview-video" class="section-hidden" controls></video>
+    <p class="hint" id="preview-empty-hint" data-i18n="preview_empty_hint"></p>
+  </aside>
+
+  <button class="preview-expand-btn section-hidden" id="preview-expand-btn" type="button" data-i18n-title="preview_expand_title">‹</button>
+  </div>
+  </main>
+</div>
+
+<div class="textarea-maximize-backdrop" id="textarea-maximize-backdrop"></div>
+
+<script src="/i18n.js"></script>
+<script src="/app.js"></script>
+</body>
+</html>

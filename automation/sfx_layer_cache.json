@@ -1,0 +1,839 @@
+{
+  "1": [
+    {
+      "query_vi": "tiếng đám đông cười nói chúc tụng",
+      "gain_db": -4,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "tiếng ly chén rượu chạm nhau",
+      "gain_db": -8,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "tiếng mưa phùn nhẹ ban đêm",
+      "gain_db": -12,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "tiếng gió đêm thổi nhẹ ngoài trời",
+      "gain_db": -16,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    }
+  ],
+  "2": [
+    {
+      "query_vi": "tiếng bước chân đoàn người đi bộ trên đường đất",
+      "gain_db": -3,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "tiếng gió thổi trên núi ban đêm",
+      "gain_db": -12,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "tiếng lửa đuốc cháy lép bép",
+      "gain_db": -9,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "tiếng côn trùng rừng đêm",
+      "gain_db": -15,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    }
+  ],
+  "3": [
+    {
+      "query_vi": "tiếng lửa nến cháy lách tách",
+      "gain_db": -14,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    }
+  ],
+  "4": [
+    {
+      "query_vi": "bước chân đoàn quân rầm rập",
+      "gain_db": -3,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "tiếng vó ngựa phi",
+      "gain_db": -5,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "cờ phần phật trong gió",
+      "gain_db": -11,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "gió thổi qua đèo núi",
+      "gain_db": -14,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    }
+  ],
+  "5": [
+    {
+      "query_vi": "tiếng bước chân đoàn quân hành quân",
+      "gain_db": -3,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "tiếng giáp trụ vũ khí va lách cách",
+      "gain_db": -8,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "tiếng xì xào thì thầm lo sợ",
+      "gain_db": -14,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "tiếng gió thổi qua phố cổ",
+      "gain_db": -16,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    }
+  ],
+  "6": [
+    {
+      "query_vi": "gió thổi cờ phần phật",
+      "gain_db": -4,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "tiếng đuốc lửa cháy tí tách",
+      "gain_db": -8,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "tiếng giáp trụ vũ khí khua nhẹ",
+      "gain_db": -14,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    }
+  ],
+  "7": [
+    {
+      "query_vi": "vó ngựa phi nước đại đường đất",
+      "gain_db": -3,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "mưa lớn đổ xối xả ban đêm",
+      "gain_db": -6,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "sấm sét ầm ầm trời đêm",
+      "gain_db": -11,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "gió rít mạnh trong bão đêm",
+      "gain_db": -14,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    }
+  ],
+  "8": [
+    {
+      "query_vi": "tiếng đuốc lửa cháy lách tách",
+      "gain_db": -11,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "tiếng bước chân vội trên sàn đá",
+      "gain_db": -6,
+      "start_offset": 0,
+      "duration": 3,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "tiếng xì xào bàn tán khe khẽ",
+      "gain_db": -14,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    }
+  ],
+  "9": [
+    {
+      "query_vi": "tiếng chân voi bước nặng nề",
+      "gain_db": -4,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "tiếng bước chân đoàn quân hành quân",
+      "gain_db": -7,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "tiếng gió thổi trên đỉnh núi",
+      "gain_db": -13,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "tiếng trống trận vang vọng xa",
+      "gain_db": -10,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    }
+  ],
+  "10": [
+    {
+      "query_vi": "vó ngựa bước chậm trên đất",
+      "gain_db": -3,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "lửa đuốc cháy tí tách",
+      "gain_db": -8,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "gió đêm ngoài trời",
+      "gain_db": -14,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "giáp trụ binh khí lách cách",
+      "gain_db": -12,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    }
+  ],
+  "12": [
+    {
+      "query_vi": "tiếng lửa nến cháy lách tách",
+      "gain_db": -9,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "không khí đêm yên tĩnh trong lều trại",
+      "gain_db": -15,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    }
+  ],
+  "13": [
+    {
+      "query_vi": "tiếng đuốc cháy lách tách",
+      "gain_db": -6,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "tiếng bước chân trên nền đất lều trại",
+      "gain_db": -8,
+      "start_offset": 3,
+      "duration": 5,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "gió đêm thổi nhẹ ngoài lều",
+      "gain_db": -13,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "tiếng côn trùng đêm rả rích xa xa",
+      "gain_db": -16,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    }
+  ],
+  "15": [
+    {
+      "query_vi": "bước chân trần trên đất bụi",
+      "gain_db": -4,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "đòn tre kẽo kẹt chịu tải",
+      "gain_db": -9,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "vũ khí gươm giáo va lách cách",
+      "gain_db": -12,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "hơi thở gấp mệt nhọc khi đi bộ",
+      "gain_db": -14,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    }
+  ],
+  "16": [
+    {
+      "query_vi": "tiếng bước chân đoàn quân chạy gấp",
+      "gain_db": -3,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "tiếng gươm giáo va chạm lách cách",
+      "gain_db": -8,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "tiếng đuốc lửa cháy phần phật",
+      "gain_db": -10,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "tiếng gió thổi mạnh qua đèo núi",
+      "gain_db": -14,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    }
+  ],
+  "17": [
+    {
+      "query_vi": "tiếng sông chảy xiết ban đêm",
+      "gain_db": -3,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "tiếng nước bắn tung toé mạnh",
+      "gain_db": -5,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "tiếng dây thừng kéo căng cọt kẹt",
+      "gain_db": -11,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "tiếng gió đêm thổi nhẹ",
+      "gain_db": -15,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    }
+  ],
+  "18": [
+    {
+      "query_vi": "bước chân đoàn quân rầm rập",
+      "gain_db": -3,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "giáo gươm va chạm lách cách",
+      "gain_db": -9,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "gió thổi trên đồi núi",
+      "gain_db": -13,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    }
+  ],
+  "20": [
+    {
+      "query_vi": "đám đông reo hò cười nói say rượu",
+      "gain_db": -3,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "chén bát đũa va chạm tiệc rượu",
+      "gain_db": -7,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "trống hội tưng bừng ngày tết",
+      "gain_db": -6,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "gió đêm thổi nhẹ ngoài doanh trại",
+      "gain_db": -15,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    }
+  ],
+  "21": [
+    {
+      "query_vi": "tiếng la hét hoảng loạn đám đông",
+      "gain_db": -3,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "tiếng cổng gỗ bị phá sập",
+      "gain_db": -4,
+      "start_offset": 0,
+      "duration": 2.5,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "tiếng bước chân chạy rầm rập hỗn loạn",
+      "gain_db": -6,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "tiếng đuốc lửa cháy lép bép",
+      "gain_db": -14,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    }
+  ],
+  "22": [
+    {
+      "query_vi": "tiếng voi trận gầm rú xung trận",
+      "gain_db": -3,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "tiếng chân voi giẫm đất rầm rập",
+      "gain_db": -4,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "tiếng gỗ lũy tre vỡ sập đổ",
+      "gain_db": -6,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "tiếng súng hoả mai nổ liên tiếp",
+      "gain_db": -10,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    }
+  ],
+  "23": [
+    {
+      "query_vi": "tiếng đại bác bắn liên tục",
+      "gain_db": -3,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "tiếng nhiều người chạy trên đất",
+      "gain_db": -5,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "tiếng đoàn quân hò hét xung trận",
+      "gain_db": -7,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "tiếng lửa cháy nổ lép bép mảnh vỡ",
+      "gain_db": -13,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    }
+  ],
+  "24": [
+    {
+      "query_vi": "tiếng gỗ vỡ sập cổng thành",
+      "gain_db": -4,
+      "start_offset": 0,
+      "duration": 3,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "tiếng gươm giáo chém nhau",
+      "gain_db": -3,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "tiếng súng hỏa mai bắn",
+      "gain_db": -6,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "tiếng la hét hỗn loạn giao tranh",
+      "gain_db": -8,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    }
+  ],
+  "25": [
+    {
+      "query_vi": "voi trận gầm rống bước chân rầm rập",
+      "gain_db": -3,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "gỗ rào chắn vỡ vụn",
+      "gain_db": -4,
+      "start_offset": 0,
+      "duration": 3,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "súng hỏa mai nổ dồn dập",
+      "gain_db": -6,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "binh lính hò hét hỗn loạn",
+      "gain_db": -12,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    }
+  ],
+  "26": [
+    {
+      "query_vi": "chân voi và vó ngựa rầm rập xông trận",
+      "gain_db": -3,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "đại bác và súng hoả mai nổ dồn dập",
+      "gain_db": -4,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "trống trận thúc quân dồn dập",
+      "gain_db": -9,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "quân lính hò hét xung trận",
+      "gain_db": -6,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    }
+  ],
+  "27": [
+    {
+      "query_vi": "vó ngựa phi nước đại dồn dập",
+      "gain_db": -3,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "gươm giáo va chạm kim loại",
+      "gain_db": -5,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "quân lính hò hét xung trận",
+      "gain_db": -7,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "lửa đuốc cháy tí tách",
+      "gain_db": -13,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    }
+  ],
+  "29": [
+    {
+      "query_vi": "than lửa cháy âm ỉ tí tách",
+      "gain_db": -5,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "gió nhẹ sáng sớm",
+      "gain_db": -13,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "gỗ mục kẽo kẹt đổ sập nhẹ",
+      "gain_db": -12,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    }
+  ],
+  "30": [
+    {
+      "query_vi": "vó ngựa phi nước đại gấp gáp",
+      "gain_db": -3,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "ngựa hí hoảng loạn",
+      "gain_db": -6,
+      "start_offset": 0,
+      "duration": 2,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "tiếng vải áo lộn xộn vội vã",
+      "gain_db": -9,
+      "start_offset": 0,
+      "duration": 1.5,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "gió đêm rít nhẹ",
+      "gain_db": -14,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    }
+  ],
+  "31": [
+    {
+      "query_vi": "dây thừng bị chém đứt phựt",
+      "gain_db": -6,
+      "start_offset": 0,
+      "duration": 1.5,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "đám đông la hét hoảng loạn",
+      "gain_db": -3,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "nước sông bắn tung toé mạnh",
+      "gain_db": -4,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "gỗ thuyền ván vỡ răng rắc",
+      "gain_db": -8,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    }
+  ],
+  "32": [
+    {
+      "query_vi": "tiếng cờ phần phật trong gió",
+      "gain_db": -4,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "tiếng gió lồng lộng buổi bình minh",
+      "gain_db": -13,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "tiếng binh lính hò reo chiến thắng",
+      "gain_db": -6,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "tiếng giáp trụ vũ khí va chạm lách cách",
+      "gain_db": -15,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    }
+  ],
+  "33": [
+    {
+      "query_vi": "vó ngựa nhiều con phi đều",
+      "gain_db": -3,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "bước chân đoàn quân đi đều",
+      "gain_db": -4,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "chân voi bước nặng nề",
+      "gain_db": -6,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "cờ phướn tung bay trong gió",
+      "gain_db": -12,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    }
+  ],
+  "34": [
+    {
+      "query_vi": "tiếng trẻ em cười đùa công viên",
+      "gain_db": -4,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "tiếng bước chân người đi dạo",
+      "gain_db": -10,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "tiếng người trò chuyện rì rào xa",
+      "gain_db": -12,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    },
+    {
+      "query_vi": "tiếng gió nhẹ chiều công viên",
+      "gain_db": -14,
+      "start_offset": 0,
+      "duration": null,
+      "allow_birds": false
+    }
+  ]
+}

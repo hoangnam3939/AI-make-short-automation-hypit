@@ -1,0 +1,21 @@
+[en] Đo độ dài thật từng clip gốc...
+[en] Dựng lại cả 8 đoạn (video đầy đủ, không mất cảnh)...
+    [01] HOOK: -> 20.04s
+    [02] VẤN ĐỀ: -> 40.43s
+    [03] BỐI CẢNH: -> 50.05s
+    [04] GIẢI PHÁP: -> 30.04s
+    [05] HƯỚNG DẪN: -> 50.05s
+    [06] VÍ DỤ: -> 90.07s
+    [07] KẾT QUẢ: -> 40.04s
+    [08] CTA: -> 28.19s
+[en] Ghép lại 8 đoạn...
+[en] -> E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\automation\export\en-US\final_v5.mp4
+[en] Tính lại cảnh thực sự hiển thị...
+[en] 34/34 cảnh hiển thị. Độ dài từng đoạn: [20.04, 40.43, 50.05, 30.04, 50.05, 90.07, 40.04, 28.19]
+[en] TẤT CẢ 34/34 CẢNH ĐÃ HIỂN THỊ ĐỦ.
+[en] Tải danh sách hiệu ứng âm thanh...
+[en] Đang hoà 111 lớp âm thanh...
+[en] -> E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\automation\export\en-US\final_with_sfx_v5.mp4
+
+[en] XONG -> E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\automation\export\en-US\final_with_title_v5.mp4
+EXIT CODE: 0

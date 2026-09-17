@@ -1,0 +1,62 @@
+[run_real_generation] Tổng 37 cảnh, đã xong sẵn 2 cảnh trước đó.
+[scene 1] bắt đầu tạo... (0s-10s)
+[scene 1] XONG sau 74.7s -> E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\automation\downloads\scene_01\Soldiers_celebrating_at_citadel_…_20260913085207.mp4
+[scene 2] đã xong trước đó, bỏ qua: E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\automation\downloads\scene_02\Tay_Son_soldiers_marching_mountains_20260913084810.mp4
+[scene 3] đã xong trước đó, bỏ qua: E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\automation\downloads\scene_03\King_pleading_before_Qing_official_20260913085011.mp4
+[scene 4] bắt đầu tạo... (28s-35s)
+[scene 4] LỖI KHÔNG XÁC ĐỊNH: Không tìm thấy nút Download nào đang bật sau 30s.
+Traceback (most recent call last):
+  File "E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\automation\run_real_generation.py", line 60, in main
+    path = generate_video_with_retry(
+        scene["prompt"], scene_dir, quality_label="720p",
+        wait_timeout_seconds=240, max_attempts=3,
+    )
+  File "E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\app\services\google_flow_driver.py", line 305, in generate_video_with_retry
+    return generate_video(prompt, output_dir, quality_label, wait_timeout_seconds)
+  File "E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\app\services\google_flow_driver.py", line 263, in generate_video
+    raise TimeoutError("Kh�ng t\xecm th\u1ea5y n�t Download n�o �ang b\u1eadt sau 30s.")
+TimeoutError: Kh�ng t\xecm th\u1ea5y n�t Download n�o �ang b\u1eadt sau 30s.
+[scene 5] bắt đầu tạo... (35s-42s)
+[scene 5] XONG sau 76.6s -> E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\automation\downloads\scene_05\Qing_soldiers_entering_citadel_20260913085553.mp4
+[scene 6] bắt đầu tạo... (42s-50s)
+[scene 6] LỖI KHÔNG XÁC ĐỊNH: Không tìm thấy nút Download nào đang bật sau 30s.
+Traceback (most recent call last):
+  File "E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\automation\run_real_generation.py", line 60, in main
+    path = generate_video_with_retry(
+        scene["prompt"], scene_dir, quality_label="720p",
+        wait_timeout_seconds=240, max_attempts=3,
+    )
+  File "E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\app\services\google_flow_driver.py", line 305, in generate_video_with_retry
+    return generate_video(prompt, output_dir, quality_label, wait_timeout_seconds)
+  File "E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\app\services\google_flow_driver.py", line 263, in generate_video
+    raise TimeoutError("Kh�ng t\xecm th\u1ea5y n�t Download n�o �ang b\u1eadt sau 30s.")
+TimeoutError: Kh�ng t\xecm th\u1ea5y n�t Download n�o �ang b\u1eadt sau 30s.
+[scene 7] bắt đầu tạo... (50s-58s)
+[scene 7] XONG sau 82.4s -> E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\automation\downloads\scene_07\Messenger_riding_horseback_throu…_20260913090000.mp4
+[scene 8] bắt đầu tạo... (58s-66s)
+[scene 8] LỖI KHÔNG XÁC ĐỊNH: Không tìm thấy nút Download nào đang bật sau 30s.
+Traceback (most recent call last):
+  File "E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\automation\run_real_generation.py", line 60, in main
+    path = generate_video_with_retry(
+        scene["prompt"], scene_dir, quality_label="720p",
+        wait_timeout_seconds=240, max_attempts=3,
+    )
+  File "E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\app\services\google_flow_driver.py", line 305, in generate_video_with_retry
+    return generate_video(prompt, output_dir, quality_label, wait_timeout_seconds)
+  File "E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\app\services\google_flow_driver.py", line 263, in generate_video
+    raise TimeoutError("Kh�ng t\xecm th\u1ea5y n�t Download n�o �ang b\u1eadt sau 30s.")
+TimeoutError: Kh�ng t\xecm th\u1ea5y n�t Download n�o �ang b\u1eadt sau 30s.
+[scene 9] bắt đầu tạo... (66s-74s)
+[scene 9] LỖI KHÔNG XÁC ĐỊNH: Không tìm thấy nút Download nào đang bật sau 30s.
+Traceback (most recent call last):
+  File "E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\automation\run_real_generation.py", line 60, in main
+    path = generate_video_with_retry(
+        scene["prompt"], scene_dir, quality_label="720p",
+        wait_timeout_seconds=240, max_attempts=3,
+    )
+  File "E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\app\services\google_flow_driver.py", line 305, in generate_video_with_retry
+    return generate_video(prompt, output_dir, quality_label, wait_timeout_seconds)
+  File "E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\app\services\google_flow_driver.py", line 263, in generate_video
+    raise TimeoutError("Kh�ng t\xecm th\u1ea5y n�t Download n�o �ang b\u1eadt sau 30s.")
+TimeoutError: Kh�ng t\xecm th\u1ea5y n�t Download n�o �ang b\u1eadt sau 30s.
+[scene 10] bắt đầu tạo... (74s-82s)

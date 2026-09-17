@@ -1,0 +1,26 @@
+[run_real_generation] Tổng 37 cảnh, đã xong sẵn 0 cảnh trước đó.
+[scene 1] bắt đầu tạo... (0s-10s)
+[scene 1] LỖI KHÔNG XÁC ĐỊNH: [Errno 2] No such file or directory: 'C:\\Users\\vanho\\AppData\\Local\\Temp\\playwright-artifacts-KWAvjZ\\256c175a-9774-4d69-997c-58dc9abc227e'
+Traceback (most recent call last):
+  File "E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\automation\run_real_generation.py", line 60, in main
+    path = generate_video_with_retry(
+        scene["prompt"], scene_dir, quality_label="720p",
+        wait_timeout_seconds=240, max_attempts=3,
+    )
+  File "E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\app\services\google_flow_driver.py", line 272, in generate_video_with_retry
+    return generate_video(prompt, output_dir, quality_label, wait_timeout_seconds)
+  File "E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\app\services\google_flow_driver.py", line 253, in generate_video
+    shutil.copy(tmp_path, final_path)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vanho\AppData\Local\Python\pythoncore-3.14-64\Lib\shutil.py", line 489, in copy
+    copyfile(src, dst, follow_symlinks=follow_symlinks)
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vanho\AppData\Local\Python\pythoncore-3.14-64\Lib\shutil.py", line 313, in copyfile
+    with open(src, 'rb') as fsrc:
+         ~~~~^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\vanho\\AppData\\Local\\Temp\\playwright-artifacts-KWAvjZ\\256c175a-9774-4d69-997c-58dc9abc227e'
+[scene 2] bắt đầu tạo... (10s-20s)
+[scene 2] XONG sau 93.5s -> E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\automation\downloads\scene_02\Tay_Son_soldiers_marching_mountains_20260913084810.mp4
+[scene 3] bắt đầu tạo... (20s-28s)
+[scene 3] XONG sau 121.3s -> E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\automation\downloads\scene_03\King_pleading_before_Qing_official_20260913085011.mp4
+[scene 4] bắt đầu tạo... (28s-35s)

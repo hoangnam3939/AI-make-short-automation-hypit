@@ -1,0 +1,26 @@
+Traceback (most recent call last):
+  File "E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\automation\run_real_generation.py", line 60, in main
+    path = generate_video_with_retry(
+        scene["prompt"], scene_dir, quality_label="720p",
+        wait_timeout_seconds=240, max_attempts=3,
+    )
+  File "E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\app\services\google_flow_driver.py", line 190, in generate_video_with_retry
+    return generate_video(prompt, output_dir, quality_label, wait_timeout_seconds)
+  File "E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\app\services\google_flow_driver.py", line 151, in generate_video
+    raise TimeoutError(
+    ...<2 lines>...
+    )
+TimeoutError: Ch\u1edd quá 240s v\u1eabn chýa th\u1ea5y video ra — ki\u1ec3m tra l\u1ea1i trên c\u1eeda s\u1ed5 Chrome xem Flow có báo l\u1ed7i g\xec không.
+Traceback (most recent call last):
+  File "E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\automation\run_real_generation.py", line 60, in main
+    path = generate_video_with_retry(
+        scene["prompt"], scene_dir, quality_label="720p",
+        wait_timeout_seconds=240, max_attempts=3,
+    )
+  File "E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\app\services\google_flow_driver.py", line 190, in generate_video_with_retry
+    return generate_video(prompt, output_dir, quality_label, wait_timeout_seconds)
+  File "E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\app\services\google_flow_driver.py", line 151, in generate_video
+    raise TimeoutError(
+    ...<2 lines>...
+    )
+TimeoutError: Ch\u1edd quá 240s v\u1eabn chýa th\u1ea5y video ra — ki\u1ec3m tra l\u1ea1i trên c\u1eeda s\u1ed5 Chrome xem Flow có báo l\u1ed7i g\xec không.

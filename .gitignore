@@ -1,0 +1,28 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+projects/
+*.mp4
+*.mp3
+*.wav
+node_modules/
+.DS_Store
+
+# Hồ sơ trình duyệt Playwright dùng để đăng nhập Google Flow — chứa cookie
+# đăng nhập thật của tài khoản Google, TUYỆT ĐỐI không được commit lên git.
+.flow_profile/
+
+# Ảnh chụp/log tạm do MCP Playwright (công cụ debug UI của Claude) sinh ra
+# khi kiểm tra giao diện — không phải nội dung dự án.
+.playwright-mcp/
+
+# File khoá tạm của Microsoft Word (tự sinh khi mở 1 file .docx để soạn),
+# không phải nội dung thật — không bao giờ commit.
+~$*.doc*
+
+# PID + log của server chạy nền lúc dev/test cục bộ (run.py/uvicorn) — tự
+# sinh mỗi lần chạy, không phải nội dung dự án.
+server.pid
+server_stdout.log
+server_stderr.log

@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tóm tắt phiên làm việc — 14/9 sáng</title>
+<style>
+  :root{
+    --bg:#EEF0F1; --surface:#FFFFFF; --surface-2:#F5F6F8;
+    --ink:#1C1F24; --ink-soft:#5B6169; --line:#D8DCE0;
+    --accent:#33517D; --accent-soft:#E4E9F1;
+    --ok:#1E7A54; --ok-bg:#E4F3EC;
+    --warn:#9C6B12; --warn-bg:#FAF0DC;
+    --bad:#A73E33; --bad-bg:#FBEAE7;
+    --bonus:#2C7C8C; --bonus-bg:#E3F1F3;
+    --mono: ui-monospace, "Cascadia Code", Consolas, "SFMono-Regular", monospace;
+    --sans: -apple-system, "Segoe UI", ui-sans-serif, "Helvetica Neue", Arial, sans-serif;
+    --radius: 14px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#14171B; --surface:#1B1F25; --surface-2:#20252C;
+      --ink:#E7E9EC; --ink-soft:#9AA2AC; --line:#2B3138;
+      --accent:#8AA3CE; --accent-soft:#28334A;
+      --ok:#5CC49A; --ok-bg:#173226;
+      --warn:#E3B65B; --warn-bg:#3A2E14;
+      --bad:#E58A7E; --bad-bg:#3A2119;
+      --bonus:#6FC2D2; --bonus-bg:#14313A;
+    }
+  }
+  *{box-sizing:border-box;}
+  body{
+    background:var(--bg); color:var(--ink); font-family:var(--sans);
+    margin:0; line-height:1.6; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:900px; margin:0 auto; padding:40px 24px 80px;}
+
+  header.hero{padding:12px 0 28px; border-bottom:1px solid var(--line); margin-bottom:32px;}
+  .eyebrow{
+    text-transform:uppercase; letter-spacing:.09em; font-size:.74rem; font-weight:700;
+    color:var(--accent); margin-bottom:10px;
+  }
+  h1{font-size:2rem; font-weight:800; margin:0 0 10px; letter-spacing:-0.01em; text-wrap:balance;}
+  .hero-sub{color:var(--ink-soft); font-size:1.02rem; max-width:66ch; margin:0 0 14px;}
+  .hero-meta{display:flex; gap:18px; flex-wrap:wrap; font-size:.82rem; color:var(--ink-soft);}
+  .hero-meta b{color:var(--ink);}
+
+  .stat-row{display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin:22px 0 8px;}
+  .stat-tile{
+    background:var(--surface); border:1px solid var(--line); border-radius:var(--radius);
+    padding:16px 18px;
+  }
+  .stat-tile .n{font-size:1.7rem; font-weight:800; font-variant-numeric:tabular-nums; line-height:1;}
+  .stat-tile .l{font-size:.76rem; color:var(--ink-soft); margin-top:6px;}
+  .stat-tile.ok .n{color:var(--ok);}
+
+  h2{font-size:1.28rem; font-weight:800; margin:0 0 6px; letter-spacing:-0.01em; scroll-margin-top:20px;}
+  h2 .h2-num{color:var(--accent); font-variant-numeric:tabular-nums; margin-right:8px;}
+  .section-sub{color:var(--ink-soft); font-size:.9rem; margin:0 0 16px; max-width:70ch;}
+  section{margin-bottom:40px;}
+
+  .card{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:18px 20px; margin-bottom:12px;}
+  .card h3{margin:0 0 8px; font-size:.98rem; font-weight:800; display:flex; align-items:center; gap:8px;}
+  .card p{margin:0 0 8px; font-size:.88rem; color:var(--ink-soft);}
+  .card p:last-child{margin-bottom:0;}
+  .card ul{margin:6px 0 0; padding-left:20px; font-size:.86rem; color:var(--ink-soft);}
+  .card li{margin-bottom:4px;}
+  .card code{font-family:var(--mono); font-size:.8em; color:var(--accent); background:var(--accent-soft); padding:1px 6px; border-radius:5px;}
+
+  .chip{
+    display:inline-flex; align-items:center; gap:5px; font-size:.68rem; font-weight:700;
+    padding:3px 9px; border-radius:999px; white-space:nowrap; margin-left:6px;
+  }
+  .chip.ok{color:var(--ok); background:var(--ok-bg);}
+  .chip.warn{color:var(--warn); background:var(--warn-bg);}
+  .chip.bad{color:var(--bad); background:var(--bad-bg);}
+  .chip.bonus{color:var(--bonus); background:var(--bonus-bg);}
+
+  .fix-list{display:flex; flex-direction:column; gap:10px;}
+  .fix-item{
+    display:flex; gap:14px; background:var(--surface); border:1px solid var(--line);
+    border-radius:var(--radius); padding:14px 18px; align-items:flex-start;
+  }
+  .fix-item.done{border-left:4px solid var(--ok);}
+  .fix-badge{
+    flex:none; width:26px; height:26px; border-radius:50%; display:flex; align-items:center;
+    justify-content:center; font-size:.72rem; font-weight:800; color:#fff; background:var(--ok);
+    margin-top:1px;
+  }
+  .fix-body b{font-size:.9rem;}
+  .fix-body p{margin:4px 0 0; font-size:.84rem; color:var(--ink-soft);}
+
+  .table-wrap{overflow-x:auto; border:1px solid var(--line); border-radius:var(--radius); background:var(--surface);}
+  table{border-collapse:collapse; width:100%; font-size:.85rem; min-width:560px;}
+  thead th{
+    text-align:left; font-size:.72rem; text-transform:uppercase; letter-spacing:.05em;
+    color:var(--ink-soft); padding:10px 14px; border-bottom:1px solid var(--line);
+    background:var(--surface-2);
+  }
+  tbody td{padding:11px 14px; border-bottom:1px solid var(--line); vertical-align:top;}
+  tbody tr:last-child td{border-bottom:none;}
+  td.hash{font-family:var(--mono); font-size:.78rem; color:var(--accent);}
+  td.num{font-variant-numeric:tabular-nums; color:var(--ink-soft);}
+
+  footer{border-top:1px solid var(--line); padding-top:20px; font-size:.78rem; color:var(--ink-soft); margin-top:20px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <div class="eyebrow">AI Video Studio · Nhật ký phiên làm việc</div>
+    <h1>Sáng 14/9/2026 — 4 commit, 162/162 test pass</h1>
+    <p class="hero-sub">Tóm tắt đầy đủ những gì đã làm trên branch <code style="font-family:ui-monospace,monospace">Bếp-phụ-Office14.9.26</code>, theo đúng trình tự thật đã xảy ra — từ lúc mở app lần đầu tới commit cuối cùng.</p>
+    <div class="hero-meta">
+      <span><b>Bắt đầu</b> mở app lần đầu, sửa lỗi thiếu <code style="font-family:ui-monospace,monospace">playwright</code></span>
+      <span><b>Kết thúc</b> 4 commit, 162 test pass (0 fail)</span>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-tile"><div class="n">4</div><div class="l">Commit thật đã lưu</div></div>
+      <div class="stat-tile"><div class="n">~30</div><div class="l">File code/test sửa hoặc tạo mới</div></div>
+      <div class="stat-tile ok"><div class="n">162 / 162</div><div class="l">Test pass (từ 82 pass / 5 fail đầu phiên)</div></div>
+      <div class="stat-tile"><div class="n">3</div><div class="l">Nhiệm vụ song song lớn hoàn tất</div></div>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="h2-num">01</span>Mở app &amp; đánh giá toàn diện dự án</h2>
+    <p class="section-sub">Việc đầu tiên trong phiên — trước khi làm bất cứ tính năng mới nào.</p>
+    <div class="card">
+      <h3>🚀 Mở app lần đầu <span class="chip ok">Xong</span></h3>
+      <p>App không khởi động được do thiếu <code>playwright</code> trong dependency (cần cho <code>google_flow_driver.py</code> nhưng chưa có trong <code>requirements.txt</code>). Cài trực tiếp vào venv, xác nhận app chạy được bằng ảnh chụp màn hình thật tại <code>127.0.0.1:8787</code>.</p>
+    </div>
+    <div class="card">
+      <h3>🔍 Đánh giá tiến độ 12 bước gốc <span class="chip ok">Xong</span></h3>
+      <p>Phát hiện quan trọng: tài liệu đặc tả gốc <code>Nhiem_Vu_Goc_App_Video_AI_V3.docx</code> KHÔNG hề mất như README ghi nhầm — vẫn còn ở thư mục cha, đã copy vào thẳng thư mục dự án. Tài liệu ghi rõ <b>12 bước</b> (không phải "13 bước" README tự đặt lại) + 1 tính năng độc quyền riêng (Mục 8 — kiểm tra lỗi).</p>
+      <p>Đối chiếu từng bước với code thật: <b>7/12 xong đúng tinh thần</b>, 2/12 lệch bản gốc (đã sửa ở mục dưới), 3/12 chưa có dòng code nào (xác định chủ đề/mục tiêu, sinh 20 hook chọn 3, quyết định loại hình cảnh — vẫn còn tồn đọng).</p>
+      <p>Xuất báo cáo chi tiết ra <code>danh-gia-du-an.html</code> (còn trong thư mục dự án) — bảng đối chiếu từng bước, file bằng chứng, đề xuất ưu tiên P0→P4.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="h2-num">02</span>4 việc ưu tiên P0 (rẻ, nhanh, rủi ro nếu bỏ qua)</h2>
+    <p class="section-sub">Làm theo đúng thứ tự ưu tiên đề xuất trong báo cáo đánh giá — commit <code style="font-family:ui-monospace,monospace">e08c7e6</code>.</p>
+    <div class="fix-list">
+      <div class="fix-item done"><div class="fix-badge">✓</div><div class="fix-body"><b>Thêm <code>playwright</code> vào requirements.txt</b><p>Để máy khác cài lại app không bị lỗi giống lần đầu ở máy này.</p></div></div>
+      <div class="fix-item done"><div class="fix-badge">✓</div><div class="fix-body"><b>Sửa lại đúng 8 tiêu chí chấm điểm kịch bản (Bước 12)</b><p>Thay bộ tiêu chí Claude tự đoán trước đó bằng đúng bản gốc: Hook/Nội dung/Storytelling/Retention/Nhịp dựng/Hình ảnh/Âm thanh/CTA.</p></div></div>
+      <div class="fix-item done"><div class="fix-badge">✓</div><div class="fix-body"><b>Sinh đủ số lượng phương án ở Bước 12</b><p><code>VideoMetadata</code> đổi từ 1 kết quả cố định sang đúng 10 tiêu đề / 5 thumbnail / 3 mô tả / 5 CTA để chọn — cập nhật cả API, pipeline ghép poster mở đầu (dùng tiêu đề đầu tiên trong 10), và test liên quan.</p></div></div>
+      <div class="fix-item done"><div class="fix-badge">✓</div><div class="fix-body"><b>Commit các thay đổi còn tồn đọng</b><p>Kèm dọn dẹp: thêm <code>.playwright-mcp/</code> vào <code>.gitignore</code> (log/ảnh tạm khi debug UI, không phải nội dung dự án).</p></div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="h2-num">03</span>Nhiệm vụ song song 1 — 2 chế độ chạy Bước 9</h2>
+    <p class="section-sub">Commit <code style="font-family:ui-monospace,monospace">34e7e4a</code>. Yêu cầu gốc: chọn/đổi chế độ "Tự động hoàn toàn" ↔ "Duyệt từng cảnh" bất cứ lúc nào trong lúc đang sản xuất video, kể cả đang dừng chờ duyệt.</p>
+    <div class="card">
+      <h3>⚙️ Backend <span class="chip ok">Xong</span></h3>
+      <ul>
+        <li><code>ProductionJob</code> thêm <code>run_mode</code> + <code>awaiting_review_scene</code>; <code>set_run_mode()</code>/<code>approve_scene()</code> đổi được ngay cả khi job đang chạy nền (dùng <code>threading.Event</code>)</li>
+        <li>Đọc lại <code>run_mode</code> sau MỖI cảnh — cho phép đổi qua đổi lại nhiều lần giữa chừng đúng kịch bản bạn mô tả (auto tới cảnh 9 → review cảnh 10-29 → auto lại từ cảnh 30) mà không cần khởi động lại job</li>
+        <li>API mới: <code>POST /production/{id}/mode</code>, <code>POST /production/{id}/scenes/{n}/approve</code>, <code>GET /production/{id}/scenes/{n}/video</code> (xem trước clip Flow gốc trước khi duyệt)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>🖥️ Giao diện <span class="chip ok">Xong</span></h3>
+      <ul>
+        <li>2 thẻ chọn chế độ đặt ngay tại Bước 5 (Kịch bản), phía trên nút "Bắt đầu sản xuất video" — <i>ban đầu đặt nhầm trong panel Sản xuất (chỉ hiện sau khi bấm nút), đã chuyển đúng vị trí sau khi bạn báo không thấy</i></li>
+        <li>Banner "Đang dừng chờ duyệt cảnh N" có video xem trước + nút "Duyệt, tạo cảnh tiếp theo", tự hiện/ẩn theo trạng thái job</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>✅ Kiểm chứng</h3>
+      <p>15 test mới dùng thread thật (không mock threading) — xác nhận đúng: dừng sau mỗi cảnh ở chế độ review, đổi "auto" giữa lúc đang dừng chờ cho chạy tiếp ngay lập tức, duyệt sai số cảnh bị từ chối. Xác nhận thêm bằng ảnh chụp UI thật.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="h2-num">04</span>Nhiệm vụ song song 2 — Đính kèm câu chuyện gốc</h2>
+    <p class="section-sub">Commit <code style="font-family:ui-monospace,monospace">3388bd8</code>. Yêu cầu gốc: Bước 1 ngoài dán/gõ tay, cho phép tải file hoặc dán link, rồi chọn cách LLM xử lý nội dung trước khi đưa vào kịch bản.</p>
+    <div class="card">
+      <h3>📎 Nguồn nội dung — 2/3 đã làm, 1/3 hoãn lại</h3>
+      <ul>
+        <li><span class="chip ok">Xong</span> Tải file lên: <code>.docx</code> (python-docx), <code>.pdf</code> (pypdf), văn bản thuần (<code>.txt</code>/<code>.md</code>)</li>
+        <li><span class="chip ok">Xong</span> Dán link 1 bài viết: tải trang qua <code>httpx</code>, lọc bỏ script/nav/footer bằng BeautifulSoup</li>
+        <li><span class="chip warn">Hoãn lại</span> Link video (mp4) có câu chuyện bằng lời nói — cần quyết định hạ tầng trích âm thanh→chữ trước (Whisper cục bộ nặng vs chỉ hỗ trợ YouTube có phụ đề qua yt-dlp). Bạn đã chọn ưu tiên làm 2 nguồn trên trước, ghi rõ trong docstring <code>story_import.py</code> để nhớ làm tiếp.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>🧠 4 chế độ xử lý nội dung lấy được</h3>
+      <ul>
+        <li><b>Làm theo</b> — giữ nguyên tinh thần, chỉ dọn lại cho sạch</li>
+        <li><b>Rút gọn</b> — tóm ngắn hơn nhưng đủ ý chính</li>
+        <li><b>Trích xuất</b> — chỉ lấy đúng phần câu chuyện, bỏ quảng cáo/điều hướng</li>
+        <li><b>Tự nhập yêu cầu</b> <span class="chip bonus">Thêm sau</span> — người dùng tự gõ/dán đúng câu lệnh muốn LLM làm gì, thay vì 3 mẫu có sẵn — hiện ô textarea đúng lúc chọn thẻ này</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>🔌 API &amp; kiểm chứng</h3>
+      <p><code>POST /api/story/import-file</code>, <code>POST /api/story/import-url</code> — kết quả điền thẳng vào ô "Ý tưởng" để xem/sửa tiếp. 24 test mới (file .docx dựng THẬT không mock, PDF/URL mock vì không cần thiết phải có mạng thật khi test). Xác nhận đầu-cuối bằng file thật: upload → gọi LLM thật (backend claude_cli) → điền đúng nội dung tiếng Việt có dấu vào ô Ý tưởng.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="h2-num">05</span>Nhiệm vụ song song 3 — Thêm ChatGPT &amp; Gemini + đổi ngôn từ chung chung</h2>
+    <p class="section-sub">Cũng trong commit <code style="font-family:ui-monospace,monospace">3388bd8</code>.</p>
+    <div class="card">
+      <h3>🤖 2 backend LLM mới <span class="chip ok">Xong</span></h3>
+      <ul>
+        <li><b>Dùng tài khoản ChatGPT Plus/Pro/Team/Business/Enterprise</b> — qua Codex CLI của OpenAI (<code>codex exec</code>, đọc prompt qua stdin), cùng khuôn mẫu với Claude CLI đã có</li>
+        <li><b>Dùng tài khoản Gemini</b> (miễn phí hoặc Advanced/Ultra) — qua Gemini CLI của Google, cùng khuôn mẫu</li>
+        <li>Cài đặt giờ có <b>4 thẻ chọn</b> thay vì 2: API key riêng / Claude Pro/Max / ChatGPT Plus/Pro / Gemini</li>
+        <li>⚠️ Cú pháp <code>codex exec</code>/<code>gemini</code> theo tài liệu chính thức tại thời điểm viết — 2 công cụ còn mới, có thể đổi cờ lệnh ở bản sau; nếu báo lỗi CLI dù đã cài đúng, kiểm tra lại <code>--help</code> của từng lệnh</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>✏️ Đổi ngôn từ "Claude" → "LLM" ở text chung chung <span class="chip ok">Xong</span></h3>
+      <p>Theo đúng yêu cầu: chỉ đổi những chỗ mô tả VAI TRÒ chung chung ("App dùng LLM để viết kịch bản..."), GIỮ NGUYÊN tên cụ thể ở nơi đúng là tên thật của cơ chế ("Claude Pro/Max", "Claude Code CLI", "Anthropic") vì đó là mô tả chính xác, không phải tên chung chung.</p>
+    </div>
+    <div class="card">
+      <h3>🧹 Nhân tiện dọn luôn 5 lỗi test tồn đọng từ đầu phiên</h3>
+      <p>Fixture <code>isolated_env</code>/<code>client</code> trong <code>test_llm.py</code>/<code>test_settings_api.py</code> trước đây không cô lập đủ trạng thái LLM thật của máy (máy này có sẵn Claude CLI + <code>LLM_BACKEND=claude_cli</code> khiến test "chưa cấu hình gì" sai theo). Sửa lại cô lập đúng — không phải lỗi app, là lỗi test cũ viết trước khi có backend <code>claude_cli</code>.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="h2-num">06</span>Các lỗi UI phát hiện &amp; sửa trong lúc bạn test thật</h2>
+    <p class="section-sub">Không nằm trong 3 nhiệm vụ chính — phát sinh khi bạn dùng thử trực tiếp, sửa ngay tại chỗ.</p>
+    <div class="fix-list">
+      <div class="fix-item done"><div class="fix-badge">✓</div><div class="fix-body"><b>Panel Help — mở rộng gấp đôi, chữ to 1.5 lần, cao gần hết cửa sổ</b><p>Theo 3 yêu cầu liên tiếp của bạn — xác nhận từng bước bằng số đo + ảnh chụp thật.</p></div></div>
+      <div class="fix-item done"><div class="fix-badge">✓</div><div class="fix-body"><b>Panel Help/Feedback/Thông báo/Ngôn ngữ/Hồ sơ — neo đúng cạnh dưới thanh menu đen</b><p>Cạnh trên mọi panel khớp chính xác 96px (đo bằng Playwright), không còn chờm lên thanh menu.</p></div></div>
+      <div class="fix-item done"><div class="fix-badge">✓</div><div class="fix-body"><b>Thêm panel Feedback dạng dropdown (giống Adobe Express)</b><p>3 lựa chọn Báo lỗi/Đề xuất tính năng/Góp ý khác — ban đầu trỏ tới GitHub Issues, sau đó bạn yêu cầu bỏ (repo private, không phải mã nguồn mở) → đổi thành ô email tự điền (đồng bộ 2 chiều với email ở Hồ sơ) + nút mời theo dõi Fanpage.</p></div></div>
+      <div class="fix-item done"><div class="fix-badge">✓</div><div class="fix-body"><b>Sửa lỗi <code>m.title</code>/<code>m.subtitle</code></b><p>Phát sinh do đổi <code>VideoMetadata</code> sang danh sách nhiều phương án (mục 02) nhưng có 1 chỗ hiển thị video hoàn thành ở giao diện Sản xuất chưa cập nhật theo — sửa thành <code>m.titles[0]</code>.</p></div></div>
+      <div class="fix-item done"><div class="fix-badge">✓</div><div class="fix-body"><b>Lỗi chọn nhầm nhóm thẻ (bug thật, có sẵn từ trước)</b><p>1 handler dùng chung cho MỌI nhóm thẻ dạng <code>.format-choice</code> (định dạng video, backend LLM, chế độ chạy, chế độ đính kèm) — bấm bất kỳ thẻ nào ở 1 nhóm sẽ xoá nhầm "đã chọn" ở TẤT CẢ nhóm khác trên trang. Giới hạn lại đúng phạm vi từng nhóm.</p></div></div>
+      <div class="fix-item done"><div class="fix-badge">✓</div><div class="fix-body"><b>Nút "Chọn file" không mở được Explorer — điều tra kỹ, kết luận không phải lỗi app</b><p>Bạn xác nhận nút đổi ảnh đại diện (có từ trước) cũng lỗi y hệt, và cùng URL mở trong Chrome bình thường (profile cá nhân) thì chạy đúng. Nguyên nhân: cửa sổ Chrome đặc biệt dùng cho Google Flow (bật <code>--remote-debugging-port</code>) không xử lý đúng hộp thoại chọn file gốc của Windows. Đã ghi cảnh báo rõ vào Help panel để không quên.</p></div></div>
+      <div class="fix-item done"><div class="fix-badge">✓</div><div class="fix-body"><b>Thêm header <code>Cache-Control: no-cache</code> cho file tĩnh</b><p>Tránh trình duyệt tự phục vụ bản <code>app.js</code>/<code>index.html</code> cũ mà không hỏi lại server — nguyên nhân khiến 1 vài lần sửa xong nhưng bạn F5 vẫn thấy bản cũ.</p></div></div>
+      <div class="fix-item done"><div class="fix-badge">✓</div><div class="fix-body"><b>Modal "Đính kèm câu chuyện gốc" — đổi từ căn giữa màn hình sang neo cạnh trên</b><p>Theo yêu cầu cuối cùng — khớp đúng 96px với mép dưới thanh menu đen, giống panel Help, nhất quán trong toàn app.</p></div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="h2-num">07</span>Kết quả test — từ 82 pass/5 fail lên 162 pass/0 fail</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Thời điểm</th><th>Kết quả</th><th>Ghi chú</th></tr></thead>
+        <tbody>
+          <tr><td>Đầu phiên (trạng thái cũ)</td><td class="num">82 pass / 5 fail</td><td>5 fail do fixture cũ chưa cô lập đúng trạng thái CLI của máy</td></tr>
+          <tr><td>Sau P0 (mục 02)</td><td class="num">82 pass / 5 fail</td><td>Chưa đụng tới 5 test lỗi cũ</td></tr>
+          <tr><td>Sau Nhiệm vụ 1 (mục 03)</td><td class="num">97 pass / 5 fail</td><td>+15 test mới cho 2 chế độ chạy Bước 9</td></tr>
+          <tr><td>Sau Nhiệm vụ 2+3 (mục 04-05)</td><td class="num">162 pass / 0 fail</td><td>+24 test đính kèm câu chuyện, +21 test LLM/settings, và sửa dứt điểm 5 lỗi fixture tồn đọng</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="h2-num">08</span>4 commit thật đã lưu (thứ tự thời gian)</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>#</th><th>Hash</th><th>Nội dung</th></tr></thead>
+        <tbody>
+          <tr><td class="num">1</td><td class="hash">e08c7e6</td><td>Sửa lỗi thiếu playwright, khôi phục file đặc tả gốc, sửa Bước 12 đúng bản V3 (4 việc P0)</td></tr>
+          <tr><td class="num">2</td><td class="hash">34e7e4a</td><td>Thêm 2 chế độ chạy Bước 9: Tự động hoàn toàn / Duyệt từng cảnh</td></tr>
+          <tr><td class="num">3</td><td class="hash">3388bd8</td><td>Đính kèm câu chuyện gốc (file/link/tự nhập yêu cầu) + 3 backend LLM mới + no-cache</td></tr>
+          <tr><td class="num">4</td><td class="hash">26f02ad</td><td>Cảnh báo FlowProfile trong Help panel + neo modal Đính kèm theo topbar</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="h2-num">09</span>Còn tồn đọng — chưa làm, để lần sau</h2>
+    <div class="card">
+      <ul>
+        <li><b>Link video (mp4) → trích xuất nội dung</b> (1/3 nguồn đính kèm câu chuyện, mục 04) — cần chọn giữa Whisper cục bộ (nặng, dùng được mọi link) hoặc chỉ hỗ trợ YouTube có phụ đề (nhẹ, giới hạn)</li>
+        <li><b>3/12 bước gốc chưa có dòng code nào</b> (xem báo cáo <code>danh-gia-du-an.html</code>): xác định chủ đề &amp; mục tiêu (Bước 3), sinh 20 hook mở đầu chọn 3 câu mạnh nhất (Bước 4), quyết định loại hình từng cảnh — video AI/ảnh tĩnh/b-roll (Bước 8)</li>
+        <li><b>Mục 8 — tính năng "độc quyền" định vị sản phẩm</b>: phát hiện nhân vật đổi hình dạng giữa các cảnh (chưa bắt đầu), phát hiện giọng đọc lệch hình bằng ffsubsync (chưa bắt đầu)</li>
+        <li><b>Đăng bài 7 nền tảng</b> — code đã viết từ trước, vẫn CHƯA test với tài khoản thật</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>
+    File này được tạo tự động cuối phiên làm việc, dựa trên lịch sử commit thật (<code style="font-family:ui-monospace,monospace">git log</code>) và toàn bộ hội thoại trong phiên — không suy đoán. Xem chi tiết đầy đủ hơn về tiến độ 12 bước gốc tại <code style="font-family:ui-monospace,monospace">danh-gia-du-an.html</code> cùng thư mục.
+  </footer>
+</div>
+</body>
+</html>

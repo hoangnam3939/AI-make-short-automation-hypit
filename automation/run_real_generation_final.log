@@ -1,0 +1,57 @@
+[run_real_generation] Tổng 37 cảnh, đã xong sẵn 0 cảnh trước đó.
+[scene 1] bắt đầu tạo... (0s-10s)
+[scene 1] LỖI KHÔNG XÁC ĐỊNH: Locator.press_sequentially: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.ProseMirror[contenteditable='true']").first
+    - locator resolved to <div translate="no" contenteditable="true" class="ProseMirror ProseMirror-focused">…</div>
+  - elementHandle.type("Generate a video: Aerial establishing shot, Thang Long citadel at night, New Year's Eve, red lanterns glowing, Qing soldiers celebrating with wine inside the walls, light snow falling, cinematic wide shot. Qing infantry soldiers with shaved foreheads and long braided queues hanging down their backs, wearing quilted blue cotton brigandine armor jackets studded with brass rivets, conical rattan helmets, armed with spears, curved dao sabers and matchlock muskets. Grand Vietnamese royal citadel architecture: multi-tiered wooden palace halls with double-eave curved roofs, glazed dragon-shaped roof tiles in imperial yellow and jade green, upturned dragon-tail roof corners, massive red-lacquered wooden columns, gilded dragon carvings on the roof ridges facing the sun, the grand three-tiered Doan Mon gate with five arched gateways and an upper watchtower pavilion, wide stone courtyards with dragon-carved stone staircases, high brick citadel walls -- majestic and opulent, not a rustic village. Colors are vivid, fresh and well-maintained as of 1789 -- bright vermillion red lacquer, brilliant gold gilding, glossy imperial yellow and jade-green glazed roof tiles catching the light -- NOT faded, weathered, mossy or ruined; this is a thriving, actively maintained royal capital, not an archaeological ruin. Visual style: slow forward drone push-in, warm lantern glow with soft bloom, gentle falling snow catching the light, muted blue-and-red color grade.")
+
+Traceback (most recent call last):
+  File "E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\automation\run_real_generation.py", line 60, in main
+    path = generate_video_with_retry(
+        scene["prompt"], scene_dir, quality_label="720p",
+        wait_timeout_seconds=240, max_attempts=3,
+    )
+  File "E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\app\services\google_flow_driver.py", line 266, in generate_video_with_retry
+    return generate_video(prompt, output_dir, quality_label, wait_timeout_seconds)
+  File "E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\app\services\google_flow_driver.py", line 149, in generate_video
+    prompt_box.press_sequentially(video_prompt, delay=15)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vanho\AppData\Roaming\Python\Python314\site-packages\playwright\sync_api\_generated.py", line 20378, in press_sequentially
+    self._sync(
+    ~~~~~~~~~~^
+        self._impl_obj.press_sequentially(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+        )
+        ^
+    )
+    ^
+  File "C:\Users\vanho\AppData\Roaming\Python\Python314\site-packages\playwright\_impl\_sync_base.py", line 115, in _sync
+    return task.result()
+           ~~~~~~~~~~~^^
+  File "C:\Users\vanho\AppData\Roaming\Python\Python314\site-packages\playwright\_impl\_locator.py", line 711, in press_sequentially
+    await self.type(text, delay=delay, timeout=timeout)
+  File "C:\Users\vanho\AppData\Roaming\Python\Python314\site-packages\playwright\_impl\_locator.py", line 698, in type
+    return await self._frame.type(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\vanho\AppData\Roaming\Python\Python314\site-packages\playwright\_impl\_frame.py", line 884, in type
+    await self._channel.send("type", self._timeout, locals_to_params(locals()))
+  File "C:\Users\vanho\AppData\Roaming\Python\Python314\site-packages\playwright\_impl\_connection.py", line 76, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\vanho\AppData\Roaming\Python\Python314\site-packages\playwright\_impl\_connection.py", line 632, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.TimeoutError: Locator.press_sequentially: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.ProseMirror[contenteditable='true']").first
+    - locator resolved to <div translate="no" contenteditable="true" class="ProseMirror ProseMirror-focused">�</div>
+  - elementHandle.type("Generate a video: Aerial establishing shot, Thang Long citadel at night, New Year's Eve, red lanterns glowing, Qing soldiers celebrating with wine inside the walls, light snow falling, cinematic wide shot. Qing infantry soldiers with shaved foreheads and long braided queues hanging down their backs, wearing quilted blue cotton brigandine armor jackets studded with brass rivets, conical rattan helmets, armed with spears, curved dao sabers and matchlock muskets. Grand Vietnamese royal citadel architecture: multi-tiered wooden palace halls with double-eave curved roofs, glazed dragon-shaped roof tiles in imperial yellow and jade green, upturned dragon-tail roof corners, massive red-lacquered wooden columns, gilded dragon carvings on the roof ridges facing the sun, the grand three-tiered Doan Mon gate with five arched gateways and an upper watchtower pavilion, wide stone courtyards with dragon-carved stone staircases, high brick citadel walls -- majestic and opulent, not a rustic village. Colors are vivid, fresh and well-maintained as of 1789 -- bright vermillion red lacquer, brilliant gold gilding, glossy imperial yellow and jade-green glazed roof tiles catching the light -- NOT faded, weathered, mossy or ruined; this is a thriving, actively maintained royal capital, not an archaeological ruin. Visual style: slow forward drone push-in, warm lantern glow with soft bloom, gentle falling snow catching the light, muted blue-and-red color grade.")
+
+[scene 2] bắt đầu tạo... (10s-20s)

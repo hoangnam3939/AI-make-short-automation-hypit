@@ -1,0 +1,18 @@
+[v3] Dựng lại 3 đoạn có lời dẫn thay đổi...
+    [01] HOOK: giữ nguyên (không đổi lời dẫn)
+    [02] VẤN ĐỀ: giữ nguyên (không đổi lời dẫn)
+    [03] BỐI CẢNH: giọng đọc 25.76s -> 16.70s, đã dựng lại
+    [04] GIẢI PHÁP: giọng đọc 17.72s -> 7.87s, đã dựng lại
+    [05] HƯỚNG DẪN: giọng đọc 14.41s -> 18.72s, đã dựng lại
+    [06] VÍ DỤ: giữ nguyên (không đổi lời dẫn)
+    [07] KẾT QUẢ: giữ nguyên (không đổi lời dẫn)
+    [08] CTA: giữ nguyên (không đổi lời dẫn)
+[v3] Ghép lại 8 đoạn thành final_v3.mp4...
+[v3] -> E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\automation\export\vi-VN\final_v3.mp4
+[v3] Tính lại cảnh THỰC SỰ hiển thị (độ dài đoạn đã đổi)...
+[v3] 27/34 cảnh hiển thị. Độ dài từng đoạn: [16.83, 36.08, 16.95, 8.12, 18.97, 48.01, 25.5, 27.66]
+[v3] Tải danh sách hiệu ứng âm thanh (đã loại 'Niệm Phật')...
+[v3] Đang hoà 100 lớp âm thanh...
+[v3] -> E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\automation\export\vi-VN\final_with_sfx_v3.mp4
+[v3] XONG -> E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\automation\export\vi-VN\final_with_title_v3.mp4
+EXIT CODE: 0

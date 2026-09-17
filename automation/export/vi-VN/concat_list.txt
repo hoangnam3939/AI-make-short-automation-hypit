@@ -1,0 +1,8 @@
+file 'build_v4_fixed/scene_01.mp4'
+file 'build_v4_fixed/scene_02.mp4'
+file 'build_v4_fixed/scene_03.mp4'
+file 'build_v4_fixed/scene_04.mp4'
+file 'build_v4_fixed/scene_05.mp4'
+file 'build_v4_fixed/scene_06.mp4'
+file 'build_v4_fixed/scene_07.mp4'
+file 'build_v4_fixed/scene_08.mp4'

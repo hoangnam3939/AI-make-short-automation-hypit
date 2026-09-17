@@ -1,0 +1,599 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Phiếu đánh giá bếp: AI-make-short-automation</title>
+<style>
+  :root {
+    --ink: #1b2024;
+    --ink-soft: #5c5850;
+    --paper: #eeece3;
+    --paper-card: #f7f5ee;
+    --line: #d9d2c1;
+    --teal: #1c7c74;
+    --teal-soft: #e1efec;
+    --amber: #c9760f;
+    --amber-soft: #fbead2;
+    --ok: #2f7d46;
+    --ok-soft: #e3efe1;
+    --warn: #a5760f;
+    --warn-soft: #f4ead1;
+    --danger: #b14631;
+    --danger-soft: #f6e3dd;
+    --shadow: 0 10px 30px rgba(27, 32, 36, 0.10);
+    --radius: 14px;
+  }
+  :root[data-theme="dark"] {
+    --ink: #ece7db;
+    --ink-soft: #b9b2a2;
+    --paper: #14181a;
+    --paper-card: #1c2124;
+    --line: #33393c;
+    --teal: #4bbdb3;
+    --teal-soft: #17302d;
+    --amber: #f2a83e;
+    --amber-soft: #3a2c14;
+    --ok: #5fbf7c;
+    --ok-soft: #1b2f20;
+    --warn: #e0b357;
+    --warn-soft: #362c15;
+    --danger: #e58267;
+    --danger-soft: #3a201a;
+    --shadow: 0 10px 34px rgba(0, 0, 0, 0.45);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ink: #ece7db;
+      --ink-soft: #b9b2a2;
+      --paper: #14181a;
+      --paper-card: #1c2124;
+      --line: #33393c;
+      --teal: #4bbdb3;
+      --teal-soft: #17302d;
+      --amber: #f2a83e;
+      --amber-soft: #3a2c14;
+      --ok: #5fbf7c;
+      --ok-soft: #1b2f20;
+      --warn: #e0b357;
+      --warn-soft: #362c15;
+      --danger: #e58267;
+      --danger-soft: #3a201a;
+      --shadow: 0 10px 34px rgba(0, 0, 0, 0.45);
+    }
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 48px 20px 90px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .stamp-head {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-bottom: 22px;
+    border-bottom: 3px double var(--line);
+  }
+  .eyebrow {
+    font-family: "Consolas", "Cascadia Code", ui-monospace, monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--teal);
+  }
+  h1 {
+    font-family: "Bahnschrift", "Segoe UI Semibold", "Arial Narrow", sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    font-size: clamp(1.7rem, 4vw, 2.5rem);
+    margin: 0;
+    text-wrap: balance;
+  }
+  .stamp-head p {
+    margin: 0;
+    color: var(--ink-soft);
+    max-width: 62ch;
+  }
+  .verdict-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 6px;
+  }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    border: 1.5px solid transparent;
+  }
+  .chip.ok { background: var(--ok-soft); color: var(--ok); border-color: color-mix(in srgb, var(--ok) 35%, transparent); }
+  .chip.warn { background: var(--warn-soft); color: var(--warn); border-color: color-mix(in srgb, var(--warn) 35%, transparent); }
+  .chip.danger { background: var(--danger-soft); color: var(--danger); border-color: color-mix(in srgb, var(--danger) 35%, transparent); }
+
+  section { display: flex; flex-direction: column; gap: 16px; }
+  h2 {
+    font-family: "Bahnschrift", "Segoe UI Semibold", "Arial Narrow", sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 1.15rem;
+    margin: 0;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+  h2 .num {
+    font-family: "Consolas", "Cascadia Code", ui-monospace, monospace;
+    color: var(--teal);
+    font-size: 0.85em;
+  }
+  .lede { color: var(--ink-soft); max-width: 68ch; margin: 0; }
+
+  /* ---- 2 trạm bếp (Nhánh 1 / Nhánh 2) ---- */
+  .stations {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+  .station {
+    background: var(--paper-card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 22px;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .station .tag {
+    font-family: "Consolas", "Cascadia Code", ui-monospace, monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--amber);
+  }
+  .station h3 { margin: 0; font-size: 1.05rem; }
+  .station p { margin: 0; color: var(--ink-soft); font-size: 0.94rem; }
+  .station ol {
+    margin: 4px 0 0;
+    padding-left: 22px;
+    font-size: 0.92rem;
+    color: var(--ink);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .station.dish .tag { color: var(--teal); }
+  .station.line { border-color: color-mix(in srgb, var(--amber) 40%, var(--line)); }
+
+  /* ---- Kiểm kê bếp: checklist ---- */
+  .inspect-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .inspect-row {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: start;
+    gap: 14px;
+    padding: 14px 16px;
+    background: var(--paper-card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+  }
+  .status-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-top: 5px;
+    flex-shrink: 0;
+  }
+  .status-dot.ok { background: var(--ok); }
+  .status-dot.warn { background: var(--warn); }
+  .status-dot.danger { background: var(--danger); }
+  .inspect-row .body strong { display: block; font-size: 0.96rem; }
+  .inspect-row .body span { color: var(--ink-soft); font-size: 0.88rem; }
+  .inspect-row .source {
+    font-family: "Consolas", "Cascadia Code", ui-monospace, monospace;
+    font-size: 0.76rem;
+    color: var(--ink-soft);
+    white-space: nowrap;
+    align-self: center;
+  }
+
+  /* ---- Bảng luật riêng từng quầy hàng (ảnh bìa) ---- */
+  .platform-table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+  }
+  table.platform-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.86rem;
+    background: var(--paper-card);
+  }
+  table.platform-table th, table.platform-table td {
+    padding: 10px 14px;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid var(--line);
+  }
+  table.platform-table thead th {
+    font-family: "Consolas", "Cascadia Code", ui-monospace, monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    background: color-mix(in srgb, var(--teal) 8%, var(--paper-card));
+  }
+  table.platform-table tbody tr:last-child td { border-bottom: none; }
+  table.platform-table td:first-child { font-weight: 700; white-space: nowrap; }
+  .yn {
+    display: inline-block;
+    font-weight: 700;
+    font-size: 0.82rem;
+    white-space: nowrap;
+  }
+  .yn.yes { color: var(--ok); }
+  .yn.no { color: var(--danger); }
+  .yn.partial { color: var(--warn); }
+  .yn.unclear { color: var(--ink-soft); }
+
+  /* ---- Rủi ro ---- */
+  .risk-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 14px;
+  }
+  .risk-card {
+    background: var(--danger-soft);
+    border: 1px solid color-mix(in srgb, var(--danger) 30%, var(--line));
+    border-radius: 10px;
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .risk-card strong { font-size: 0.94rem; color: var(--danger); }
+  .risk-card p { margin: 0; font-size: 0.88rem; color: var(--ink); }
+
+  /* ---- Thực đơn giai đoạn (roadmap) ---- */
+  .menu-courses {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border-left: 3px solid var(--line);
+    margin-left: 6px;
+  }
+  .course {
+    position: relative;
+    padding: 4px 0 28px 26px;
+  }
+  .course::before {
+    content: "";
+    position: absolute;
+    left: -9px;
+    top: 6px;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: var(--paper);
+    border: 3px solid var(--teal);
+  }
+  .course .course-label {
+    font-family: "Consolas", "Cascadia Code", ui-monospace, monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--teal);
+  }
+  .course h4 { margin: 4px 0 4px; font-size: 1rem; }
+  .course p { margin: 0; color: var(--ink-soft); font-size: 0.92rem; max-width: 62ch; }
+
+  /* ---- Kết luận ---- */
+  .final-stamp {
+    background: var(--paper-card);
+    border: 2px solid var(--teal);
+    border-radius: var(--radius);
+    padding: 26px;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .final-stamp .badge {
+    align-self: flex-start;
+    font-family: "Bahnschrift", "Segoe UI Semibold", sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 0.8rem;
+    color: var(--teal);
+    border: 1.5px solid var(--teal);
+    border-radius: 999px;
+    padding: 4px 12px;
+  }
+  .final-stamp p { margin: 0; }
+  .final-stamp p + p { margin-top: 8px; }
+
+  footer {
+    color: var(--ink-soft);
+    font-size: 0.8rem;
+    text-align: center;
+    padding-top: 12px;
+    border-top: 1px solid var(--line);
+  }
+
+  @media (max-width: 720px) {
+    .stations { grid-template-columns: 1fr; }
+    .inspect-row { grid-template-columns: auto 1fr; }
+    .inspect-row .source { grid-column: 2; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="stamp-head">
+    <span class="eyebrow">Phiếu kiểm bếp &middot; 17/09/2026</span>
+    <h1>AI-make-short-automation<br>có nấu nổi không?</h1>
+    <p>Đọc file <em>"KH App new AI-make-short-automation"</em> xong, đây là phần soi bếp: bếp hiện tại (app đang chạy phim dài) có sẵn gì, còn thiếu gì, và chỗ nào nguy hiểm ngoài tầm dao thớt.</p>
+    <div class="verdict-row">
+      <span class="chip ok">✓ Lõi làm video: đã có, đã nấu thật nhiều lần</span>
+      <span class="chip warn">◐ Lập lịch + đăng hàng loạt: mảng bếp hoàn toàn mới</span>
+      <span class="chip danger">⚠ Có rủi ro nằm ngoài tầm code</span>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="num">01</span> Đơn hàng thực ra là gì?</h2>
+    <p class="lede">Gọi cho dễ hình dung: đây là 1 cái bếp có <strong>2 kiểu phục vụ</strong>. Nhánh 2 được chọn làm mặc định.</p>
+    <div class="stations">
+      <div class="station dish">
+        <span class="tag">Nhánh 1 — bếp gọi món</span>
+        <h3>🍽️ Nấu 1 đĩa theo đúng yêu cầu khách</h3>
+        <p>Khách vào, tự chọn cỡ đĩa (8 / 16 / 24 / 32 / 40 / 48 giây), rồi kể món muốn ăn — có thể tự kể, hoặc đưa bếp 1 tờ báo/bài viết, hoặc đưa 1 video đang hot để bếp "ngửi" ra công thức. Mỗi món đi qua 3 lần bếp hỏi lại "vậy được chưa?" trước khi lên chảo thật.</p>
+        <ol>
+          <li>Chọn thời lượng → biết cần mấy "miếng" 8 giây để ghép lại</li>
+          <li>Ý tưởng (tự viết / dán link / dán link video hot)</li>
+          <li>Bếp viết thành câu chuyện — khách duyệt hoặc yêu cầu sửa</li>
+          <li>Bếp chia cảnh + viết công thức cho từng cảnh — khách duyệt</li>
+          <li>Bấm nấu → ra 1 đĩa video hoàn chỉnh</li>
+        </ol>
+      </div>
+      <div class="station line">
+        <span class="tag">Nhánh 2 — dây chuyền (mặc định)</span>
+        <h3>🏭 Làm cả rổ, tự giao đúng giờ khách đông</h3>
+        <p>Khách không gọi từng đĩa nữa — khách giao cho bếp 1 <strong>chiến lược cả tháng</strong>: làm bao nhiêu cái, đăng lên quầy nào, đúng mấy giờ. Bếp tự lập thực đơn tháng, tự nấu liên tục, tự đóng gói (đặt tên + SEO + ảnh bìa riêng cho từng quầy), rồi tự bưng ra đúng giờ — không cần khách đứng canh.</p>
+        <ol>
+          <li>Chọn thời lượng mỗi món + chọn quầy sẽ giao (TikTok/FB/YouTube…)</li>
+          <li>Kể chiến lược (VD: 3 video 24s/ngày × 3 quầy × 30 ngày = 90 video)</li>
+          <li>Bếp lập thực đơn tháng → khách duyệt 1 lần</li>
+          <li>Bếp tự nấu liên tục 90 món, có nút <em>tạm ngừng bếp</em> nếu cần sửa</li>
+          <li>Bếp tự đóng gói + tự giao đúng "giờ vàng" từng quầy, 30 ngày liền</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">02</span> Trong bếp đã có sẵn gì?</h2>
+    <p class="lede">Tin vui trước: bếp này KHÔNG bắt đầu từ 2 bàn tay trắng — nó vốn là bếp đã nấu được phim dài (Hannibal, Thánh Gióng…) và có rất nhiều dụng cụ dùng lại được nguyên vẹn.</p>
+    <div class="inspect-list">
+      <div class="inspect-row">
+        <span class="status-dot ok"></span>
+        <div class="body"><strong>Chia cảnh mỗi 8 giây + viết công thức (prompt) cho AI vẽ</strong><span>Đúng khít với yêu cầu "video short qua Flow là từng đoạn 8 giây" — không cần đổi gì, dùng ngay.</span></div>
+        <span class="source">storyboard.py</span>
+      </div>
+      <div class="inspect-row">
+        <span class="status-dot ok"></span>
+        <div class="body"><strong>Sổ tay nhân vật — giữ đúng 1 khuôn mặt xuyên suốt</strong><span>Nhân vật không bị "đổi mặt" giữa các cảnh, dù nấu hàng chục món liên tục.</span></div>
+        <span class="source">character_bible.py</span>
+      </div>
+      <div class="inspect-row">
+        <span class="status-dot ok"></span>
+        <div class="body"><strong>Nấu cảnh qua Google Flow, lồng tiếng, thêm tiếng động nền</strong><span>Đã chạy thật nhiều lần trên 4 bộ phim khác nhau — dụng cụ này đáng tin.</span></div>
+        <span class="source">google_flow_driver.py, video_builder.py, sfx_sourcing.py</span>
+      </div>
+      <div class="inspect-row">
+        <span class="status-dot ok"></span>
+        <div class="body"><strong>Ý tưởng từ 1 link bài báo/bài Facebook</strong><span>Bếp đã "ngửi" được link bài viết → ra câu chuyện. Việc dán link video (TikTok/YouTube hot) thì CHƯA — xem mục 03.</span></div>
+        <span class="source">story_import.py</span>
+      </div>
+      <div class="inspect-row">
+        <span class="status-dot ok"></span>
+        <div class="body"><strong>"Vậy được chưa?" — vòng duyệt Đồng ý / Tự sửa / Nhờ bếp sửa</strong><span>Kiểu hỏi lại này đã lặp ở rất nhiều bước khác nhau trong bếp — chỉ cần lắp đúng chỗ, không phải nghĩ lại từ đầu.</span></div>
+        <span class="source">production_pipeline.py (approve_scene…)</span>
+      </div>
+      <div class="inspect-row">
+        <span class="status-dot ok"></span>
+        <div class="body"><strong>Nút tạm ngừng bếp giữa lúc đang nấu</strong><span>Đã có 2 chế độ "chạy liên tục" / "dừng lại hỏi" — đúng tinh thần nút Pause mà đơn hàng cần.</span></div>
+        <span class="source">production_pipeline.py (run_mode)</span>
+      </div>
+      <div class="inspect-row">
+        <span class="status-dot ok"></span>
+        <div class="body"><strong>Viết tiêu đề/mô tả/hashtag riêng cho từng quầy hàng</strong><span>Đã viết đúng luật riêng cho cả 6 quầy: YouTube, TikTok, Facebook&amp;Instagram, Threads, Twitter/X, Zalo.</span></div>
+        <span class="source">quality_review.py</span>
+      </div>
+      <div class="inspect-row">
+        <span class="status-dot warn"></span>
+        <div class="body"><strong>Đường dây giao hàng tới 6 quầy (đăng bài tự động)</strong><span>Đã viết đủ code gọi tới YouTube/Facebook/Instagram/TikTok/Threads/Twitter/Zalo — NHƯNG file này tự ghi rõ: <em>"chưa từng giao thử với tài khoản thật"</em>. Là dụng cụ có sẵn, nhưng chưa được kiểm tra tay nghề thật.</span></div>
+        <span class="source">publishing.py</span>
+      </div>
+      <div class="inspect-row">
+        <span class="status-dot warn"></span>
+        <div class="body"><strong>Ảnh bìa (thumbnail) cho từng món</strong><span>Bếp hiện chỉ viết ra 5 câu CHỮ gợi ý để dán lên ảnh bìa — chưa tự vẽ ra ẢNH bìa thật. Có sẵn dụng cụ vẽ chữ-lên-ảnh (dùng cho poster mở đầu phim dài) để tái dùng — nhưng KHÔNG chỉ đơn giản "đổi khổ cho vừa": mỗi quầy có LUẬT RIÊNG khác hẳn nhau, có quầy còn KHÔNG CHO gắn ảnh bìa tự vẽ. Xem bảng dưới.</span></div>
+        <span class="source">quality_review.py + video_builder.py</span>
+      </div>
+    </div>
+
+    <div class="platform-table-wrap">
+      <table class="platform-table">
+        <thead>
+          <tr><th>Quầy hàng</th><th>Có cho gắn ảnh bìa tự vẽ qua API?</th><th>Kích thước / lưu ý</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>YouTube</td>
+            <td><span class="yn yes">✓ Có</span></td>
+            <td>1280×720 (16:9), tối đa 50MB, JPG/PNG</td>
+          </tr>
+          <tr>
+            <td>Facebook</td>
+            <td><span class="yn yes">✓ Có</span></td>
+            <td>Không ép size cứng, nên dùng sẵn khổ 1280×720 (16:9)</td>
+          </tr>
+          <tr>
+            <td>Instagram (Reels)</td>
+            <td><span class="yn partial">◐ Có, nhưng khác cách</span></td>
+            <td>Phải là 1 LINK ảnh công khai (không gửi file), khổ 1080×1920 (9:16) — lưu ý: trên lưới trang cá nhân bị cắt vuông giữa ảnh (1080×1080), nội dung quan trọng phải nằm giữa khung</td>
+          </tr>
+          <tr>
+            <td>TikTok (video)</td>
+            <td><span class="yn no">✗ Không</span></td>
+            <td>Chỉ được CHỌN 1 khung hình có sẵn TỪ CHÍNH video (chọn theo mili-giây) — không gắn được ảnh thiết kế riêng</td>
+          </tr>
+          <tr>
+            <td>Threads</td>
+            <td><span class="yn unclear">? Chưa rõ</span></td>
+            <td>Không thấy tài liệu công khai xác nhận có hỗ trợ riêng</td>
+          </tr>
+          <tr>
+            <td>Twitter/X</td>
+            <td><span class="yn no">✗ Không (qua API)</span></td>
+            <td>API không có chỗ gắn ảnh bìa riêng — muốn có phải "nướng" sẵn ảnh bìa làm khung hình đầu của chính video, hoặc làm tay trong app (tính năng trả phí)</td>
+          </tr>
+          <tr>
+            <td>Zalo OA</td>
+            <td><span class="yn unclear">? Chưa rõ</span></td>
+            <td>Tài liệu công khai rất ít; ảnh trong bài viết Zalo nói chung dùng khổ 320×180 (16:9), tối đa 1MB</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">03</span> Còn thiếu — phải sắm/đóng thêm dụng cụ mới</h2>
+    <p class="lede">Đây là những phần bếp KHÔNG CÓ SẴN, phải đóng mới hoàn toàn. Không quá xa lạ (đều nằm trong tầm tay), nhưng đừng tưởng chỉ chỉnh 1 dòng code là xong.</p>
+    <div class="inspect-list">
+      <div class="inspect-row">
+        <span class="status-dot warn"></span>
+        <div class="body"><strong>"Ngửi" ra công thức từ 1 video hot (TikTok/YouTube viral)</strong><span>Khác việc đọc bài báo — phải nghe được lời nói trong video rồi mới hiểu chuyện gì. Cần thêm 1 "cái tai" mới (tách giọng nói thành chữ) trước khi giao việc này cho bếp.</span></div>
+        <span class="source">module mới</span>
+      </div>
+      <div class="inspect-row">
+        <span class="status-dot warn"></span>
+        <div class="body"><strong>Lập thực đơn cho cả tháng (VD 90 món) từ 1 câu chiến lược</strong><span>Bếp hiện tại chỉ biết nấu "1 món, xong thì thôi". Cần dạy thêm cách chia 1 chiến lược lớn ra thành lịch từng món/từng ngày.</span></div>
+        <span class="source">agent mới</span>
+      </div>
+      <div class="inspect-row">
+        <span class="status-dot warn"></span>
+        <div class="body"><strong>Sổ lịch giao hàng — nhớ giờ vàng từng quầy, chạy suốt 30 ngày</strong><span>Đây là bộ phận hoàn toàn mới: 1 cái "đồng hồ bếp" biết tự thức dậy đúng giờ mỗi ngày để giao đúng món, đúng quầy, không cần ai nhắc.</span></div>
+        <span class="source">module mới (job queue/scheduler)</span>
+      </div>
+      <div class="inspect-row">
+        <span class="status-dot warn"></span>
+        <div class="body"><strong>Bếp phải thức 24/7, không phụ thuộc máy khách có mở hay không</strong><span>Hiện bếp chỉ "mở cửa" khi máy cá nhân của khách đang chạy app (127.0.0.1). Muốn giao hàng đúng giờ suốt 30 ngày, bếp phải dọn sang 1 căn nhà luôn sáng đèn (máy chủ/cloud), không thể tắt máy là bếp nghỉ.</span></div>
+        <span class="source">hạ tầng, không phải code app</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">04</span> Cẩn thận — rủi ro nằm ngoài tầm dao thớt</h2>
+    <p class="lede">4 điều này không sửa được bằng cách gõ thêm code — phải tính toán/xin phép TRƯỚC khi bắt tay làm.</p>
+    <div class="risk-grid">
+      <div class="risk-card">
+        <strong>💸 Tiền "ga" nấu AI (Google Flow)</strong>
+        <p>90 video 24 giây = 270 lần nhờ AI vẽ 1 đoạn 8 giây MỖI THÁNG. Đây là chi phí/hạn mức thật trên tài khoản Google — không phải chuyện code, phải tính tiền trước khi hứa "làm 90 video/tháng".</p>
+      </div>
+      <div class="risk-card">
+        <strong>📦 Đường giao hàng chưa từng chạy thật</strong>
+        <p>Code gọi 6 quầy hàng viết xong nhưng CHƯA giao thử lần nào với tài khoản thật. Đem thẳng ra giao 90 lần/tháng mà chưa test kỹ 1 lần trước dễ bị quầy hàng khoá tài khoản vì gọi sai cách.</p>
+      </div>
+      <div class="risk-card">
+        <strong>🎫 TikTok phải xin phép trước</strong>
+        <p>TikTok không cho đăng tự động ngay — phải nộp hồ sơ xin quyền "video.publish" và ĐƯỢC DUYỆT trước, không phải đăng ký xong là chạy được luôn.</p>
+      </div>
+      <div class="risk-card">
+        <strong>🔗 Instagram &amp; Threads cần video "để sẵn ngoài đường"</strong>
+        <p>2 quầy này không nhận nhận đồ giao tay — bắt buộc video phải có ở 1 link công khai trên mạng trước. Bếp hiện tại chạy trong nhà riêng (máy cá nhân), chưa có "kệ trưng bày" công khai đó.</p>
+      </div>
+      <div class="risk-card">
+        <strong>🕵️ "Ngửi" theo 1 kênh đối thủ đang viral</strong>
+        <p>Muốn máy tự đọc hết video của 1 kênh người khác để học công thức — các quầy hàng KHÔNG có cửa chính thức cho việc này, dễ vướng luật lấy dữ liệu. Cần hỏi kỹ trước khi làm, không đơn giản như đọc 1 link đơn lẻ.</p>
+      </div>
+      <div class="risk-card">
+        <strong>🐦 Twitter/X tính phí để đăng kèm video</strong>
+        <p>Muốn giao hàng lên quầy Twitter/X kèm video qua API, bắt buộc phải trả phí gói từ "Basic" trở lên — gói miễn phí không đăng được.</p>
+      </div>
+      <div class="risk-card">
+        <strong>🖼️ Không phải quầy nào cũng cho gắn ảnh bìa tự vẽ</strong>
+        <p>Đã tra kỹ tài liệu chính thức: TikTok (video) và Twitter/X <strong>KHÔNG cho gắn ảnh bìa riêng qua API</strong> — TikTok chỉ cho chọn 1 khung hình có sẵn ngay trong chính video, Twitter/X thì API không có chỗ nào cho việc này cả. Vậy công sức "vẽ ảnh bìa" chỉ thật sự dùng được cho YouTube/Facebook/Instagram — đừng lập kế hoạch dùng chung 1 ảnh bìa cho cả 6 quầy.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">05</span> Thực đơn nên làm theo — món nào trước, món nào sau</h2>
+    <p class="lede">Thứ tự dưới đây xếp theo độ rủi ro thấp → cao, để lỡ có vấp thì vấp sớm và vấp nhẹ.</p>
+    <div class="menu-courses">
+      <div class="course">
+        <span class="course-label">Khai vị</span>
+        <h4>Hoàn thiện Nhánh 1 trước</h4>
+        <p>Vì tái dùng gần hết dụng cụ bếp đang có sẵn. Riêng phần "ngửi công thức từ video hot" thì làm sau cùng của giai đoạn này — nó là việc mới, không vội.</p>
+      </div>
+      <div class="course">
+        <span class="course-label">Món nhẹ</span>
+        <h4>Giao thử 1 video nhỏ, cho đúng 2 quầy Facebook &amp; TikTok</h4>
+        <p>Đúng thứ tự bạn muốn ưu tiên ban đầu, và cũng là 2 quầy KHÔNG cần "kệ trưng bày công khai" — ít rào cản nhất để kiểm tra đường giao hàng có chạy thật không.</p>
+      </div>
+      <div class="course">
+        <span class="course-label">Món chính</span>
+        <h4>Đóng "đồng hồ bếp" + "sổ lập thực đơn tháng"</h4>
+        <p>Cho phép nhập 1 chiến lược bằng lời (chưa cần soi kênh đối thủ), bếp tự chia ra lịch N món/N ngày, tự nấu nối tiếp, có nút tạm ngừng.</p>
+      </div>
+      <div class="course">
+        <span class="course-label">Tráng miệng</span>
+        <h4>Vẽ ảnh bìa thật + mở thêm quầy còn lại</h4>
+        <p>Thêm YouTube/Threads/Twitter/Zalo/Instagram khi đã có "kệ trưng bày công khai" cho video, và tính lại ngân sách nếu mở quầy tính phí (Twitter/X).</p>
+      </div>
+      <div class="course">
+        <span class="course-label">Dọn bếp, mở tiệm thật</span>
+        <h4>Dời bếp sang nhà luôn sáng đèn (server/cloud)</h4>
+        <p>Chỉ khi mọi thứ trên đã chạy ổn mới đáng bỏ công dời nhà — lúc đó lịch giao 30 ngày mới thật sự tự chạy không cần ai canh máy.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="final-stamp">
+    <span class="badge">Con dấu bếp trưởng</span>
+    <p><strong>Khả thi.</strong> Phần khó nhất và tốn công nhất của cả kế hoạch — viết chuyện, chia cảnh, giữ đúng mặt nhân vật, nấu cảnh AI, lồng tiếng, thêm tiếng động — bếp này ĐÃ có sẵn và đã nấu thật nhiều lần. Đó là một nền rất chắc để xây tiếp.</p>
+    <p>Nhưng đừng hứa "90 video/tháng, tự đăng 3 quầy, đúng giờ vàng" ngay từ ngày đầu. Phần "lập thực đơn tháng + tự giao hàng theo lịch, thức suốt 30 ngày" là một nửa cái bếp HOÀN TOÀN MỚI, và có những rủi ro (tiền, luật, chính sách quầy hàng) nằm ngoài tay đầu bếp. Nấu thử nhỏ trước, chạy ổn rồi mới tăng số lượng dần.</p>
+  </div>
+
+  <footer>Soi bếp dựa trên mã nguồn thật của <code>ai-makevideo-perfect</code> — folder <code>AI-make-short-automation</code> đã copy gọn (không copy .venv, projects/ cũ, .git) để bắt đầu dự án mới.</footer>
+
+</div>
+</body>
+</html>

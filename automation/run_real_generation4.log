@@ -1,0 +1,54 @@
+[run_real_generation] Tổng 37 cảnh, đã xong sẵn 2 cảnh trước đó.
+[scene 1] đã xong trước đó, bỏ qua: E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\automation\downloads\scene_01\Soldiers_celebrating_New_Year's_Eve_20260913063609.mp4
+[scene 2] đã xong trước đó, bỏ qua: E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\automation\downloads\scene_02\Tay_Son_soldiers_marching_mountains_20260913063753.mp4
+[scene 3] bắt đầu tạo... (20s-28s)
+[scene 3] LỖI KHÔNG XÁC ĐỊNH: Không tìm thấy nút Download nào đang bật sau 30s.
+Traceback (most recent call last):
+  File "E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\automation\run_real_generation.py", line 60, in main
+    path = generate_video_with_retry(
+        scene["prompt"], scene_dir, quality_label="720p",
+        wait_timeout_seconds=240, max_attempts=3,
+    )
+  File "E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\app\services\google_flow_driver.py", line 266, in generate_video_with_retry
+    return generate_video(prompt, output_dir, quality_label, wait_timeout_seconds)
+  File "E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\app\services\google_flow_driver.py", line 235, in generate_video
+    raise TimeoutError("Kh�ng t\xecm th\u1ea5y n�t Download n�o �ang b\u1eadt sau 30s.")
+TimeoutError: Kh�ng t\xecm th\u1ea5y n�t Download n�o �ang b\u1eadt sau 30s.
+[scene 4] bắt đầu tạo... (28s-35s)
+[scene 4] XONG sau 98.5s -> E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\automation\downloads\scene_04\Qing_army_crossing_border_river_20260913064923.mp4
+[scene 5] bắt đầu tạo... (35s-42s)
+[scene 5] LỖI KHÔNG XÁC ĐỊNH: Không tìm thấy nút Download nào đang bật sau 30s.
+Traceback (most recent call last):
+  File "E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\automation\run_real_generation.py", line 60, in main
+    path = generate_video_with_retry(
+        scene["prompt"], scene_dir, quality_label="720p",
+        wait_timeout_seconds=240, max_attempts=3,
+    )
+  File "E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\app\services\google_flow_driver.py", line 266, in generate_video_with_retry
+    return generate_video(prompt, output_dir, quality_label, wait_timeout_seconds)
+  File "E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\app\services\google_flow_driver.py", line 235, in generate_video
+    raise TimeoutError("Kh�ng t\xecm th\u1ea5y n�t Download n�o �ang b\u1eadt sau 30s.")
+TimeoutError: Kh�ng t\xecm th\u1ea5y n�t Download n�o �ang b\u1eadt sau 30s.
+[scene 6] bắt đầu tạo... (42s-50s)
+[scene 6] LỖI KHÔNG XÁC ĐỊNH: [Errno 2] No such file or directory: 'C:\\Users\\vanho\\AppData\\Local\\Temp\\playwright-artifacts-Jjz5jP\\45a9e2a3-145e-4723-bdc6-fe9b84b2a6b4'
+Traceback (most recent call last):
+  File "E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\automation\run_real_generation.py", line 60, in main
+    path = generate_video_with_retry(
+        scene["prompt"], scene_dir, quality_label="720p",
+        wait_timeout_seconds=240, max_attempts=3,
+    )
+  File "E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\app\services\google_flow_driver.py", line 266, in generate_video_with_retry
+    return generate_video(prompt, output_dir, quality_label, wait_timeout_seconds)
+  File "E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\app\services\google_flow_driver.py", line 247, in generate_video
+    shutil.copy(tmp_path, final_path)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vanho\AppData\Local\Python\pythoncore-3.14-64\Lib\shutil.py", line 489, in copy
+    copyfile(src, dst, follow_symlinks=follow_symlinks)
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vanho\AppData\Local\Python\pythoncore-3.14-64\Lib\shutil.py", line 313, in copyfile
+    with open(src, 'rb') as fsrc:
+         ~~~~^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\vanho\\AppData\\Local\\Temp\\playwright-artifacts-Jjz5jP\\45a9e2a3-145e-4723-bdc6-fe9b84b2a6b4'
+[scene 7] bắt đầu tạo... (50s-58s)
+[scene 7] XONG sau 100.2s -> E:\TINHHOA FACEBOOK\tinhhoa-ai-video-studio\automation\downloads\scene_07\Messenger_riding_horse_through_rain_20260913065540.mp4
+[scene 8] bắt đầu tạo... (58s-66s)
